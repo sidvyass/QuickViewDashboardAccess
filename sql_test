@@ -1,0 +1,404 @@
+SELECT DISTINCT TOP 20000
+
+wo.ExpediterNumber AS EXPD,   
+wo.Priority PRIORT,
+wo.PopUpNotifyWOComments NotifyComment,
+pa.Name AS CUST,
+wo.DueDate AS WODD,
+wo.WhiteBoardStartDate WBS,
+
+it.PartNumber,
+woa.SequenceNumber AS SEQ,
+so.SalesOrderPK,
+WorkOrderPK, 
+ws.Description AS WO_Status,  
+--wr.CurrentLocation AS CURR_LOC,
+--wr.CurrentOperation,
+op.Name AS CURR_OP,
+woa.NextWorkCenter AS NextWC, 
+--wr.Tracking, 
+woa.TotalQuantityRequired TTLWOQtyReq,
+
+( SELECT DISTINCT Cast(PurchaseOrderFK as nvarchar(10))+' '+pop.Name+' '+pols.Description+' '+Cast(Cast(pol.RequiredDate as Date) as NVARCHAR(10))+',' From PurchaseOrderLine pol 
+      Join PurchaseOrderLineStatus pols on pols.PurchaseOrderLineStatusPK=pol.PurchaseOrderLineStatusFK
+                        Join PurchaseOrderLineRequirement polr on polr.PurchaseOrderLineFK=pol.PurchaseOrderLinePK
+                        Join Item it on it.ItemPK=pol.ItemFK
+      JOIN PurchaseOrder ON PurchaseOrderFK = PurchaseOrderPK
+      JOIN Party pop ON PurchaseOrder.SupplierFK = pop.PartyPK
+                                    Where it.ItemTypeFK=5 AND polr.WorkOrderNumber=wo.WorkOrderPK FOR XML PATH('')) as 'OPPO-Status-DueDate'
+
+,
+
+--woa.HardwareDescription AS HRDW,
+--wr.MaterialDescription AS MAT,
+--wocv.SequenceNumber,
+--MaterialStatus AS MAT_STATUS,
+--HardwareStatus AS HDW_STATUS,
+
+
+
+--woa.PurchaseOrderFK AS OP_PO,
+--woa.PurchaseOrderCurrentRequiredDate OP_POREQDT,
+us.FirstName + ' ' + us.LastName AS EmployeeName,
+--woa.DefaultMachineNumber AS DEFMACNO,
+mm.MachineNumber AS MachineAssigned,
+mm2.MachineNumber AS MachineUsed,
+mm3.MachineNumber AS MachineScheduled,
+woals.Description as SequenceStatus,
+sd1.StartTime AS SCHDSTRTIME,
+CONVERT(VARCHAR, sd1.StartTime, 101) + ' ' + LTRIM(RIGHT(CONVERT(VARCHAR, sd1.StartTime, 100), 7)) AS ScheduledStartTime,
+sd1.EffortMinutes,
+CONVERT(VARCHAR, DATEADD(MINUTE, sd1.EffortMinutes, sd1.StartTime), 101) + ' ' + 
+RIGHT(CONVERT(VARCHAR, DATEADD(MINUTE, sd1.EffortMinutes, sd1.StartTime), 100), 7) AS ScheduledEndTime,
+FORMAT(DATEADD(MINUTE, 15, sd1.StartTime), 'HH:mm') AS StartTime_Plus15,  -- Add 15 minutes
+    FORMAT(DATEADD(MINUTE, -15, sd1.StartTime), 'HH:mm') AS StartTime_Minus15,
+woc.DateStamp AS WocDate,
+woa.TargetStartDate,
+woa.TargetDueDate,
+woa.QuantityProduced,
+woa.QuantityRequired,
+woc.TimeOn,
+woc.TimeOff,
+woa.PiecesPerHour,
+--woa.MachineAssignment AS MACHASSIGN,
+wc.Description AS WorkCenter,
+woc.Quantity AS QuantityProducedAtOnce,
+--mmsr.Description MachineMaintenanceDescription,
+--mmsr.CauseNotes MachineMaintenanceCauseNotes,
+--mmsr.MachineMaintenanceScheduleWorkOrderFK MWO,
+
+--woc.MachineFK,
+
+MaterialStatusPO.MaterialStatusPOVendor AS MAT_STATUS_PO_VEND,
+FinishStatusPO.FinishPOVendor AS FIN_PO_VEND,
+
+ii.QuantityOnHand AS QtyHand,
+ii.QuantityDemand AS QtyDem,
+ii.QuantityWorkInProcess AS QtyWIP,
+--ii.QuantityOrdered AS QtyOrdered,
+
+--wr.HardwareDescription AS HDW_DESC,
+HardwareStatus AS HDW_STAT,
+
+
+SUBSTRING(
+(
+    SELECT DISTINCT ',' + mmsr.Description + ',' + FORMAT(mmsr.CreateDateTime, 'MM/dd/yy') + ',' + mmsrs.Description
+    FROM MachineMaintenanceScheduleRequest mmsr
+JOIN MachineMaintenanceScheduleRequestStatus mmsrs ON mmsr.MachineMaintenanceScheduleRequestStatusFK = mmsrs.MachineMaintenanceScheduleRequestStatusPK
+    JOIN Machine m ON sd.MachineFK = mmsr.MachineFK
+    CROSS APPLY (
+        SELECT TOP 1 mmsr2.CreateDateTime
+        FROM MachineMaintenanceScheduleRequest mmsr2
+        WHERE mmsr2.MachineFK = mmsr.MachineFK
+        ORDER BY mmsr2.CreateDateTime DESC
+    ) AS LatestRequest
+    -- WHERE mmsr.MachineMaintenanceScheduleRequestStatusFK = 1 
+    WHERE mmsr.CreateDateTime = LatestRequest.CreateDateTime
+    FOR XML PATH('')
+), 2 , 9999) AS Pending_MachMaint,
+
+SUBSTRING(
+(
+    SELECT DISTINCT ',' + CAST(mmwo.MachineMaintenanceScheduleWorkOrderNumber AS NVARCHAR(20)) 
+           + ',' + mmwos.Description + ',' + mmwo.Description + ',' + FORMAT(mmwo.EndDateTime, 'MM/dd/yy')
+    FROM MachineMaintenanceScheduleWorkOrder mmwo
+    JOIN MachineMaintenanceScheduleWorkOrderStatus mmwos
+        ON mmwo.MachineMaintenanceScheduleWorkOrderStatusFK = mmwos.MachineMaintenanceScheduleWorkOrderStatusPK
+    JOIN Machine m
+        ON sd.MachineFK = mmwo.MachineFK
+    CROSS APPLY (
+        SELECT TOP 1 mmwo2.CreateDateTime 
+        FROM MachineMaintenanceScheduleWorkOrder mmwo2
+        WHERE mmwo2.MachineFK = mmwo.MachineFK
+        ORDER BY mmwo2.CreateDateTime DESC
+    ) AS LatestWorkOrder
+    WHERE mmwo.CreateDateTime = LatestWorkOrder.CreateDateTime
+    FOR XML PATH('')
+), 2, 9999) AS WorkOrder_Status_Description,
+
+SUBSTRING(
+(
+      SELECT DISTINCT ','+ta.Name+''+u.FirstName+' '+u.LastName+''+FORMAT(ta.DeadlineDate, 'MM/dd/yy')
+      FROM TaskActivity ta
+      --JOIN TaskActivityStatus tas ON tas.TaskActivityStatusPK = ta.TaskActivityStatusFK
+      LEFT JOIN [User] u on u.UserPK = ta.AssignedToFK
+      WHERE ta.TaskActivityStatusFK IN (1,2,4,5,6,7) AND wo.WorkOrderPK = ta.WorkOrderFK  FOR XML PATH('')
+), 2 , 9999) AS WoTasks,
+
+
+SUBSTRING(
+(
+      SELECT DISTINCT ',' + CAST(EngineeringChangeRequestPK AS NVARCHAR(20)) + ':' + ecrs.Description
+      FROM EngineeringChangeRequest ecr
+      JOIN EngineeringChangeRequestStatus ecrs ON ecrs.EngineeringChangeRequestStatusPK = ecr.EngineeringChangeRequestStatusFK
+      WHERE EngineeringChangeRequestStatusFK IN (3,4)
+      AND wo.WorkOrderPK = ecr.WorkOrderNumber  
+      FOR XML PATH(''), TYPE
+).value('.', 'NVARCHAR(MAX)'), 2, 9999) AS ECR,
+
+
+SUBSTRING(
+(
+    SELECT DISTINCT ',' + woa.HardwareDescription 
+    FROM WorkOrderAssembly woa
+    WHERE wo.WorkOrderPK = woa.WorkOrderFK 
+    FOR XML PATH('') -- Removes XML wrapping
+), 2, 9999) AS HDW,
+
+SUBSTRING(
+(
+    SELECT DISTINCT ',' + woa.PurchaseOrderNumber 
+    FROM WorkOrderAssembly woa
+    WHERE woa.OutsideProcessingDescription IS NOT NULL 
+    AND woa.PurchaseOrderNumber IS NOT NULL 
+    AND wo.WorkOrderPK = woa.WorkOrderFK 
+    FOR XML PATH('') -- Removes XML wrapping
+), 2, 9999) AS OPPO,
+
+SUBSTRING(
+(
+           SELECT ','+op.Name+' '+FORMAT(woa.WhiteboardEndDate, 'MM/dd/yy')
+           FROM Operation op 
+JOIN WorkOrderAssembly woa ON woa.OperationFK = op.OperationPK 
+WHERE woa.WorkOrderFK = WorkOrderPK AND (woa.WorkOrderAssemblyLaborStatusFK < 4)
+ORDER BY CAST(FORMAT(woa.WhiteboardEndDate, 'MM/dd/yy') as Date) ASC FOR XML PATH ('')
+), 2,9999) AS OperationTracking,
+
+
+
+
+wo.NestJobId AS NestJobId,
+
+wo.UserDefinedText1 DPASRatingText,
+wo.UserDefinedDate1 DPASRatingDate,
+wo.UserDefinedText2 HigherAssyPNText,
+wo.UserDefinedDate2 HigherAssyPNDate,
+wo.UserDefinedText3 HigherAssyWO,
+wo.UserDefinedDate3 HigherAssyWODate,
+
+woa.PurchaseOrderRequiredDate,
+
+wo.OriginalReworkWONumber AS OrgRWWONO,
+wo.Mileage AS Mileage, 
+wo.ExternalReferenceNumber AS ExternalReferenceNumber, 
+wo.ItemDescription AS It_Desc, 
+wo.Revision AS Rev, 
+wo.QuantityRequired AS QtyReq, 
+wo.QuantityFab AS QtyFab,
+
+it.UserDefinedBit1 TopAssy, 
+it.UserDefinedBit2 SubAssy,
+it.UserDefinedBit3 BuildOnAssy,
+
+woa.QuantityProduced AS QtyProd,
+woa.QuantityScrapped AS QtyScrap,
+woa.QuantityToFabricate AS QtyToFab,
+woa.QuantityIssued AS QtyIssue,
+--woa.QuantityOrdered AS QtyOrdered,
+woa.QuantityRequired AS QtyReqd,
+woa.QuantityReceived AS QtyRec,
+
+wosp.WorkOrderFK SplitFromWO,
+
+
+--qc.QuantityScrap AS QtyScrap,
+qc.QualityControlPK AS NCR, 
+qcs.Description AS NCRStatus,
+qc.QuantityRework,
+FORMAT(wo.CreateDate, 'MM/dd/yy') AS CreateDate, 
+FORMAT(wo.ClosedDate, 'MM/dd/yy') AS ClosedDate, 
+FORMAT(wo.ConfirmedDate, 'MM/dd/yy') AS ConfirmedDate, 
+FORMAT(wo.CustomerOnDockDate, 'MM/dd/yy') AS CustomerOnDockDate, 
+FORMAT(wo.EstimatedCompletionDate, 'MM/dd/yy') AS EstimatedCompletionDate, 
+FORMAT(wo.EstimatedStartDate, 'MM/dd/yy') AS EstimatedStartDate, 
+FORMAT(wo.InitialReleaseDate, 'MM/dd/yy') AS InitialReleaseDate, 
+FORMAT(wo.NextReleaseDate, 'MM/dd/yy') AS NextReleaseDate, 
+FORMAT(wo.PlannedOnSiteStartDate, 'MM/dd/yy') AS PlannedOnSiteStartDate, 
+FORMAT(wo.PlannedOnSiteCompleteDate, 'MM/dd/yy') AS PlannedOnSiteCompleteDate, 
+FORMAT(wo.PlannedStartDate, 'MM/dd/yy') AS PlannedStartDate, 
+FORMAT(wo.ProductionDueDate, 'MM/dd/yy') AS ProductionDueDate, 
+FORMAT(wo.ProductionStartDate, 'MM/dd/yy') AS ProductionStartDate, 
+FORMAT(wo.ReleasedDate, 'MM/dd/yy') AS ReleasedDate, 
+FORMAT(wo.ReleasedToManufacturingDate, 'MM/dd/yy') AS ReleasedToManufacturingDate, 
+FORMAT(wo.SchedulingExpectedCompletionDate, 'MM/dd/yy') AS SchedulingExpectedCompletionDate, 
+FORMAT(wo.SchedulingExpectedStartDate, 'MM/dd/yy') AS SchedulingExpectedStartDate, 
+wo.SchedulingStartDateOverride AS SchedulingStartDateOverride, 
+wo.StartDate AS StartDate, 
+wo.FirstArticleRequired AS FirstArticleRequired, 
+wo.HardwareApprovedSupplierRequired AS HardwareApprovedSupplierRequired, 
+wo.KitExploded AS KitExploded, 
+wo.MaterialApprovedSupplierRequired AS MaterialApprovedSupplierRequired, 
+wo.OutsideProcessingApprovedSupplierRequired AS OutsideProcessingApprovedSupplierRequired, 
+wo.Printed AS Printed, 
+wo.ReleaseProcessing AS ReleaseProcessing, 
+wo.RemoveFromSchedule AS RemoveFromSchedule, 
+wo.RequiresSource AS RequiresSource, 
+wo.Rework AS Rework,
+--po.PORequiredDate, 
+wo.ScheduleProcessing AS ScheduleProcessing, 
+wo.ServiceWorkOrder AS ServiceWorkOrder, 
+wo.PopUpNotifyWOCommentsBit PopUpBit,
+wr.WorkOrderReleasePK,
+--woa.SequenceNumber AS Seq, 
+wr.WorkOrderReleaseParent AS WorkOrderReleaseParent, 
+
+mt.StockLength AS MaterialItem_StockLength,
+mt.StockWidth AS MaterialItem_StockWidth, 
+(SELECT TOP 1 it.PartNumber FROM WorkOrderAssembly subwoa JOIN Item it ON it.ItemPK=subwoa.ItemFK WHERE subwoa.WorkOrderReleaseFK=wr.WorkOrderReleasePK  AND it.ItemTypeFK=5) AS 'OutsideProcessName', 
+soaddr.Code AS Address_ShippingCode,  
+wot.Name AS WorkOrderType_Name, 
+it.Revision AS It_Rev,
+
+
+it.Description AS It_Desc,
+it.OtherDescription AS It_OtherDesc,
+wj.SalesOrderLineFK AS WO_JobNO 
+     FROM WorkOrder wo  
+--JOIN QualityControlStatus qcs ON qc.QualityControlStatusFK = qcs.QualityControlStatusPK
+     LEFT JOIN WorkOrderRelease wr ON wr.WorkOrderFK = wo.WorkOrderPK  
+     LEFT JOIN Division d ON d.DivisionPK=wo.DivisionFK  
+     LEFT JOIN Project proj ON proj.ProjectPK=wo.ProjectFK  
+     LEFT OUTER JOIN Router rt ON wr.RouterFK = rt.RouterPK 
+     LEFT OUTER JOIN WorkOrderTotal wt ON wo.WorkOrderTotalFK = wt.WorkOrderTotalPK  
+     LEFT OUTER JOIN Item mt ON wr.MaterialItemFK = mt.ItemPK  
+     LEFT OUTER JOIN Cell ce ON wo.CellFK = ce.CellPK  
+     LEFT OUTER JOIN WorkOrderType wot ON wo.WorkOrderTypeFK = wot.WorkOrderTypePK  
+     LEFT OUTER JOIN Item it ON wo.ItemFK = it.ItemPK  
+     LEFT OUTER JOIN ItemNumber itnum ON it.ItemNumberFK = itnum.ItemNumberPK  
+     LEFT OUTER JOIN ItemInventory ii ON it.ItemInventoryFK = ii.ItemInventoryPK  
+     OUTER APPLY (SELECT TOP 1 * FROM WorkOrderJob WHERE WorkOrderJob.WorkOrderFK=wo.WorkOrderPK) AS wj  
+     OUTER APPLY (SELECT TOP 1 URL From Document WHERE ItemFK=it.ItemPK AND Active=1 AND PrintAsThumbnail=1 AND URL IS NOT NULL AND RIGHT(URL,3) IN ('PNG','BMP','DXF','DWG')) doc  
+     LEFT JOIN  Party pa ON wo.CustomerFK = pa.PartyPK  
+    LEFT JOIN  WorkOrderStatus ws ON wo.WorkOrderStatusFK = ws.WorkOrderStatusPK  
+     LEFT JOIN  ItemClass ia ON it.ItemClassFK = ia.ItemClassPK  
+     LEFT JOIN SalesOrder so ON so.SalesOrderPK=wj.SalesOrderFK  
+     LEFT JOIN Address soaddr ON so.ShippingAddressFk=soaddr.AddressPK
+     LEFT OUTER JOIN WorkOrderAssembly woa ON woa.WorkOrderFK = wo.WorkOrderPK
+    LEFT OUTER JOIN WorkOrderAssemblyBOMStatus woabs ON woabs.WorkOrderAssemblyBOMStatusPK = woa.WorkOrderAssemblyBOMStatusFK  
+     LEFT JOIN TaskActivity ta ON ta.WorkOrderFK = wo.WorkOrderPK
+     LEFT JOIN Party pp ON woa.SupplierFK = pp.PartyPK
+    LEFT JOIN SalesOrderLine sol ON so.SalesOrderPK = sol.SalesOrderFK
+    OUTER APPLY (SELECT TOP 1 Description HardwareStatus from WorkOrderAssemblyBOMStatus JOIN WorkOrderAssembly woa ON woa.WorkOrderAssemblyBOMStatusFK = WorkOrderAssemblyBOMStatusPK WHERE woa.ItemFK= wr.HardwareItemFK AND WorkOrderFK = WorkOrderPK) HardwareStatus
+    OUTER APPLY (SELECT TOP 1 Description MaterialStatus from WorkOrderAssemblyBOMStatus JOIN WorkOrderAssembly woa ON woa.WorkOrderAssemblyBOMStatusFK = WorkOrderAssemblyBOMStatusPK WHERE woa.ItemFK= wr.MaterialItemFK AND WorkOrderFK = WorkOrderPK) MaterialStatus
+    OUTER APPLY (SELECT TOP 1 Description FinishStatus from WorkOrderAssemblyBOMStatus JOIN WorkOrderAssembly woa ON woa.WorkOrderAssemblyBOMStatusFK = WorkOrderAssemblyBOMStatusPK WHERE woa.ItemFK= wr.OutsideProcessingItemFK AND WorkOrderFK = WorkOrderPK) FinishStatus
+    LEFT JOIN Operation op ON op.OperationPK = woa.OperationFK
+    LEFT JOIN QualityControl qc ON wo.WOrkOrderPK = qc.WorkOrderFK
+LEFT JOIN QualityControlStatus qcs ON qc.QualityControlStatusFK = qcs.QualityControlStatusPK
+    LEFT JOIN EngineeringChangeRequest ecr ON ecr.PartNumber = wo.PartNumber
+    LEFT JOIN WorkOrderAssemblyMachine woam on woam.WorkOrderAssemblyFK = woa.WorkOrderAssemblyPK
+    LEFT JOIN WorkOrderSplit wosp ON wosp.AssociateWorkOrderNumber = wo.WorkOrderPK
+--JOIN QualityControlStatus qcs ON qc.QualityControlStatusFK = qcs.QualityControlStatusPK
+LEFT JOIN WorkOrderAssemblyMachine sd ON sd.WorkOrderAssemblyFK = woa.WorkORderAssemblyPK
+LEFT JOIN Machine mm ON mm.MachinePK = sd.MachineFK
+LEFT Join PurchaseOrder po on po.PurchaseOrderPK = woa.PurchaseOrderNumber
+--LEFT JOIN RouterWorkCenter rwc ON rwc.RouterFK = wo.RouterFK AND op.OperationPK = rwc.OperationFK
+--LEFT JOIN MachineMaintenanceScheduleRequest mmsr ON mmsr.MachineFK = sd.MachineFK
+LEFT JOIN WorkOrderAssemblyLaborStatus woals ON woals.WorkOrderAssemblyLaborStatusPK = woa.WorkOrderAssemblyLaborStatusFK
+
+
+
+LEFT JOIN (
+    -- Subquery to get the maximum date (without time) for each WorkOrderAssemblyNumber
+    SELECT 
+        woc.WorkOrderAssemblyNumber, 
+        MAX(CAST(woc.DateStamp AS DATE)) AS MaxDateStamp
+    FROM 
+        WorkOrderCollection woc 
+    GROUP BY 
+        woc.WorkOrderAssemblyNumber
+) latest_date
+ON latest_date.WorkOrderAssemblyNumber = woa.WorkOrderAssemblyPK
+
+LEFT JOIN (
+    -- Subquery to get max TimeON for each WorkOrderAssemblyNumber and DateStamp, comparing only dates
+    SELECT 
+        woc.WorkOrderAssemblyNumber, 
+        CAST(woc.DateStamp AS DATE) AS DateStamp, 
+        MAX(woc.TimeON) AS MaxTimeON
+    FROM 
+        WorkOrderCollection woc
+    GROUP BY 
+        woc.WorkOrderAssemblyNumber, CAST(woc.DateStamp AS DATE)
+) latest_time
+ON latest_time.WorkOrderAssemblyNumber = latest_date.WorkOrderAssemblyNumber
+AND latest_time.DateStamp = latest_date.MaxDateStamp
+
+LEFT JOIN (
+    -- Subquery to get all TimeON values where TimeOff is NULL, comparing only dates
+    SELECT 
+        woc.WorkOrderAssemblyNumber,
+        CAST(woc.DateStamp AS DATE) AS DateStamp,
+        woc.TimeON AS TimeONwhenTimeOFFNull
+    FROM 
+        WorkOrderCollection woc
+    WHERE 
+        woc.TimeOff IS NULL
+) null_time
+ON null_time.WorkOrderAssemblyNumber = latest_date.WorkOrderAssemblyNumber
+AND null_time.DateStamp = latest_date.MaxDateStamp
+
+-- Final join to WorkOrderCollection using either MaxTimeON or any TimeON when TimeOff is NULL
+LEFT JOIN WorkOrderCollection woc 
+ON woc.WorkOrderAssemblyNumber = latest_time.WorkOrderAssemblyNumber
+AND CAST(woc.DateStamp AS DATE) = latest_time.DateStamp
+AND (woc.TimeON = latest_time.MaxTimeON 
+     OR (woc.TimeON = null_time.TimeONwhenTimeOFFNull AND null_time.TimeONwhenTimeOFFNull IS NOT NULL))
+
+
+
+LEFT JOIN  WorkCenter wc ON wc.WorkCenterPK = woa.WorkCenterFK
+LEFT JOIN Machine mm2 ON mm2.MachinePK = woc.MachineFK
+LEFT JOIN [User] us ON us.UserPK = woc.EmployeeFK
+
+LEFT JOIN ScheduleDetail sd1 ON sd1.WorkOrderAssemblyFK = woa.WorkORderAssemblyPK
+LEFT JOIN Machine mm3 ON mm3.MachinePK= sd1.MachineFK
+
+OUTER APPLY (SELECT TOP 1 Description Status, PurchaseOrderPK, ShortName, QuantityOnHand
+FROM WorkOrderAssemblyBOMStatus
+JOIN WorkOrderAssembly ON WorkOrderAssemblyBOMStatusFK = WorkOrderAssemblyBOMStatusPK AND WorkOrderAssembly.WorkOrderFK = WorkOrderPK AND WorkOrderAssembly.MaterialItemFK = WorkOrderAssembly.ItemFK
+LEFT JOIN PurchaseOrder ON WorkOrderAssembly.PurchaseOrderFK = po.PurchaseOrderPK
+LEFT JOIN Party s ON PurchaseOrder.SupplierFK = PartyPK) MaterialStatusPOVendor
+
+--WHERE po.PurchaseOrderStatusFK = 2 ) MaterialStatusPOVendor
+
+OUTER APPLY (SELECT TOP 1 woabs.Description Status, po.PurchaseOrderPK, s.ShortName, woa.PurchaseOrderRequiredDate
+FROM WorkOrderAssemblyBOMStatus woabs
+JOIN WorkOrderAssembly woa ON WorkOrderAssemblyBOMStatusFK = WorkOrderAssemblyBOMStatusPK AND woa.WorkOrderFK = WorkOrderPK AND woa.OutsideProcessingItemFK = woa.ItemFK
+LEFT JOIN PurchaseOrder po ON woa.PurchaseOrderFK = po.PurchaseOrderPK
+LEFT JOIN Party s ON woa.SupplierFK = PartyPK) FinishPOVendor
+
+--WHERE po.PurchaseOrderStatusFK = 2) FinishPOVendor
+
+OUTER APPLY (SELECT DISTINCT
+CASE WHEN MaterialStatus='Ordered' THEN CONCAT('MATERIAL-Ordered-',MaterialStatusPOVendor.PurchaseOrderPK,', ', MaterialStatusPOVendor.ShortName,', ', REPLACE(CONVERT(NVARCHAR(128),PORequiredDate,1),0,''))
+WHEN MaterialStatus='Released' THEN CONCAT('MATERIAL-Released-',MaterialStatusPOVendor.QuantityOnHand)
+WHEN MaterialStatus='Received All' THEN CONCAT('MATERIAL-Received All-',MaterialStatusPOVendor.QuantityOnHand)
+WHEN MaterialStatus='Issued' THEN CONCAT('MATERIAL-Issued-','')
+WHEN MaterialStatus ='Received Partial' THEN CONCAT('Material-Received Partial-', '')
+ELSE 'No Material'
+END MaterialStatusPOVendor) MaterialStatusPO
+
+OUTER APPLY (SELECT DISTINCT 
+CASE WHEN FinishStatus='Ordered' THEN CONCAT('FINISH-Ordered-',FinishPOVendor.PurchaseOrderPK,', ', FinishPOVendor.ShortName,', ', FinishPOVendor.PurchaseOrderRequiredDate)
+WHEN FinishStatus='Released' THEN CONCAT('FINISH-Released-',FinishPOVendor.PurchaseOrderPK,', ', FinishPOVendor.ShortName)
+WHEN FinishStatus='Received All' THEN CONCAT('FINISH-Received All-',FinishPOVendor.PurchaseOrderPK,', ', FinishPOVendor.ShortName)
+WHEN FinishStatus='Issued' THEN CONCAT('FINISH-Issued-','')
+ELSE 'No Finish'
+END FinishPOVendor) FinishStatusPO
+
+       WHERE  wo.ItemFK = wr.ItemFK
+         --AND  ws.WorkOrderStatusPK = 2  
+      AND  wo.DueDate >=  '19000101'
+      AND wo.DueDate <  '21000102'
+      --AND woc.Completed = 0  
+      AND  wo.DivisionFK = 1
+      --AND (mmsr.MachineMaintenanceScheduleRequestStatusFK = 1 OR mmsr.MachineMaintenanceScheduleRequestStatusFK = 4 OR mmsr.MachineMaintenanceScheduleRequestStatusFK = 4)
+      AND (ws.WorkOrderStatusPK = 2 OR ws.WorkOrderStatusPK = 3) AND (woa.WorkOrderAssemblyLaborStatusFK = 1 OR (woa.HardwareDescription IS NOT NULL AND woa.OperationFK IS NULL))
+      AND op.Name IS NOT NULL
+      --AND (op.Name IS NOT NULL OR woa.PurchaseOrderFK IS NOT NULL)
+
+--AND wo.WhiteBoardStartDate IS NOT NULL  OR woa.WorkOrderAssemblyLaborStatusFK = 2
+      
+      ORDER BY wo.DueDate, wo.Priority          
+      
