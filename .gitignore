@@ -1,0 +1,7 @@
+__pycache__/
+build/
+dist/
+logs/
+db_data.json
+main.spec
+sql_test

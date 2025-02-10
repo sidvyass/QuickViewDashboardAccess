@@ -1,6 +1,8 @@
-from mtapi.general_class import TableManger
+from mt_api.general_class import TableManger
 from tkinter import messagebox
 from datetime import datetime
+from typing import List, Dict
+
 
 class MieTrak:
     def __init__(self):
@@ -13,7 +15,7 @@ class MieTrak:
         self.vacation_request_table = TableManger("VacationRequest")
         self.department_table = TableManger("Department")
 
-    def get_user_data(self, enabled=False, not_active=False, departmentfk=None):
+    def get_user_data(self, enabled=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
         """Returns all the user data in the form of a dict with UserPK as Key and FirstName as Value
 
         Returns:
@@ -31,12 +33,14 @@ class MieTrak:
         else:
             user = self.user_table.get("UserPK", "FirstName", "LastName")
 
-        if user:
-            for x in user:
-                if x:
-                    user_dict[x[0]] = [x[1], x[2]]
+        if not user:
+            raise ValueError("Mie Trak did not return any values. Check last query.")
+
+        for x in user:
+            if x:
+                user_dict[x[0]] = [x[1], x[2]]
         return user_dict
-    
+
     def get_quick_view(self):
         quick_view_dict = {}
         quick_view = self.quick_view_table.get("QuickViewPK", "Description")

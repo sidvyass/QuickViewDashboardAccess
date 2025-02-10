@@ -8945,3 +8945,913 @@
 2024-12-12 15:29:56,639 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
 2024-12-12 15:29:56,650 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
 2024-12-12 15:29:56,651 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-06 09:58:39,788 - GeneralAPI - User - INFO - init new. Table Name - User
+2025-02-06 09:58:39,788 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-06 09:58:39,788 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-06 09:58:39,788 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-06 09:58:39,788 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-06 09:58:39,788 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-06 09:58:39,788 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-06 09:58:39,788 - GeneralAPI - User - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM User WHERE Enabled = ?
+2025-02-06 09:58:40,801 - GeneralAPI - User - ERROR - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM User WHERE Enabled = ? -> ERROR ('42000', "[42000] [Microsoft][ODBC SQL Server Driver][SQL Server]Incorrect syntax near the keyword 'User'. (156) (SQLExecDirectW); [42000] [Microsoft][ODBC SQL Server Driver][SQL Server]Statement(s) could not be prepared. (8180)")
+2025-02-06 09:58:40,843 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-06 09:58:41,103 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-06 09:58:41,318 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-07 14:48:32,985 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 14:48:32,989 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 14:48:32,989 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-07 14:48:58,052 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 14:48:58,052 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 14:48:58,053 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-07 14:59:40,587 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 14:59:41,837 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 19
+2025-02-07 15:00:26,399 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:00:27,324 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 34
+2025-02-07 15:04:03,078 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:04:03,078 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:53:19,030 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:53:19,030 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:53:19,030 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:53:19,030 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:53:20,347 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:53:39,106 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:53:39,107 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:53:39,107 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:53:39,107 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:53:40,103 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:54:08,079 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:54:08,079 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:54:08,079 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:54:08,079 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:54:09,311 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:55:36,036 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:55:36,036 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:55:36,036 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:55:36,036 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:55:36,860 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:55:37,091 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:55:37,332 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:55:37,592 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:55:37,835 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:27,579 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:56:27,579 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:56:27,579 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:56:27,579 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:56:28,615 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:28,898 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:29,216 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:29,429 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:29,556 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:29,600 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:29,728 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:29,769 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:29,892 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:29,936 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:30,158 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:30,364 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:30,500 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:30,568 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:30,919 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:31,366 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:31,550 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:31,593 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:31,852 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:32,067 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:32,368 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:32,592 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:32,808 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:33,020 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:33,256 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:33,477 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:33,704 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:33,960 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:34,264 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:34,472 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:34,680 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:34,905 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:35,141 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:35,368 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:35,603 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:35,820 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:36,040 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:36,352 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:36,564 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:36,692 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:36,736 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:36,889 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:36,933 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:37,100 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:37,150 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:37,372 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:37,415 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:37,552 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:37,597 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:37,736 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:37,782 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:37,913 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:37,957 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:38,124 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:38,172 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:38,308 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:38,354 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:38,489 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:38,532 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:38,664 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:38,718 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:38,929 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:39,173 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:39,492 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:39,644 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:39,688 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:39,929 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:40,155 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:40,376 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:40,589 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:40,808 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:41,023 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:41,357 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:41,564 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:41,858 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:42,179 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:42,508 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:42,771 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:42,901 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:42,945 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 15:56:43,086 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 15:56:43,156 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:43,468 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:43,708 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:43,935 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:44,222 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:44,521 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:56:44,762 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:06,652 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:58:06,652 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:58:06,653 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:58:06,653 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:58:07,689 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:41,261 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 15:58:41,261 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 15:58:41,261 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 15:58:41,262 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 15:58:42,542 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:42,770 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:42,984 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:43,216 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:43,425 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:43,670 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:43,933 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:44,165 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:44,474 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:44,685 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:44,890 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:45,107 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:45,321 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:45,613 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:45,841 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:46,071 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:46,318 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:46,637 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:46,886 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:47,121 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:47,477 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:47,686 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:47,910 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:48,137 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:48,354 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:48,598 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:48,828 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:49,081 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:49,359 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:49,686 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:49,918 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:50,149 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:50,386 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:50,626 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:50,865 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:51,130 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:51,366 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:51,689 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:51,906 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:52,114 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:52,353 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:52,577 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:52,802 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:53,009 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:53,373 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:53,791 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:54,071 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:54,290 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:54,590 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 15:58:54,814 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:12,495 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:04:12,495 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:04:12,495 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 16:04:12,495 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 16:04:13,915 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:14,145 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:14,408 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:14,730 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:14,866 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:14,911 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:15,064 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:15,106 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:15,239 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:15,282 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:15,535 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:15,767 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:15,901 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:15,946 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:16,161 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:16,373 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:16,505 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:16,552 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:16,969 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:17,216 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:17,437 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:17,764 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:17,994 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:18,248 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:18,722 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:18,960 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:19,178 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:19,445 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:19,689 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:19,937 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:20,256 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:20,480 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:20,793 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:21,124 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:21,376 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:21,720 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:21,961 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:22,188 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:22,432 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:22,566 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:22,611 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:22,738 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:22,780 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:22,907 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:22,962 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:23,091 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:23,140 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:23,275 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:23,326 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:23,472 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:23,516 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:23,839 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:23,883 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:24,063 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:24,112 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:24,380 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:24,433 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:24,619 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:24,663 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:24,787 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:24,831 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:25,040 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:25,262 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:25,483 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:25,751 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:25,799 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:26,032 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:26,251 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:26,535 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:26,872 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:27,103 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:27,312 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:27,527 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:27,877 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:28,175 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:28,415 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:28,676 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:28,909 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:29,044 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:29,119 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:04:29,303 - GeneralAPI - Dashboard - ERROR - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ? -> ERROR ('HY004', '[HY004] [Microsoft][ODBC SQL Server Driver]Invalid SQL data type (0) (SQLBindParameter)')
+2025-02-07 16:04:29,347 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:29,597 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:30,017 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:30,253 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:30,519 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:30,797 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:04:31,051 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:14,531 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:06:14,532 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:06:14,532 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 16:06:14,532 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 16:06:15,657 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:15,892 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:16,162 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:16,371 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:16,578 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:16,845 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:17,098 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:17,416 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:17,712 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:17,920 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:18,132 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:18,368 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:18,720 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:19,016 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:19,240 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:19,452 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:19,759 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:19,986 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:20,196 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:20,483 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:20,705 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:20,927 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:21,140 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:21,355 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:21,567 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:21,892 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:22,156 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:22,399 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:22,713 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:22,923 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:23,168 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:23,395 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:23,617 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:23,846 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:24,122 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:24,337 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:24,618 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:24,949 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:25,333 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:25,541 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:25,839 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:26,057 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:26,328 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:26,553 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:26,909 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:27,138 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:27,355 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:27,568 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:27,877 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:28,108 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:28,349 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:28,613 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:28,844 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:29,068 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:29,329 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:29,553 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:29,865 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:30,088 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:30,332 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:30,545 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:30,764 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:31,014 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:06:31,240 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:31,456 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:31,665 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:31,981 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:32,240 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:32,494 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:06:32,830 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:19:15,165 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:19:15,166 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:19:15,166 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 16:19:15,166 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 16:19:16,359 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:39,041 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:23:39,044 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:23:39,044 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 16:23:39,047 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 16:23:40,199 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:40,454 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:40,714 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:40,963 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:41,225 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:41,500 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:41,843 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:42,171 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:42,461 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:42,711 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:43,011 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:43,273 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:43,536 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:43,778 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:44,149 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:44,401 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:44,691 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:44,964 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:45,247 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:45,581 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:45,851 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:46,301 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:46,559 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:46,801 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:47,020 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:47,409 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:47,761 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:48,067 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:48,303 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:48,537 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:48,820 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:49,203 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:49,540 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:49,833 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:50,180 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:50,443 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:50,716 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:50,971 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:51,333 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:51,636 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:51,931 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:52,352 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:52,611 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:52,879 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:53,215 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:53,451 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:53,687 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:53,943 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:54,311 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:54,571 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:54,834 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:55,132 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:55,467 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:55,770 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:56,042 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:56,390 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:56,651 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:56,902 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:57,148 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:57,560 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:57,859 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:58,190 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:23:58,521 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:58,912 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:59,271 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:59,556 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:23:59,869 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:00,174 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:11,075 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:24:11,076 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:24:11,077 - GeneralAPI - [user] - INFO - init new. Table Name - [user]
+2025-02-07 16:24:11,077 - GeneralAPI - [user] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [user] WHERE enabled = ?
+2025-02-07 16:24:12,458 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:12,723 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:13,077 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:13,295 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:13,535 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:13,823 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:14,080 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:14,347 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:14,591 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:14,982 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:15,231 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:15,527 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:15,973 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:16,409 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:16,663 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:16,908 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:17,192 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:17,489 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:17,755 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:18,100 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:18,410 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:18,660 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:19,160 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:19,535 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:19,791 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:20,352 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:20,658 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:20,893 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:21,157 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:21,423 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:21,687 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:22,040 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:22,280 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:22,524 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:23,011 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:23,252 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:23,479 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:23,733 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:23,987 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:24,235 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:24,484 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:24,815 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:25,160 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:25,386 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:25,640 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:25,872 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:26,195 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:26,523 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:26,746 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:27,000 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:27,270 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:27,650 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:28,033 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:28,275 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:28,523 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:28,797 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:29,123 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:29,362 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:29,607 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:29,881 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:30,109 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:30,325 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT dashboardpk,Description FROM Dashboard WHERE dashboardpk = ?
+2025-02-07 16:24:30,610 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:31,152 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:31,489 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:31,753 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:32,168 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:24:32,472 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE userFK = ?
+2025-02-07 16:31:17,895 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-07 16:31:17,896 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-07 16:31:18,904 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-07 16:31:19,098 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 35
+2025-02-07 16:31:19,412 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 36
+2025-02-07 16:31:19,686 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 37
+2025-02-07 16:31:20,126 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 38
+2025-02-07 16:31:20,833 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 39
+2025-02-07 16:31:21,200 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 40
+2025-02-07 16:31:21,474 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 41
+2025-02-07 16:31:21,932 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 42
+2025-02-07 16:31:22,339 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 43
+2025-02-07 16:31:22,643 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 44
+2025-02-07 16:31:23,022 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 45
+2025-02-07 16:31:23,373 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 46
+2025-02-07 16:31:23,727 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 47
+2025-02-07 16:31:24,027 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 48
+2025-02-07 16:31:24,334 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 49
+2025-02-07 16:31:24,644 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 50
+2025-02-07 16:31:25,050 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 51
+2025-02-07 16:31:25,360 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 52
+2025-02-07 16:31:25,667 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 53
+2025-02-07 16:31:25,939 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 54
+2025-02-07 16:31:26,240 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 55
+2025-02-07 16:31:26,499 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 56
+2025-02-07 16:31:26,788 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 57
+2025-02-07 16:31:27,160 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 58
+2025-02-07 16:31:27,512 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 59
+2025-02-07 16:31:28,047 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 60
+2025-02-07 16:31:28,327 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 61
+2025-02-07 16:31:28,636 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 62
+2025-02-07 16:31:28,901 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 63
+2025-02-07 16:31:29,164 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 64
+2025-02-07 16:31:29,451 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 65
+2025-02-07 16:31:29,716 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 66
+2025-02-07 16:31:30,095 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 67
+2025-02-07 16:31:30,369 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 68
+2025-02-07 16:31:30,928 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 69
+2025-02-07 16:31:31,524 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 70
+2025-02-07 16:31:31,825 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 71
+2025-02-07 16:31:32,212 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 72
+2025-02-07 16:31:32,500 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 73
+2025-02-07 16:31:32,877 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 74
+2025-02-07 16:31:33,360 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 75
+2025-02-07 16:31:33,710 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 76
+2025-02-07 16:31:34,063 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 77
+2025-02-07 16:31:34,323 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 78
+2025-02-07 16:31:34,649 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 79
+2025-02-07 16:31:34,983 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 80
+2025-02-07 16:31:35,376 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 81
+2025-02-07 16:31:35,968 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 82
+2025-02-07 16:31:36,352 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 83
+2025-02-07 16:31:36,700 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 84
+2025-02-07 16:31:37,292 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 85
+2025-02-07 16:31:37,612 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 86
+2025-02-07 16:31:37,960 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 87
+2025-02-07 16:31:38,259 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 88
+2025-02-07 16:31:38,540 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 89
+2025-02-07 16:31:38,825 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 90
+2025-02-07 16:31:39,212 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 91
+2025-02-07 16:31:39,490 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 92
+2025-02-07 16:31:39,816 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 93
+2025-02-07 16:31:40,208 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 94
+2025-02-07 16:31:40,477 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 95
+2025-02-07 16:31:40,759 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 96
+2025-02-07 16:31:41,231 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 97
+2025-02-07 16:31:41,596 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 98
+2025-02-07 16:31:41,888 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 99
+2025-02-07 16:31:42,237 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 100
+2025-02-07 16:31:42,544 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 101
+2025-02-07 16:31:42,832 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 102
+2025-02-07 16:31:43,204 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 103
+2025-02-07 16:31:43,504 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 104
+2025-02-07 16:31:43,780 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 105
+2025-02-07 16:31:44,195 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 106
+2025-02-07 16:31:44,503 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 107
+2025-02-07 16:31:44,902 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 108
+2025-02-07 16:31:45,223 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 109
+2025-02-07 16:31:45,588 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 110
+2025-02-07 16:31:45,918 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 111
+2025-02-07 16:31:46,284 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 112
+2025-02-07 16:31:46,621 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 113
+2025-02-07 16:31:46,949 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 114
+2025-02-07 16:31:47,324 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 115
+2025-02-07 16:31:47,603 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 116
+2025-02-07 16:31:47,883 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 117
+2025-02-07 16:31:48,247 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 118
+2025-02-07 16:31:48,540 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 119
+2025-02-07 16:31:48,831 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 120
+2025-02-07 16:31:49,180 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 121
+2025-02-07 16:31:49,491 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 122
+2025-02-07 16:31:49,791 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 123
+2025-02-07 16:31:50,079 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 124
+2025-02-07 16:31:50,491 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 125
+2025-02-07 16:31:51,044 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 126
+2025-02-07 16:31:51,453 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 127
+2025-02-07 16:31:51,736 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 128
+2025-02-07 16:31:52,040 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 129
+2025-02-07 16:31:52,356 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 130
+2025-02-07 16:31:52,664 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 131
+2025-02-07 16:31:53,028 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 132
+2025-02-07 16:31:53,407 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 133
+2025-02-07 16:31:53,689 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 134
+2025-02-07 16:31:53,967 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 135
+2025-02-07 16:31:54,361 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 136
+2025-02-07 16:31:54,823 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 137
+2025-02-07 16:31:55,846 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 138
+2025-02-07 16:31:56,236 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 139
+2025-02-07 16:31:56,519 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 140
+2025-02-07 16:31:56,788 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 141
+2025-02-07 16:31:57,084 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 142
+2025-02-07 16:31:57,457 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 143
+2025-02-07 16:31:57,760 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 144
+2025-02-07 16:31:58,067 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 145
+2025-02-10 08:53:51,557 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 08:53:51,559 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 08:53:51,559 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 08:53:51,559 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 08:53:51,560 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 08:53:51,560 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 08:53:51,560 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 08:54:20,093 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 08:54:20,094 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 08:54:20,095 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 08:54:20,095 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 08:54:20,096 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 08:54:20,096 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 08:54:20,096 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 08:54:40,487 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 08:54:40,487 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 08:54:40,487 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 08:54:40,487 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 08:54:40,487 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 08:54:40,488 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 08:54:40,488 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 08:54:43,565 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 08:55:03,708 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-10 09:13:54,873 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:13:54,873 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:13:54,873 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:13:54,874 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:13:54,874 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:13:54,874 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:13:54,874 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:13:57,328 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:14:33,075 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:14:33,075 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:14:33,075 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:14:33,075 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:14:33,075 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:14:33,076 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:14:33,076 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:14:35,401 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:15:12,107 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:15:12,108 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:15:12,108 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:15:12,108 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:15:12,108 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:15:12,108 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:15:12,108 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:15:15,504 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:16:04,530 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:16:04,530 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:16:04,530 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:16:04,530 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:16:04,531 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:16:04,531 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:16:04,531 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:16:07,747 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:16:34,863 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:16:34,863 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:16:34,863 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:16:34,863 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:16:34,864 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:16:34,864 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:16:34,864 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:16:38,132 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:17:21,299 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:17:21,300 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:17:21,300 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:17:21,300 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:17:21,300 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:17:21,301 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:17:21,301 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:17:23,776 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:20:03,822 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:20:03,822 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:20:03,822 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:20:03,822 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:20:03,822 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:20:03,822 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:20:03,822 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:20:06,722 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:20:09,932 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:20:14,740 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:20:16,307 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:20:20,268 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:20:20,610 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:20:20,838 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:20:21,145 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:33:56,790 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:33:56,790 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:33:56,791 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:33:56,791 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:33:56,791 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:33:56,791 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:33:56,791 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:33:59,354 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:34:04,077 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:34:04,521 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:04,751 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:04,976 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:08,428 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:34:08,709 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:08,923 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:09,167 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:46,769 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:34:48,907 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:34:49,147 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:49,368 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:49,584 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:54,155 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:34:54,380 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:54,621 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:34:55,022 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:37:15,513 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:37:15,513 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:37:15,513 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:37:15,513 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:37:15,514 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:37:15,514 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:37:15,514 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:37:18,586 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:37:21,735 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:37:21,971 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:37:22,273 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:37:22,590 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:43:49,742 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:43:49,742 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:43:49,743 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:43:49,743 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:43:49,743 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:43:49,743 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:43:49,743 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:43:52,154 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:44:13,002 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 09:44:13,333 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:44:13,669 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:44:13,928 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 09:48:54,044 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:48:54,044 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:48:54,044 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:48:54,044 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:48:54,045 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:48:54,045 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:48:54,045 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:52:09,095 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:52:09,095 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:52:09,096 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:52:09,096 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:52:09,096 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:52:09,096 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:52:09,096 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 09:52:23,750 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 09:56:27,980 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 09:56:27,981 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 09:56:27,981 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 09:56:27,981 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 09:56:27,981 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 09:56:27,981 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 09:56:27,981 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 10:21:06,151 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-10 10:21:06,151 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-10 10:21:06,152 - GeneralAPI - QuickViewUser - INFO - init new. Table Name - QuickViewUser
+2025-02-10 10:21:06,152 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-10 10:21:06,152 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-10 10:21:06,152 - GeneralAPI - VacationRequest - INFO - init new. Table Name - VacationRequest
+2025-02-10 10:21:06,152 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-10 10:21:09,737 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 10:21:14,872 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:21:15,117 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:15,405 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:15,753 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:15,968 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:16,183 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:16,634 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:16,842 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:17,060 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:17,301 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:17,608 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:17,947 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:18,174 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:21:28,327 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:28,628 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:28,938 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:29,154 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:32,123 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:32,947 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:33,169 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:33,385 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:33,602 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:36,134 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:37,582 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:38,901 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:21:39,113 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:39,337 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:21:39,554 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:22:51,804 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-10 10:22:55,541 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 10:23:02,177 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardFK FROM DashboardUser WHERE UserFK = ?
+2025-02-10 10:23:02,382 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:23:02,735 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:23:02,954 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-10 10:23:16,554 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:23:16,906 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:17,124 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:17,340 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:17,551 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:17,960 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:18,174 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:18,378 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:18,755 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:19,087 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:19,395 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:19,821 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:20,135 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:20,346 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:23:20,562 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:20,929 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:21,140 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:21,359 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:21,575 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:21,827 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:22,127 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:22,335 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:22,559 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:22,954 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:23,167 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:23,379 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:23:23,597 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:23:27,234 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:24:00,498 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:24:00,804 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:01,019 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:01,348 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:01,566 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:01,787 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:02,004 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:02,398 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:02,615 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:02,842 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:03,176 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:03,437 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:03,662 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:03,889 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:24:04,234 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:04,569 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:04,932 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:05,201 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:05,529 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:05,752 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:06,034 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:06,369 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:06,609 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:06,819 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:07,036 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:07,424 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:24:33,922 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-10 10:26:34,121 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK,FirstName,LastName FROM [User]
+2025-02-10 10:26:40,296 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:26:40,528 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:40,891 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:41,104 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:41,307 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:41,520 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:41,891 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:42,104 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:42,316 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:42,540 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:42,939 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:43,166 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:43,398 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:43,623 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:26:45,689 - GeneralAPI - QuickViewUser - INFO - GET METHOD Query Built -> SELECT QuickViewFK FROM QuickViewUser WHERE UserFK = ?
+2025-02-10 10:26:46,034 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:46,314 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:46,523 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:46,782 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:47,102 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:47,314 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:47,546 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:47,848 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:48,146 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:48,366 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:48,584 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:48,891 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT Description FROM QuickView WHERE QuickViewPK = ?
+2025-02-10 10:26:57,384 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department

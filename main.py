@@ -5,50 +5,55 @@ from tkinter import messagebox, ttk
 from datetime import datetime
 import re
 import json
+from mt_api.base_logger import getlogger
+from scripts.dashboard_access import get_all_dashboards
 
 
-class LoginScreen(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Login Screen")
-        self.geometry("300x200")
-        self.database_conn = MieTrak()
-        # Create widgets
-        self.create_widgets()
+LOGGER = getlogger("main")
 
-    def create_widgets(self):
-        # Username label and entry
-        self.username_label = tk.Label(self, text="Username:")
-        self.username_label.pack(pady=5)
 
-        self.username_entry = tk.Entry(self)
-        self.username_entry.pack(pady=5)
-
-        # Password label and entry
-        self.password_label = tk.Label(self, text="Password:")
-        self.password_label.pack(pady=5)
-
-        self.password_entry = tk.Entry(self, show="*")
-        self.password_entry.pack(pady=5)
-        self.password_entry.bind("<Return>", self.login_check)
-
-        # Login button
-        self.login_button = tk.Button(self, text="Login", command=self.login_check)
-        self.login_button.pack(pady=10)
-
-    def login_check(self, event=None):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-
-        login_succes_or_not = self.database_conn.login_check(username, password)
-
-        if login_succes_or_not is True:
-            # messagebox.showinfo("Login", "Login successful!")
-            self.destroy()
-            app1 = QuickViewAndDashboard()
-            app1.mainloop()
-        else:
-            messagebox.showerror("Login", "Invalid credentials")
+# class LoginScreen(tk.Tk):
+#     def __init__(self):
+#         super().__init__()
+#         self.title("Login Screen")
+#         self.geometry("300x200")
+#         self.database_conn = MieTrak()
+#         # Create widgets
+#         self.create_widgets()
+#
+#     def create_widgets(self):
+#         # Username label and entry
+#         self.username_label = tk.Label(self, text="Username:")
+#         self.username_label.pack(pady=5)
+#
+#         self.username_entry = tk.Entry(self)
+#         self.username_entry.pack(pady=5)
+#
+#         # Password label and entry
+#         self.password_label = tk.Label(self, text="Password:")
+#         self.password_label.pack(pady=5)
+#
+#         self.password_entry = tk.Entry(self, show="*")
+#         self.password_entry.pack(pady=5)
+#         self.password_entry.bind("<Return>", self.login_check)
+#
+#         # Login button
+#         self.login_button = tk.Button(self, text="Login", command=self.login_check)
+#         self.login_button.pack(pady=10)
+#
+#     def login_check(self, event=None):
+#         username = self.username_entry.get()
+#         password = self.password_entry.get()
+#
+#         login_succes_or_not = self.database_conn.login_check(username, password)
+#
+#         if login_succes_or_not is True:
+#             # messagebox.showinfo("Login", "Login successful!")
+#             self.destroy()
+#             app1 = QuickViewAndDashboard()
+#             app1.mainloop()
+#         else:
+#             messagebox.showerror("Login", "Invalid credentials")
 
 
 class QuickViewAndDashboard(tk.Tk):
@@ -819,5 +824,11 @@ class QuickViewAndDashboard(tk.Tk):
 
 
 if __name__ == "__main__":
-    app = LoginScreen()
-    app.mainloop()
+    # app = LoginScreen()
+    # app = QuickViewAndDashboard()
+    # app.mainloop()
+
+    from scripts.dashboard_access import assign_user_access_to_dashboards, get_active_users
+    from pprint import pprint
+    print(len(get_all_dashboards()))
+    # assign_user_access_to_dashboards(1571, get_all_dashboards())
