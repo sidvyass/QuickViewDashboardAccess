@@ -17025,3 +17025,148 @@
 2025-02-14 14:37:56,458 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
 2025-02-14 14:37:56,705 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
 2025-02-14 14:37:56,711 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-14 15:58:05,158 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 15:58:05,159 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 15:58:15,546 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 15:58:15,546 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 15:58:21,633 - GeneralAPI - [User] - INFO - init new. Table Name - [User]
+2025-02-14 15:58:21,633 - GeneralAPI - [User] - INFO - GET METHOD Query Built -> SELECT UserPK FROM [User] WHERE DepartmentFK = ?
+2025-02-14 15:58:22,331 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:22,332 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:22,540 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:22,540 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:22,952 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 399
+2025-02-14 15:58:23,059 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:23,059 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:23,447 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 400
+2025-02-14 15:58:23,540 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:23,540 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:24,224 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 401
+2025-02-14 15:58:24,338 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:24,339 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:24,741 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 402
+2025-02-14 15:58:24,841 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:24,841 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:25,333 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 403
+2025-02-14 15:58:25,423 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:25,423 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:25,835 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 404
+2025-02-14 15:58:25,928 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:25,929 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:26,349 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 405
+2025-02-14 15:58:26,439 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:26,439 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:26,827 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 406
+2025-02-14 15:58:26,936 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:26,937 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:27,430 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 407
+2025-02-14 15:58:27,517 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:27,517 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:27,900 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 408
+2025-02-14 15:58:27,992 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:27,993 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:28,374 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 409
+2025-02-14 15:58:28,477 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:28,477 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:28,874 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 410
+2025-02-14 15:58:28,977 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:28,977 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:29,471 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 411
+2025-02-14 15:58:29,560 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:29,560 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:29,987 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 412
+2025-02-14 15:58:30,472 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:30,473 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:30,877 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 413
+2025-02-14 15:58:30,968 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:30,968 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:31,395 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 414
+2025-02-14 15:58:31,492 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:31,492 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:31,887 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 415
+2025-02-14 15:58:31,977 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:31,977 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:32,435 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 416
+2025-02-14 15:58:32,517 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:32,517 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:32,908 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 417
+2025-02-14 15:58:32,996 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:32,996 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:33,469 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 418
+2025-02-14 15:58:33,560 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:33,561 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:33,968 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 419
+2025-02-14 15:58:34,057 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:34,057 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:34,457 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 420
+2025-02-14 15:58:34,557 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:34,557 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:34,978 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 421
+2025-02-14 15:58:35,085 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:35,085 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:35,947 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 422
+2025-02-14 15:58:36,039 - GeneralAPI - DashboardUser - INFO - init new. Table Name - DashboardUser
+2025-02-14 15:58:36,039 - GeneralAPI - DashboardUser - INFO - GET METHOD Query Built -> SELECT DashboardUserPK FROM DashboardUser WHERE DashboardFK = ? AND UserFK = ?
+2025-02-14 15:58:36,517 - GeneralAPI - DashboardUser - INFO - Inserted DashboardUser. DashboardUserPK: 423
+2025-02-14 15:58:36,609 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 15:58:36,609 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT Description FROM Dashboard WHERE DashboardPK = ?
+2025-02-14 15:59:19,663 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 15:59:19,663 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 15:59:35,294 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 15:59:35,295 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 15:59:45,948 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 15:59:45,952 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 16:05:16,548 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 16:05:16,548 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 16:05:18,659 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 16:05:18,659 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 16:26:03,960 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 16:26:03,960 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 16:30:32,054 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 16:30:32,055 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 16:30:32,750 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 16:30:32,751 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 16:59:47,521 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 16:59:47,521 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 16:59:55,329 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 16:59:55,330 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 16:59:55,580 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 16:59:55,580 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:00:03,456 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:00:03,457 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:00:04,350 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:00:04,350 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:00:05,627 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:00:05,629 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:00:05,946 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:00:05,947 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:00:54,798 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 17:00:54,798 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 17:00:58,075 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:00:58,075 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:00:58,289 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:00:58,289 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:01:45,493 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 17:01:45,493 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 17:01:48,266 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:01:48,266 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:01:48,475 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:01:48,475 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:02:31,412 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 17:02:31,412 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 17:02:34,166 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:02:34,166 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:02:34,410 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:02:34,412 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:03:48,485 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 17:03:48,485 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 17:03:51,066 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:03:51,066 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:03:51,268 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:03:51,268 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView
+2025-02-14 17:04:20,753 - GeneralAPI - Department - INFO - init new. Table Name - Department
+2025-02-14 17:04:20,753 - GeneralAPI - Department - INFO - GET METHOD Query Built -> SELECT DepartmentPK,Name FROM Department
+2025-02-14 17:04:22,740 - GeneralAPI - Dashboard - INFO - init new. Table Name - Dashboard
+2025-02-14 17:04:22,748 - GeneralAPI - Dashboard - INFO - GET METHOD Query Built -> SELECT DashboardPK,Description FROM Dashboard
+2025-02-14 17:04:22,955 - GeneralAPI - QuickView - INFO - init new. Table Name - QuickView
+2025-02-14 17:04:22,955 - GeneralAPI - QuickView - INFO - GET METHOD Query Built -> SELECT QuickViewPK,Description FROM QuickView

@@ -2,8 +2,8 @@ from mt_api.general_class import TableManger
 from mt_api.base_logger import getlogger
 from typing import Dict
 import json
-from mie_trak import MieTrak
 from pprint import pprint
+from scripts import mie_trak_funcs
 
 
 DEPARTMENT_DATA_FILE = r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json"
@@ -12,13 +12,12 @@ DEPARTMENT_DATA_FILE = r"C:\PythonProjects\QuickViewDashboardAccess\data\departm
 class Controller:
     def __init__(self) -> None:
         self.LOGGER = getlogger()
-        self.mie_trak = MieTrak()
+        self.cache_dict = self.get_department_information_from_cache()
 
     def get_department_information_from_cache(self) -> Dict:
         try:
             with open(DEPARTMENT_DATA_FILE, "r") as jsonfile:
-                self.cache_dict = json.load(jsonfile)
-                return self.cache_dict
+                return json.load(jsonfile)
         except Exception as e:
             self.LOGGER.error(e)
             raise ValueError
@@ -31,30 +30,37 @@ class Controller:
             self.LOGGER.error(e)
             raise ValueError
 
-    @staticmethod
-    def get_all_dashboards():
-        dashboard_table = TableManger("Dashboard")
-        dashboard_dict = {}
-        dashboard = dashboard_table.get("DashboardPK", "Description")
-        if dashboard:
-            for x in dashboard:
-                if x[1]:
-                    dashboard_dict[x[0]] = x[1]
-        return dashboard_dict
-
     # NOTE: this is long, might be able to make it async. 
     def add_dashboard_to_department(self, departmentpk: int, dashboardpk: int):
+
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
         for userpk in department_users:  # adding dashboard to all users in the department
-            self.mie_trak.add_dashboard_user(dashboardpk, userpk[0])
+            mie_trak_funcs.add_dashboard_user(dashboardpk, userpk[0])
 
         dashboard_table = TableManger("Dashboard")
         dashboard_description = dashboard_table.get("Description", DashboardPK=dashboardpk)
 
         # add new dashboard to the value in cache
         self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk] = dashboard_description[0][0] 
+
+        self.write_cache()
+
+    def delete_dashboard_from_department(self, departmentpk: int, dashboardpk: int):
+        pass
+
+    def add_quickview_to_department(self, departmentpk: int, quickviewpk: int):
+        user_table = TableManger("[User]")
+        department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
+
+        for userpk in department_users:  # adding dashboard to all users in the department
+            mie_trak_funcs.add_user_quickview(quickviewpk, userpk[0])
+
+        quickview_table = TableManger("QuickView")
+        quickview_name = quickview_table.get("Description", QuickViewPK=quickviewpk)
+
+        self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk] = quickview_name
 
         self.write_cache()
 

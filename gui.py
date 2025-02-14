@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from mie_trak import MieTrak
-from typing import Dict, List, Tuple
+from typing import Dict
 from controller import Controller
-from pprint import pprint
 from scripts.add_popup import AddView
+from scripts import mie_trak_funcs
 
 
 class SimpleTkinterGUI:
@@ -60,6 +59,7 @@ class SimpleTkinterGUI:
         self.combo2 = ttk.Combobox(self.subframe2, values=["Dashboards", "QuickViews"], state="readonly")
         self.combo2.pack(pady=5)
         self.combo2.bind("<<ComboboxSelected>>", self.show_accessed_dashboards_quickview)
+        self.combo2.set("Dashboards")
 
         # Listboxes
         self.user_department_listbox = tk.Listbox(self.subframe1, exportselection=False, relief="solid", bd=1)
@@ -79,8 +79,6 @@ class SimpleTkinterGUI:
         self.delete_button = ttk.Button(self.button_frame, text="Delete", command=self.delete_item)
         self.delete_button.grid(row=0, column=1, padx=10)
 
-        self.mie_trak = MieTrak()
-
         self.controller = Controller()
 
     def update_with_users_or_department(self, event):
@@ -88,78 +86,71 @@ class SimpleTkinterGUI:
         selection = self.combo1.get()
 
         if selection == "User":
-            self.user_data = self.mie_trak.get_user_data(enabled=True)
+            self.user_data = mie_trak_funcs.get_user_data(enabled=True)
             for userpk, user_info in self.user_data.items():
                 self.user_department_listbox.insert(tk.END, f"{user_info[0]} {user_info[1]}")
         elif selection == "Department":
-            self.department_data = self.mie_trak.get_department()
+            self.department_data = mie_trak_funcs.get_all_departments()
             for departmentpk, name in self.department_data.items():
                 self.user_department_listbox.insert(tk.END, f"{name}")
 
     def show_accessed_dashboards_quickview(self, event):
-
-        # NOTE: Could move a lot of these to the controller.
-
         self.listbox2.delete(0, tk.END)
-        user_or_department = "User" if self.combo1.get() == "User" else "Department"
+
         selection = self.user_department_listbox.curselection()
-        db_or_qv: str = self.combo2.get()
-
-        # need to write a clause for multiple selection.
-
         if not selection:
+            # messagebox to show error
             return
 
-        def key_for_index_dict(index_to_find: int, data_dict: Dict):
-            i = 0
-            for userpk, values in data_dict.items():
-                if i == index_to_find:
-                    return userpk
-                i += 1
+        db_or_qv: str = self.combo2.get()
+        user_or_department = "User" if self.combo1.get() == "User" else "Department"
 
         if user_or_department == "User":
-            userpk = key_for_index_dict(selection[0], self.user_data)
-            data = self.mie_trak.get_user_dashboards(userpk) if db_or_qv == "Dashboards" else self.mie_trak.get_user_quick_view(userpk)
-            self.user_to_dash_qv = {userpk: {self.combo2.get(): []}}
-            for pk, name in data.items():
-                # make a data dict to store the values in, we need to only update it once.
-                self.user_to_dash_qv[userpk][db_or_qv].append((pk, name))
-                self.listbox2.insert(tk.END, name)
+            userpk = list(self.user_data.keys())[selection[0]]
+            data_to_display = mie_trak_funcs.get_user_dashboards(userpk) if db_or_qv == "Dashboards" else mie_trak_funcs.get_user_quick_view(userpk)
 
         elif user_or_department == "Department":
             department_data: Dict = self.controller.get_department_information_from_cache()
-            department_key_to_find = key_for_index_dict(selection[0], department_data)
-            for departmentpk, value_dict in department_data.items():
-                if departmentpk == department_key_to_find:
-                    accessed_dashboards: Dict = value_dict.get("accessed_dashboards", {}) if db_or_qv != "QuickViews" else value_dict.get("accessed_quickviews", {})
-                    if accessed_dashboards:
-                        for dashboardpk, name in accessed_dashboards.items():
-                            self.listbox2.insert(tk.END, name)
-                    else:
-                        self.listbox2.insert(tk.END, "Nothing mapped here")
+            selected_department_pk = list(department_data.keys())[selection[0]]
+
+            accessed_key = "accessed_dashboards" if db_or_qv == "Dashboards" else "accessed_quickviews"
+            data_to_display = department_data.get(selected_department_pk, {}).get(accessed_key, {})
+
+        else:
+            # message: invalid department
+            data_to_display = {}
+
+        if data_to_display:
+            for _, name in data_to_display.items():
+                self.listbox2.insert(tk.END, name)
+        else:
+            self.listbox2.insert(tk.END, "N/A")
+
 
     def add_item(self):
         # LIVE: 
         user_or_department_type = self.combo1.get()
-        department_or_user_selection = self.user_department_listbox.curselection()
+        department_or_user_selection_index = self.user_department_listbox.curselection()[0]
 
         if not user_or_department_type:
             # message box to show error
             pass
 
-        if not department_or_user_selection:
+        if not department_or_user_selection_index:
             # message box to show error
             pass
 
+        department_data_dict = self.controller.get_department_information_from_cache()
+
         if user_or_department_type == "Department":
-            i = 0
-            department_data_dict = self.controller.get_department_information_from_cache()
-            for department_pk, values in department_data_dict.items():  # loop to find the index value selected by user.
-                if i == department_or_user_selection[0]:
-                     AddView(values.get("name"), self.controller, self.show_accessed_dashboards_quickview, department_pk=department_pk)
-                i += 1
-        # TEST:
-        # AddView("test", self.controller, department_pk=6)
+            department_pk = list(department_data_dict.keys())[department_or_user_selection_index]
+            department_name = department_data_dict.get(department_pk, {}).get("name", {})
+
+            if not department_name:
+                # throw error
+                return
+
+            AddView(department_name, self.controller, self.show_accessed_dashboards_quickview, department_pk=department_pk)
 
         if user_or_department_type == "User":
             # TODO:

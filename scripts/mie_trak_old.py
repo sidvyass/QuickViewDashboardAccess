@@ -17,7 +17,7 @@ class MieTrak:
 
         self.data_cache = {}
 
-    def get_user_data(self, enabled=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
+    def get_user_data(self, enabled: bool | int=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
         user_dict = {}
         if enabled:
             user = self.user_table.get("UserPK", "FirstName", "LastName", Enabled=1)
