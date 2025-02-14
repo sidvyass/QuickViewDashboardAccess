@@ -7,6 +7,13 @@ from typing import List, Tuple, Dict
 def get_all_dashboards() -> List[Tuple[int, str]]:
     dashboard_table = TableManger("Dashboard")
     dashboards = dashboard_table.get("DashboardPK", "Description")
+
+    r = []
+    for dashboardpk, description in dashboards:
+        if description:
+            if description[0].isnumeric():
+                r.append((dashboardpk, description))
+
     return dashboards
 
 # List these to one side
@@ -28,9 +35,9 @@ def get_active_users() -> Dict[int, List[str]]:
                 accessed_dashboard_names.append(description)
 
         user_dashboard_dict[userpk] = {
-                        "accessed_dashboards": accessed_dashboard_names,
-                        "firstname": firstname,
-                        "lastname": lastname,
+                    "accessed_dashboards": accessed_dashboard_names,
+                    "firstname": firstname,
+                    "lastname": lastname,
                                        }
 
     return user_dashboard_dict

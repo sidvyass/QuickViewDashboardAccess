@@ -15,12 +15,9 @@ class MieTrak:
         self.vacation_request_table = TableManger("VacationRequest")
         self.department_table = TableManger("Department")
 
-    def get_user_data(self, enabled=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
-        """Returns all the user data in the form of a dict with UserPK as Key and FirstName as Value
+        self.data_cache = {}
 
-        Returns:
-            dict = {"UserPK": "FirstName"}
-        """
+    def get_user_data(self, enabled=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
         user_dict = {}
         if enabled:
             user = self.user_table.get("UserPK", "FirstName", "LastName", Enabled=1)
