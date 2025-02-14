@@ -140,15 +140,23 @@ class SimpleTkinterGUI:
 
     def add_item(self):
         # LIVE: 
-        user_or_department_type = "User" if self.combo1.get() == "User" else "Department"
+        user_or_department_type = self.combo1.get()
         department_or_user_selection = self.user_department_listbox.curselection()
+
+        if not user_or_department_type:
+            # message box to show error
+            pass
+
+        if not department_or_user_selection:
+            # message box to show error
+            pass
 
         if user_or_department_type == "Department":
             i = 0
             department_data_dict = self.controller.get_department_information_from_cache()
             for department_pk, values in department_data_dict.items():  # loop to find the index value selected by user.
                 if i == department_or_user_selection[0]:
-                     AddView(values.get("name"), self.controller, department_pk=department_pk)
+                     AddView(values.get("name"), self.controller, self.show_accessed_dashboards_quickview, department_pk=department_pk)
                 i += 1
         # TEST:
         # AddView("test", self.controller, department_pk=6)

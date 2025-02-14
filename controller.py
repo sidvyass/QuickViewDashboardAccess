@@ -23,6 +23,14 @@ class Controller:
             self.LOGGER.error(e)
             raise ValueError
 
+    def write_cache(self) -> None:
+        try:
+            with open(DEPARTMENT_DATA_FILE, "w") as jsonfile:
+                json.dump(self.cache_dict, jsonfile)
+        except Exception as e:
+            self.LOGGER.error(e)
+            raise ValueError
+
     @staticmethod
     def get_all_dashboards():
         dashboard_table = TableManger("Dashboard")
@@ -30,9 +38,11 @@ class Controller:
         dashboard = dashboard_table.get("DashboardPK", "Description")
         if dashboard:
             for x in dashboard:
-                dashboard_dict[x[0]] = x[1]
+                if x[1]:
+                    dashboard_dict[x[0]] = x[1]
         return dashboard_dict
 
+    # NOTE: this is long, might be able to make it async. 
     def add_dashboard_to_department(self, departmentpk: int, dashboardpk: int):
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
@@ -40,13 +50,12 @@ class Controller:
         for userpk in department_users:  # adding dashboard to all users in the department
             self.mie_trak.add_dashboard_user(dashboardpk, userpk[0])
 
-
-        dashboard_table = TableManger("Dashboards")
-        dashboard_description = dashboard_table.get("Description", dashboardpk=dashboardpk)
+        dashboard_table = TableManger("Dashboard")
+        dashboard_description = dashboard_table.get("Description", DashboardPK=dashboardpk)
 
         # add new dashboard to the value in cache
         self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk] = dashboard_description[0][0] 
 
-        pprint(self.cache_dict)
+        self.write_cache()
 
 

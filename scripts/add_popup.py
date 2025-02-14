@@ -4,8 +4,9 @@ from typing import List, Tuple, Dict
 
 
 class AddView(tk.Toplevel):
-    def __init__(self, title: str, controller, department_pk: int | None = None, user_pk: int | None = None):
+    def __init__(self, title: str, controller, call_back_update, department_pk: int | None = None, user_pk: int | None = None):
         super().__init__()
+        self.call_back_update = call_back_update
         self.controller = controller
         self.department_pk = department_pk 
         self.user_pk = user_pk
@@ -74,5 +75,8 @@ class AddView(tk.Toplevel):
         # give dashboard access to all users in the department
         for pk, _ in self.selected_dashboard_pks:
             self.controller.add_dashboard_to_department(self.department_pk, pk)
+            break
+
+        self.call_back_update(event=None)  # main GUI function to update the listboxes with the new data
 
         self.destroy()

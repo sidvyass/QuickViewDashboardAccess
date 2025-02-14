@@ -5,3 +5,4 @@ logs/
 db_data.json
 main.spec
 sql_test
+data/
