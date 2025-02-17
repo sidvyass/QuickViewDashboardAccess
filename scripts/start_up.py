@@ -3,6 +3,9 @@ from typing import List, Tuple, Dict
 import pprint
 import json
 
+# NOTE: This is a script that was run initally to build a config file. 
+# The config file is found in the data folder.
+
 
 cache = {}
 

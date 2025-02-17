@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from typing import Dict
-from controller import Controller
-from scripts.add_popup import AddView
+from scripts.controller import Controller
+from add_popup import AddView
 from scripts import mie_trak_funcs
 from tkinter import messagebox
 from pprint import pprint
@@ -224,11 +224,3 @@ class SimpleTkinterGUI:
             pass
 
         self.show_accessed_dashboards_quickview(None)  # refresh by fetching data from Mie Trak again
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = SimpleTkinterGUI(root)
-    root.mainloop()
-
-
