@@ -22,18 +22,32 @@ class AddView(tk.Toplevel):
 
         department_dict = self.controller.cache_dict.get(department_pk, {})
 
+        # deleting the dashboards and quickviews that are already assigned
         if department_pk:
-            self.accessed_dashboards_pk_dict = department_dict.get("accessed_dashboards", {})
-            for key in self.accessed_dashboards_pk_dict.keys():
-                del self.dashboards_dict[key]
+            accessed_dashboards_pk_dict = department_dict.get("accessed_dashboards", {})
+            for dashboard_pk in accessed_dashboards_pk_dict.keys():
+                del self.dashboards_dict[dashboard_pk]
 
-            self.accessed_quickviews_pk_dict = department_dict.get("accessed_quickviews", {})
-            for key in self.accessed_quickviews_pk_dict.keys():
-                del self.quickviews_dict[key]
+            accessed_quickviews_pk_dict = department_dict.get("accessed_quickviews", {})
+            for quickview_pk in accessed_quickviews_pk_dict.keys():
+                del self.quickviews_dict[quickview_pk]
+
+        elif user_pk:
+            user_dashboards = mie_trak_funcs.get_user_dashboards(user_pk)  # redundant.
+            for dashboard_pk in user_dashboards.keys():
+                del self.dashboards_dict[dashboard_pk]
+
+            user_quickviews = mie_trak_funcs.get_user_quick_view(user_pk)
+            for quickview_pk in user_quickviews.keys():
+                del self.quickviews_dict[quickview_pk]
+
+        else:
+            # throw error
+            pass
 
         self.build_widgets()
 
-    def build_widgets(self):
+    def build_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.rowconfigure(1, weight=1)
@@ -69,28 +83,39 @@ class AddView(tk.Toplevel):
         cancel_button = ttk.Button(button_frame, text="Cancel", command=self.destroy)
         cancel_button.grid(row=0, column=1, padx=5, sticky="ew")
 
-    def populate_list(self, listbox: tk.Listbox, data_dict: Dict[int, str]):
+    def populate_list(self, listbox: tk.Listbox, data_dict: Dict[str, str]) -> None:
         """Populate a given listbox with items."""
         listbox.delete(0, tk.END)
         for _, description in data_dict.items():
             listbox.insert(tk.END, description)
 
-    def confirm_selection(self):
-        """Handle confirm button click."""
+    def confirm_selection(self) -> None:
+        """
+        [TODO:description]
+        """
+
         selected_dashboard_indices = self.dashboard_listbox.curselection()
         selected_quickview_indices = self.quickview_listbox.curselection()
 
         selected_dashboards = [list(self.dashboards_dict.keys())[i] for i in selected_dashboard_indices]
         selected_quickviews = [list(self.quickviews_dict.keys())[i] for i in selected_quickview_indices]
 
-        # Assign selected dashboards
-        for dashboard_pk in selected_dashboards:
-            self.controller.add_dashboard_to_department(self.department_pk, dashboard_pk)
+        if self.department_pk:
+            # Assign selected dashboards
+            for dashboard_pk in selected_dashboards:
+                self.controller.add_dashboard_to_department(self.department_pk, dashboard_pk)
 
-        # Assign selected quickviews (Assuming a function exists)
-        for quickview_pk in selected_quickviews:
-            self.controller.add_quickview_to_department(self.department_pk, quickview_pk)
+            # # Assign selected quickviews
+            for quickview_pk in selected_quickviews:
+                self.controller.add_quickview_to_department(self.department_pk, quickview_pk)
+
+        elif self.user_pk:
+            for dashboard_pk in selected_dashboards:
+                mie_trak_funcs.add_dashboard_to_user(dashboard_pk, self.user_pk)
+
+            for quickview_pk in selected_quickviews:
+                mie_trak_funcs.add_quickview_to_user(quickview_pk, self.user_pk)
+
 
         self.call_back_update(event=None)  # Update main UI
         self.destroy()
-

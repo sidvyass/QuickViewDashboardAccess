@@ -4,6 +4,8 @@ from typing import Dict
 from controller import Controller
 from scripts.add_popup import AddView
 from scripts import mie_trak_funcs
+from tkinter import messagebox
+from pprint import pprint
 
 
 class SimpleTkinterGUI:
@@ -87,11 +89,11 @@ class SimpleTkinterGUI:
 
         if selection == "User":
             self.user_data = mie_trak_funcs.get_user_data(enabled=True)
-            for userpk, user_info in self.user_data.items():
+            for _, user_info in self.user_data.items():
                 self.user_department_listbox.insert(tk.END, f"{user_info[0]} {user_info[1]}")
         elif selection == "Department":
             self.department_data = mie_trak_funcs.get_all_departments()
-            for departmentpk, name in self.department_data.items():
+            for _, name in self.department_data.items():
                 self.user_department_listbox.insert(tk.END, f"{name}")
 
     def show_accessed_dashboards_quickview(self, event):
@@ -99,7 +101,7 @@ class SimpleTkinterGUI:
 
         selection = self.user_department_listbox.curselection()
         if not selection:
-            # messagebox to show error
+            messagebox.showerror(title="Selection Invalid", message="Please select a User/Department from the list to view accessed itmes")
             return
 
         db_or_qv: str = self.combo2.get()
@@ -132,29 +134,30 @@ class SimpleTkinterGUI:
         user_or_department_type = self.combo1.get()
         department_or_user_selection_index = self.user_department_listbox.curselection()[0]
 
-        if not user_or_department_type:
-            # message box to show error
-            pass
-
-        if not department_or_user_selection_index:
-            # message box to show error
-            pass
+        if not user_or_department_type or not department_or_user_selection_index:
+            messagebox.showerror(title="Selection Error", message="Please select User/Department first and then make a selection from the list before clicking add.")
+            return
 
         department_data_dict = self.controller.get_department_information_from_cache()
 
-        if user_or_department_type == "Department":
+        if user_or_department_type == "User":
+            user_pk = list(self.user_data.keys())[department_or_user_selection_index]
+            AddView("User", self.controller, self.show_accessed_dashboards_quickview, user_pk=user_pk)
+
+        elif user_or_department_type == "Department":
             department_pk = list(department_data_dict.keys())[department_or_user_selection_index]
             department_name = department_data_dict.get(department_pk, {}).get("name", {})
 
             if not department_name:
-                # throw error
+                messagebox.showerror(title="Department Name Error", message="Department Name could not be resolved, contact developer.")
                 return
 
             AddView(department_name, self.controller, self.show_accessed_dashboards_quickview, department_pk=department_pk)
 
-        if user_or_department_type == "User":
-            # TODO:
+        else:
+            # display error to the user
             pass
+
 
     def delete_item(self):
         if self.user_department_listbox.curselection():
@@ -169,4 +172,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = SimpleTkinterGUI(root)
     root.mainloop()
+
 

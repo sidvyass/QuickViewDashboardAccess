@@ -64,4 +64,5 @@ class Controller:
 
         self.write_cache()
 
-
+    def add_user_to_dashboard_or_quickview(self, userpk: int, dashboard_quickview_pk: int, type: str = "Dashboard"):
+        pass
