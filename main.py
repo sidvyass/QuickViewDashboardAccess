@@ -1,6 +1,6 @@
-import tkinter as tk
-from gui.gui import SimpleTkinterGUI
+from gui.main_window import MainWindow
 
-root = tk.Tk()
-app = SimpleTkinterGUI(root)
-root.mainloop()
+
+if __name__ == "__main__":
+    app = MainWindow()
+    app.mainloop()

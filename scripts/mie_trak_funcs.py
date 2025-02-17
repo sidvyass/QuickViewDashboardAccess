@@ -163,4 +163,3 @@ def delete_quickview_from_user(userpk: int, quickviewpk: int) -> None:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(query, (userpk, quickviewpk))
-

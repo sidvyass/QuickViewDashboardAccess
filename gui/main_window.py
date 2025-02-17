@@ -2,86 +2,108 @@ import tkinter as tk
 from tkinter import ttk
 from typing import Dict
 from scripts.controller import Controller
-from add_popup import AddView
+from gui.add_popup import AddView
+from gui.login_window import LoginWindow
 from scripts import mie_trak_funcs
 from tkinter import messagebox
-from pprint import pprint
 
 
-class SimpleTkinterGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Simple Tkinter GUI")
-        self.root.configure(bg="#f4f4f4")  # Light grey background
-        self.root.geometry("600x500")  # Increased window size
+LOGIN_STATUS = False
 
-        # Configure grid layout to be flexible
-        self.root.columnconfigure(0, weight=1)
-        self.root.columnconfigure(1, weight=1)
-        self.root.rowconfigure(1, weight=1)
-        self.root.rowconfigure(2, weight=1)
 
-        # Define styles
-        style = ttk.Style()
-        style.configure("TButton", padding=6, relief="flat", font=("Arial", 10))
-        style.configure("TLabel", background="#f4f4f4", font=("Arial", 12))
-        style.configure("TCombobox", padding=5)
+def change_login_status():
+    global LOGIN_STATUS
+    LOGIN_STATUS = True
 
-        # Main Frame
-        frame = tk.Frame(root, bg="#ffffff", padx=20, pady=20, relief="ridge", bd=2)
-        frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=15, pady=15)
 
-        # Heading
-        self.heading = tk.Label(frame, text="Doc Control", font=("Arial", 16, "bold"), bg="#ffffff")
-        self.heading.pack(pady=10)
+class MainWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Simple Tkinter GUI")
+        self.configure(bg="#f4f4f4")  # Light grey background
+        self.geometry("600x500")  # Increased window size
 
-        # Subframes for alignment
-        self.subframe1 = tk.Frame(root, bg="#f4f4f4")
-        self.subframe1.grid(row=1, column=0, padx=15, pady=5, sticky="nsew")
-        self.subframe1.columnconfigure(0, weight=1)
-        self.subframe1.rowconfigure(1, weight=1)
+        self.withdraw()
 
-        self.subframe2 = tk.Frame(root, bg="#f4f4f4")
-        self.subframe2.grid(row=1, column=1, padx=15, pady=5, sticky="nsew")
-        self.subframe2.columnconfigure(0, weight=1)
-        self.subframe2.rowconfigure(1, weight=1)
+        self.login_window = LoginWindow(change_login_status)
+        self.login_window.focus()
+        self.wait_window(self.login_window)
 
-        # Subheadings
-        self.users_label = ttk.Label(self.subframe1, text="Users", font=("Arial", 12, "bold"))
-        self.users_label.pack()
+        print(LOGIN_STATUS)
 
-        self.dashboards_label = ttk.Label(self.subframe2, text="Accessed Dashboards", font=("Arial", 12, "bold"))
-        self.dashboards_label.pack()
+        if LOGIN_STATUS:
+            self.deiconify()
 
-        # Comboboxes
-        self.combo1 = ttk.Combobox(self.subframe1, values=["User", "Department"], state="readonly")
-        self.combo1.pack(pady=5)
-        self.combo1.bind("<<ComboboxSelected>>", self.update_with_users_or_department)
+            # Configure grid layout to be flexible
+            self.columnconfigure(0, weight=1)
+            self.columnconfigure(1, weight=1)
+            self.rowconfigure(1, weight=1)
+            self.rowconfigure(2, weight=1)
 
-        self.combo2 = ttk.Combobox(self.subframe2, values=["Dashboards", "QuickViews"], state="readonly")
-        self.combo2.pack(pady=5)
-        self.combo2.bind("<<ComboboxSelected>>", self.show_accessed_dashboards_quickview)
-        self.combo2.set("Dashboards")
+            # Define styles
+            style = ttk.Style()
+            style.configure("TButton", padding=6, relief="flat", font=("Arial", 10))
+            style.configure("TLabel", background="#f4f4f4", font=("Arial", 12))
+            style.configure("TCombobox", padding=5)
 
-        # Listboxes
-        self.user_department_listbox = tk.Listbox(self.subframe1, exportselection=False, relief="solid", bd=1)
-        self.user_department_listbox.pack(pady=5, fill="both", expand=True)
-        self.user_department_listbox.bind("<<ListboxSelect>>", self.show_accessed_dashboards_quickview)
+            # Main Frame
+            frame = tk.Frame(self, bg="#ffffff", padx=20, pady=20, relief="ridge", bd=2)
+            frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=15, pady=15)
 
-        self.listbox2 = tk.Listbox(self.subframe2, relief="solid", bd=1)
-        self.listbox2.pack(pady=5, fill="both", expand=True)
+            # Heading
+            self.heading = tk.Label(frame, text="Doc Control", font=("Arial", 16, "bold"), bg="#ffffff")
+            self.heading.pack(pady=10)
 
-        # Buttons
-        self.button_frame = tk.Frame(root, bg="#f4f4f4")
-        self.button_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
+            # Subframes for alignment
+            self.subframe1 = tk.Frame(self, bg="#f4f4f4")
+            self.subframe1.grid(row=1, column=0, padx=15, pady=5, sticky="nsew")
+            self.subframe1.columnconfigure(0, weight=1)
+            self.subframe1.rowconfigure(1, weight=1)
 
-        self.add_button = ttk.Button(self.button_frame, text="Add", command=self.add_item)
-        self.add_button.grid(row=0, column=0, padx=10)
+            self.subframe2 = tk.Frame(self, bg="#f4f4f4")
+            self.subframe2.grid(row=1, column=1, padx=15, pady=5, sticky="nsew")
+            self.subframe2.columnconfigure(0, weight=1)
+            self.subframe2.rowconfigure(1, weight=1)
 
-        self.delete_button = ttk.Button(self.button_frame, text="Delete", command=self.delete_item)
-        self.delete_button.grid(row=0, column=1, padx=10)
+            # Subheadings
+            self.users_label = ttk.Label(self.subframe1, text="Users", font=("Arial", 12, "bold"))
+            self.users_label.pack()
 
-        self.controller = Controller()
+            self.dashboards_label = ttk.Label(self.subframe2, text="Accessed Dashboards", font=("Arial", 12, "bold"))
+            self.dashboards_label.pack()
+
+            # Comboboxes
+            self.combo1 = ttk.Combobox(self.subframe1, values=["User", "Department"], state="readonly")
+            self.combo1.pack(pady=5)
+            self.combo1.bind("<<ComboboxSelected>>", self.update_with_users_or_department)
+
+            self.combo2 = ttk.Combobox(self.subframe2, values=["Dashboards", "QuickViews"], state="readonly")
+            self.combo2.pack(pady=5)
+            self.combo2.bind("<<ComboboxSelected>>", self.show_accessed_dashboards_quickview)
+            self.combo2.set("Dashboards")
+
+            # Listboxes
+            self.user_department_listbox = tk.Listbox(self.subframe1, exportselection=False, relief="solid", bd=1)
+            self.user_department_listbox.pack(pady=5, fill="both", expand=True)
+            self.user_department_listbox.bind("<<ListboxSelect>>", self.show_accessed_dashboards_quickview)
+
+            self.listbox2 = tk.Listbox(self.subframe2, relief="solid", bd=1)
+            self.listbox2.pack(pady=5, fill="both", expand=True)
+
+            # Buttons
+            self.button_frame = tk.Frame(self, bg="#f4f4f4")
+            self.button_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
+
+            self.add_button = ttk.Button(self.button_frame, text="Add", command=self.add_item)
+            self.add_button.grid(row=0, column=0, padx=10)
+
+            self.delete_button = ttk.Button(self.button_frame, text="Delete", command=self.delete_item)
+            self.delete_button.grid(row=0, column=1, padx=10)
+
+            self.controller = Controller()
+        else:
+            self.destroy()
+
 
     def update_with_users_or_department(self, event):
         self.user_department_listbox.delete(0, tk.END)
