@@ -88,10 +88,18 @@ class SimpleTkinterGUI:
         selection = self.combo1.get()
 
         if selection == "User":
+
+            # change the heading to user
+            self.users_label.config(text="User")
+
             self.user_data = mie_trak_funcs.get_user_data(enabled=True)
             for _, user_info in self.user_data.items():
                 self.user_department_listbox.insert(tk.END, f"{user_info[0]} {user_info[1]}")
         elif selection == "Department":
+
+            # change the heading to department
+            self.users_label.config(text="Department")
+
             self.department_data = mie_trak_funcs.get_all_departments()
             for _, name in self.department_data.items():
                 self.user_department_listbox.insert(tk.END, f"{name}")
@@ -107,27 +115,35 @@ class SimpleTkinterGUI:
         db_or_qv: str = self.combo2.get()
         user_or_department = "User" if self.combo1.get() == "User" else "Department"
 
+        # update heading with selected type (Dashboards or Quickview) from comboboxo
+        self.dashboards_label.config(text=db_or_qv)
+
         if user_or_department == "User":
             userpk = list(self.user_data.keys())[selection[0]]
-            data_to_display = mie_trak_funcs.get_user_dashboards(userpk) if db_or_qv == "Dashboards" else mie_trak_funcs.get_user_quick_view(userpk)
+            self.data_to_display = mie_trak_funcs.get_user_dashboards(userpk) if db_or_qv == "Dashboards" else mie_trak_funcs.get_user_quick_view(userpk)
 
         elif user_or_department == "Department":
+
             department_data: Dict = self.controller.get_department_information_from_cache()
             selected_department_pk = list(department_data.keys())[selection[0]]
 
             accessed_key = "accessed_dashboards" if db_or_qv == "Dashboards" else "accessed_quickviews"
-            data_to_display = department_data.get(selected_department_pk, {}).get(accessed_key, {})
+            self.data_to_display = department_data.get(selected_department_pk, {}).get(accessed_key, {})
 
         else:
             # message: invalid department
-            data_to_display = {}
+            self.data_to_display = {}
 
-        if data_to_display:
-            for _, name in data_to_display.items():
+
+        # NOTE: self.data_to_dislpay gets reassigned everytime the user clicks on the box on the right. 
+        # We then use this data to get the PK of the selections when the user wants to delete something.
+        # refer delete_item function.
+
+        if self.data_to_display:
+            for _, name in self.data_to_display.items():
                 self.listbox2.insert(tk.END, name)
         else:
             self.listbox2.insert(tk.END, "N/A")
-
 
     def add_item(self):
         # LIVE: 
@@ -138,13 +154,14 @@ class SimpleTkinterGUI:
             messagebox.showerror(title="Selection Error", message="Please select User/Department first and then make a selection from the list before clicking add.")
             return
 
-        department_data_dict = self.controller.get_department_information_from_cache()
 
         if user_or_department_type == "User":
             user_pk = list(self.user_data.keys())[department_or_user_selection_index]
             AddView("User", self.controller, self.show_accessed_dashboards_quickview, user_pk=user_pk)
 
         elif user_or_department_type == "Department":
+            department_data_dict = self.controller.get_department_information_from_cache()
+
             department_pk = list(department_data_dict.keys())[department_or_user_selection_index]
             department_name = department_data_dict.get(department_pk, {}).get("name", {})
 
@@ -158,14 +175,55 @@ class SimpleTkinterGUI:
             # display error to the user
             pass
 
-
     def delete_item(self):
-        if self.user_department_listbox.curselection():
-            self.user_department_listbox.delete(self.user_department_listbox.curselection())
-        if self.listbox2.curselection():
-            self.listbox2.delete(self.listbox2.curselection())
+        user_or_department_type = self.combo1.get()
+        department_or_user_selection_index = self.user_department_listbox.curselection()
 
-        # TODO: Delete from database
+        if not user_or_department_type or not department_or_user_selection_index:
+            messagebox.showerror(title="Selection Error", message="Please select User/Department first and then make a selection from the list before clicking delete.")
+            return
+
+        db_or_qv = self.combo2.get()
+        selected_dashboards_or_qv_indices = self.listbox2.curselection()
+
+        if not selected_dashboards_or_qv_indices or not db_or_qv:
+            messagebox.showerror(title="Selection Error", message="Must select dashboards or quickviews to delete")
+            return
+
+        dashboard_or_quickview_pks = [list(self.data_to_display.keys())[idx] for idx in selected_dashboards_or_qv_indices]
+
+        if user_or_department_type == "User":
+            print("Deleting from user...")
+            user_pk = list(self.user_data.keys())[department_or_user_selection_index[0]]
+
+            if db_or_qv == "Dashboards":
+                for dashboard_pk in dashboard_or_quickview_pks:
+                    mie_trak_funcs.delete_dashboard_from_user(user_pk, dashboard_pk)
+
+            elif db_or_qv == "QuickViews":
+                quickview_pks = [list(self.data_to_display.keys())[idx] for idx in selected_dashboards_or_qv_indices]
+                for quickview_pk in quickview_pks:
+                    mie_trak_funcs.delete_quickview_from_user(user_pk, quickview_pk)
+
+        elif user_or_department_type == "Department":
+            print("Deleting from department...")
+
+            department_data_dict = self.controller.get_department_information_from_cache()
+            department_pk = list(department_data_dict.keys())[department_or_user_selection_index[0]]  # user selected
+
+            if db_or_qv == "Dashboards":
+                for pk in dashboard_or_quickview_pks:
+                    self.controller.delete_dashboard_from_department(department_pk, pk)
+
+            elif db_or_qv == "QuickViews":
+                for pk in dashboard_or_quickview_pks:
+                    self.controller.delete_quickview_from_user(department_pk, pk)
+
+        else:
+            # error
+            pass
+
+        self.show_accessed_dashboards_quickview(None)  # refresh by fetching data from Mie Trak again
 
 
 if __name__ == "__main__":

@@ -110,6 +110,8 @@ class AddView(tk.Toplevel):
                 self.controller.add_quickview_to_department(self.department_pk, quickview_pk)
 
         elif self.user_pk:
+            print("executing user dashboard...")
+
             for dashboard_pk in selected_dashboards:
                 mie_trak_funcs.add_dashboard_to_user(dashboard_pk, self.user_pk)
 

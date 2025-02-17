@@ -4,46 +4,30 @@ from mt_api.connection import get_connection
 
 
 def get_all_quickviews():
-    quick_view_table = TableManger("QuickView")
+    query = "SELECT QuickviewPK, Description FROM QuickView"
 
-    quick_view_dict = {}
-    quick_view = quick_view_table.get("QuickViewPK", "Description")
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query)
 
-    if quick_view:
-        for x in quick_view:
-            quick_view_dict[str(x[0])] = x[1]
+        results = cursor.fetchall()
 
-    return quick_view_dict
-
-
-def add_quickview_to_user(quickview_pk, user_fk):
-    quickview_users_table = TableManger("QuickViewUser")
-
-    pk = quickview_users_table.get("QuickViewUserPK", UserFK=user_fk, QuickViewFK=quickview_pk)
-    if not pk:
-        info_dict = {
-            "QuickViewFK": quickview_pk,
-            "UserFK": user_fk
-        }
-        pk = quickview_users_table.insert(info_dict)
-    return pk
+        return {str(quickview_pk): description for quickview_pk, description in results if description}
 
 
 def get_all_dashboards() -> Dict[str, str]:
     """
     Returns all dashboards from Mie Trak Dashboard Table.
     """
+    query = "SELECT DashboardPK, Description FROM Dashboard;"
 
-    dashboard_table = TableManger("Dashboard")
-    dashboard_dict = {}
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query)
 
-    dashboard = dashboard_table.get("DashboardPK", "Description")
-    if dashboard:
-        for x in dashboard:
-            if x[1]:
-                dashboard_dict[str(x[0])] = x[1]
+        results = cursor.fetchall()
 
-    return dashboard_dict
+        return {str(dashboard_pk): description for dashboard_pk, description in results if description}
 
 
 def get_user_quick_view(userpk) -> Dict[str, str]:
@@ -58,7 +42,7 @@ def get_user_quick_view(userpk) -> Dict[str, str]:
         SELECT q.QuickViewPK, q.Description
         FROM QuickViewUser qu
         JOIN QuickView q ON qu.QuickViewFK = q.QuickViewPK
-        WHERE qu.UserFK = %s;
+        WHERE qu.UserFK = ?;
             """
 
     with get_connection() as conn:
@@ -67,7 +51,7 @@ def get_user_quick_view(userpk) -> Dict[str, str]:
 
         results = cursor.fetchall()
 
-        return {str(quickview_pk): description for quickview_pk, description in results}
+        return {str(quickview_pk): description for quickview_pk, description in results if description}
 
 
 def get_user_dashboards(userpk: int) -> Dict[str, str]:
@@ -91,7 +75,7 @@ def get_user_dashboards(userpk: int) -> Dict[str, str]:
 
         results = cursor.fetchall()
 
-        return {str(dashboard_pk): description for dashboard_pk, description in results}
+        return {str(dashboard_pk): description for dashboard_pk, description in results if description}
 
 
 def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
@@ -112,6 +96,19 @@ def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
         }
         pk = dashboard_user_table.insert(info_dict)
 
+    return pk
+
+
+def add_quickview_to_user(quickview_pk, user_fk):
+    quickview_users_table = TableManger("QuickViewUser")
+
+    pk = quickview_users_table.get("QuickViewUserPK", UserFK=user_fk, QuickViewFK=quickview_pk)
+    if not pk:
+        info_dict = {
+            "QuickViewFK": quickview_pk,
+            "UserFK": user_fk
+        }
+        pk = quickview_users_table.insert(info_dict)
     return pk
 
 
@@ -151,4 +148,19 @@ def get_all_departments():
                 department_dict[x[0]] = x[1]
     return department_dict
 
+
+def delete_dashboard_from_user(userpk: int, dashboardpk: int) -> None:
+    query = "DELETE FROM DashboardUser WHERE UserFK = ? AND DashboardFK = ?;"
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query, (userpk, dashboardpk))
+
+
+def delete_quickview_from_user(userpk: int, quickviewpk: int) -> None:
+    query = "DELETE FROM QuickViewUser WHERE UserFK = ? AND QuickViewFK = ?;"
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query, (userpk, quickviewpk))
 

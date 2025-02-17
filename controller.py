@@ -37,7 +37,7 @@ class Controller:
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
         for userpk in department_users:  # adding dashboard to all users in the department
-            mie_trak_funcs.add_dashboard_user(dashboardpk, userpk[0])
+            mie_trak_funcs.add_dashboard_to_user(str(dashboardpk), userpk[0])
 
         dashboard_table = TableManger("Dashboard")
         dashboard_description = dashboard_table.get("Description", DashboardPK=dashboardpk)
@@ -48,14 +48,22 @@ class Controller:
         self.write_cache()
 
     def delete_dashboard_from_department(self, departmentpk: int, dashboardpk: int):
-        pass
+        user_table = TableManger("[User]")
+        department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
+
+        for userpk in department_users:  # adding dashboard to all users in the department
+            mie_trak_funcs.delete_dashboard_from_user(userpk[0], dashboardpk)
+
+        del self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk]
+
+        self.write_cache()
 
     def add_quickview_to_department(self, departmentpk: int, quickviewpk: int):
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
         for userpk in department_users:  # adding dashboard to all users in the department
-            mie_trak_funcs.add_user_quickview(quickviewpk, userpk[0])
+            mie_trak_funcs.add_quickview_to_user(quickviewpk, userpk[0])
 
         quickview_table = TableManger("QuickView")
         quickview_name = quickview_table.get("Description", QuickViewPK=quickviewpk)
@@ -64,5 +72,13 @@ class Controller:
 
         self.write_cache()
 
-    def add_user_to_dashboard_or_quickview(self, userpk: int, dashboard_quickview_pk: int, type: str = "Dashboard"):
-        pass
+    def delete_quickview_from_user(self, departmentpk, quickviewpk: int) -> None:
+        user_table = TableManger("[User]")
+        department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
+
+        for userpk in department_users:
+            mie_trak_funcs.delete_quickview_from_user(userpk, quickviewpk)
+
+        del self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk]
+
+        self.write_cache()
