@@ -2,13 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 from typing import Dict
 from scripts.controller import Controller
+from gui.vacation_request import VacationRequestsWindow, center_window
 from gui.add_popup import AddView
 from gui.login_window import LoginWindow
 from scripts import mie_trak_funcs
 from tkinter import messagebox
 
 
-LOGIN_STATUS = False
+LOGIN_STATUS = True
 
 
 def change_login_status():
@@ -21,15 +22,15 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title("Simple Tkinter GUI")
         self.configure(bg="#f4f4f4")  # Light grey background
-        self.geometry("600x500")  # Increased window size
+        # self.geometry("600x500")  # Increased window size
+        center_window(self)
 
         self.withdraw()
 
         self.login_window = LoginWindow(change_login_status)
+        center_window(self.login_window, width=350, height=200)
         self.login_window.focus()
         self.wait_window(self.login_window)
-
-        print(LOGIN_STATUS)
 
         if LOGIN_STATUS:
             self.deiconify()
@@ -92,13 +93,19 @@ class MainWindow(tk.Tk):
 
             # Buttons
             self.button_frame = tk.Frame(self, bg="#f4f4f4")
-            self.button_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="nsew")
+            self.button_frame.grid(row=2, column=0, columnspan=1, pady=10, sticky="nsew")
 
             self.add_button = ttk.Button(self.button_frame, text="Add", command=self.add_item)
             self.add_button.grid(row=0, column=0, padx=10)
 
             self.delete_button = ttk.Button(self.button_frame, text="Delete", command=self.delete_item)
             self.delete_button.grid(row=0, column=1, padx=10)
+
+            self.vac_req_btn_frame = tk.Frame(self, bg="#f4f4f4")
+            self.vac_req_btn_frame.grid(row=2, column=1, columnspan=1, pady=10, sticky="nsew")
+
+            self.vacation_request_button = ttk.Button(self.vac_req_btn_frame, text="Vacation Requests", command=self.open_vacation_request_tab)
+            self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
 
             self.controller = Controller()
         else:
@@ -246,3 +253,11 @@ class MainWindow(tk.Tk):
             pass
 
         self.show_accessed_dashboards_quickview(None)  # refresh by fetching data from Mie Trak again
+
+    def open_vacation_request_tab(self):
+        data = mie_trak_funcs.get_all_vacation_requests()
+        self.withdraw()
+        self.vacation_request_window = VacationRequestsWindow(self, data)
+        self.vacation_request_window.focus()
+        self.wait_window(self.vacation_request_window)
+        self.deiconify()

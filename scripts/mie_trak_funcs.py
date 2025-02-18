@@ -1,6 +1,7 @@
 from mt_api.general_class import TableManger
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 from mt_api.connection import get_connection
+from datetime import datetime
 
 
 def get_all_quickviews():
@@ -163,3 +164,55 @@ def delete_quickview_from_user(userpk: int, quickviewpk: int) -> None:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(query, (userpk, quickviewpk))
+
+
+def get_all_vacation_requests() -> List:
+    query = """
+            SELECT v.VacationRequestPK, u.firstname, u.lastname, v.FromDate, v.ToDate, v.StartTime, v.Hours, v.Reason, v.Approved
+            FROM VacationRequest v
+            JOIN [User] u ON v.EmployeeFK = u.UserPK 
+            WHERE v.Approved = 0
+            ORDER BY v.VacationRequestPK DESC;
+            """
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+        results = cursor.fetchall()
+
+    if not results:
+        raise ValueError("Mie Trak did not return anything. Check Query.")
+
+    return _format_results(results)
+
+
+def _format_results(data):
+
+    formatted_data = []
+    for row in data:
+        vacation_id, first_name, last_name, from_date, to_date, start_time, hours, reason, approved = row
+        formatted_row = {
+            "Vacation ID": vacation_id,
+            "Employee": f"{first_name} {last_name}",
+            "From Date": from_date.strftime('%Y-%m-%d') if from_date else "N/A",
+            "To Date": to_date.strftime('%Y-%m-%d') if to_date else "N/A",
+            "Start Time": datetime.strptime(start_time[:15], '%H:%M:%S.%f').strftime('%I:%M %p') if start_time else "N/A",
+            "Hours": float(hours) if hours else "N/A",
+            "Reason": reason,
+            "Approved": approved,
+        }
+        formatted_data.append(formatted_row)
+    return formatted_data
+
+
+def approve_vacation_request(request_pk: int):
+    query = """
+        UPDATE VacationRequest
+        SET Approved = 1
+        WHERE VacationRequestPK = ?
+            """
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(query, (request_pk,))

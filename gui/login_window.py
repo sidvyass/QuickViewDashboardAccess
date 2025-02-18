@@ -12,7 +12,7 @@ class LoginWindow(tk.Toplevel):
         self.login_success_callback = login_success_callback
 
         self.title("Login")
-        self.geometry("350x200")
+        # self.geometry("350x200")
         self.resizable(False, False)
 
         # Configure grid layout
