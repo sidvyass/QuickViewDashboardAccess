@@ -9,7 +9,7 @@ from scripts import mie_trak_funcs
 from tkinter import messagebox
 
 
-LOGIN_STATUS = True
+LOGIN_STATUS = False
 
 
 def change_login_status():
@@ -39,7 +39,7 @@ class MainWindow(tk.Tk):
             self.columnconfigure(0, weight=1)
             self.columnconfigure(1, weight=1)
             self.rowconfigure(1, weight=1)
-            self.rowconfigure(2, weight=1)
+            self.rowconfigure(2, weight=0)
 
             # Define styles
             style = ttk.Style()
@@ -88,24 +88,27 @@ class MainWindow(tk.Tk):
             self.user_department_listbox.pack(pady=5, fill="both", expand=True)
             self.user_department_listbox.bind("<<ListboxSelect>>", self.show_accessed_dashboards_quickview)
 
-            self.listbox2 = tk.Listbox(self.subframe2, relief="solid", bd=1)
+            self.listbox2 = tk.Listbox(self.subframe2, relief="solid", bd=1, selectmode="multiple")
             self.listbox2.pack(pady=5, fill="both", expand=True)
 
             # Buttons
             self.button_frame = tk.Frame(self, bg="#f4f4f4")
             self.button_frame.grid(row=2, column=0, columnspan=1, pady=10, sticky="nsew")
 
-            self.add_button = ttk.Button(self.button_frame, text="Add", command=self.add_item)
-            self.add_button.grid(row=0, column=0, padx=10)
+            self.vacation_request_button = ttk.Button(self.button_frame, text="Vacation Requests", command=self.open_vacation_request_tab)
+            self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
 
-            self.delete_button = ttk.Button(self.button_frame, text="Delete", command=self.delete_item)
-            self.delete_button.grid(row=0, column=1, padx=10)
-
+            # NOTE: I switched the frame so that the user can understand what add/delete is doing.
             self.vac_req_btn_frame = tk.Frame(self, bg="#f4f4f4")
             self.vac_req_btn_frame.grid(row=2, column=1, columnspan=1, pady=10, sticky="nsew")
 
-            self.vacation_request_button = ttk.Button(self.vac_req_btn_frame, text="Vacation Requests", command=self.open_vacation_request_tab)
-            self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
+            self.add_button = ttk.Button(self.vac_req_btn_frame, text="Add", command=self.add_item)
+            self.add_button.grid(row=0, column=0, padx=10)
+
+            self.delete_button = ttk.Button(self.vac_req_btn_frame, text="Delete", command=self.delete_item)
+            self.delete_button.grid(row=0, column=1, padx=10)
+
+
 
             self.controller = Controller()
         else:
