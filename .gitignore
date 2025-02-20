@@ -2,3 +2,7 @@ __pycache__/
 data/
 logs/
 test_main.py
+dist/
+build/
+README.md
+main.spec

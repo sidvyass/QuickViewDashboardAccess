@@ -13,7 +13,11 @@ def get_all_quickviews():
 
         results = cursor.fetchall()
 
-        return {str(quickview_pk): description for quickview_pk, description in results if description}
+        return {
+            str(quickview_pk): description
+            for quickview_pk, description in results
+            if description
+        }
 
 
 def get_all_dashboards() -> Dict[str, str]:
@@ -28,7 +32,11 @@ def get_all_dashboards() -> Dict[str, str]:
 
         results = cursor.fetchall()
 
-        return {str(dashboard_pk): description for dashboard_pk, description in results if description}
+        return {
+            str(dashboard_pk): description
+            for dashboard_pk, description in results
+            if description
+        }
 
 
 def get_user_quick_view(userpk) -> Dict[str, str]:
@@ -52,7 +60,11 @@ def get_user_quick_view(userpk) -> Dict[str, str]:
 
         results = cursor.fetchall()
 
-        return {str(quickview_pk): description for quickview_pk, description in results if description}
+        return {
+            str(quickview_pk): description
+            for quickview_pk, description in results
+            if description
+        }
 
 
 def get_user_dashboards(userpk: int) -> Dict[str, str]:
@@ -76,7 +88,11 @@ def get_user_dashboards(userpk: int) -> Dict[str, str]:
 
         results = cursor.fetchall()
 
-        return {str(dashboard_pk): description for dashboard_pk, description in results if description}
+        return {
+            str(dashboard_pk): description
+            for dashboard_pk, description in results
+            if description
+        }
 
 
 def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
@@ -89,12 +105,11 @@ def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
 
     dashboard_user_table = TableManger("DashboardUser")
 
-    pk = dashboard_user_table.get("DashboardUserPK", DashboardFK=dashboard_pk, UserFK = user_fk)
+    pk = dashboard_user_table.get(
+        "DashboardUserPK", DashboardFK=dashboard_pk, UserFK=user_fk
+    )
     if not pk:
-        info_dict = {
-            "DashboardFK": dashboard_pk,
-            "UserFK": user_fk
-        }
+        info_dict = {"DashboardFK": dashboard_pk, "UserFK": user_fk}
         pk = dashboard_user_table.insert(info_dict)
 
     return pk
@@ -103,17 +118,18 @@ def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
 def add_quickview_to_user(quickview_pk, user_fk):
     quickview_users_table = TableManger("QuickViewUser")
 
-    pk = quickview_users_table.get("QuickViewUserPK", UserFK=user_fk, QuickViewFK=quickview_pk)
+    pk = quickview_users_table.get(
+        "QuickViewUserPK", UserFK=user_fk, QuickViewFK=quickview_pk
+    )
     if not pk:
-        info_dict = {
-            "QuickViewFK": quickview_pk,
-            "UserFK": user_fk
-        }
+        info_dict = {"QuickViewFK": quickview_pk, "UserFK": user_fk}
         pk = quickview_users_table.insert(info_dict)
     return pk
 
 
-def get_user_data(enabled=False, not_active=False, departmentfk=None) -> Dict[int, List[str]]:
+def get_user_data(
+    enabled=False, not_active=False, departmentfk=None
+) -> Dict[int, List[str]]:
     user_table = TableManger("[User]")
 
     user_dict = {}
@@ -188,16 +204,29 @@ def get_all_vacation_requests() -> List:
 
 
 def _format_results(data):
-
     formatted_data = []
     for row in data:
-        vacation_id, first_name, last_name, from_date, to_date, start_time, hours, reason, approved = row
+        (
+            vacation_id,
+            first_name,
+            last_name,
+            from_date,
+            to_date,
+            start_time,
+            hours,
+            reason,
+            approved,
+        ) = row
         formatted_row = {
             "Vacation ID": vacation_id,
             "Employee": f"{first_name} {last_name}",
-            "From Date": from_date.strftime('%Y-%m-%d') if from_date else "N/A",
-            "To Date": to_date.strftime('%Y-%m-%d') if to_date else "N/A",
-            "Start Time": datetime.strptime(start_time[:15], '%H:%M:%S.%f').strftime('%I:%M %p') if start_time else "N/A",
+            "From Date": from_date.strftime("%Y-%m-%d") if from_date else "N/A",
+            "To Date": to_date.strftime("%Y-%m-%d") if to_date else "N/A",
+            "Start Time": datetime.strptime(start_time[:15], "%H:%M:%S.%f").strftime(
+                "%I:%M %p"
+            )
+            if start_time
+            else "N/A",
             "Hours": float(hours) if hours else "N/A",
             "Reason": reason,
             "Approved": approved,

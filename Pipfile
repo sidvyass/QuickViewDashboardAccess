@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 loguru = "*"
 pyodbc = "*"
+pyinstaller = "*"
+ruff = "*"
 
 [dev-packages]
 

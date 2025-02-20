@@ -1,6 +1,7 @@
 import logging
 import os
 
+
 def setup_logging():
     log_directory, log_filename = "logs", "MieTrakAPI.log"
     os.makedirs(log_directory, exist_ok=True)
@@ -8,5 +9,9 @@ def setup_logging():
 
     logging.basicConfig(
         level=logging.DEBUG,
-        format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.FileHandler(log_file_path, mode='a'), logging.StreamHandler()])
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(log_file_path, mode="a"),
+            logging.StreamHandler(),
+        ],
+    )

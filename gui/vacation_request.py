@@ -24,12 +24,25 @@ class VacationRequestsWindow(tk.Toplevel):
         self.data = data
 
         # Heading
-        self.heading_label = ttk.Label(self, text="Vacation Requests", font=("Arial", 14, "bold"))
+        self.heading_label = ttk.Label(
+            self, text="Vacation Requests", font=("Arial", 14, "bold")
+        )
         self.heading_label.pack(pady=10)
 
         # Table (Treeview)
-        columns = ("Vacation ID", "Employee", "From Date", "To Date", "Start Time", "Hours", "Reason", "Approved")
-        self.tree = ttk.Treeview(self, columns=columns, show="headings", height=10, selectmode="extended")
+        columns = (
+            "Vacation ID",
+            "Employee",
+            "From Date",
+            "To Date",
+            "Start Time",
+            "Hours",
+            "Reason",
+            "Approved",
+        )
+        self.tree = ttk.Treeview(
+            self, columns=columns, show="headings", height=10, selectmode="extended"
+        )
 
         # Define column headings
         for col in columns:
@@ -38,10 +51,20 @@ class VacationRequestsWindow(tk.Toplevel):
 
         # Insert data into the table
         for row in data:
-            self.tree.insert("", "end", values=(
-                row["Vacation ID"], row["Employee"], row["From Date"], row["To Date"],
-                row["Start Time"], row["Hours"], row["Reason"], row["Approved"]
-            ))
+            self.tree.insert(
+                "",
+                "end",
+                values=(
+                    row["Vacation ID"],
+                    row["Employee"],
+                    row["From Date"],
+                    row["To Date"],
+                    row["Start Time"],
+                    row["Hours"],
+                    row["Reason"],
+                    row["Approved"],
+                ),
+            )
 
         self.tree.pack(padx=10, pady=10, fill="both", expand=True)
 
@@ -49,10 +72,14 @@ class VacationRequestsWindow(tk.Toplevel):
         button_frame = tk.Frame(self)
         button_frame.pack(pady=10)
 
-        self.approve_button = ttk.Button(button_frame, text="Approve", command=self.approve_request)
+        self.approve_button = ttk.Button(
+            button_frame, text="Approve", command=self.approve_request
+        )
         self.approve_button.grid(row=0, column=0, padx=10)
 
-        self.disapprove_button = ttk.Button(button_frame, text="Disapprove", command=self.disapprove_request)
+        self.disapprove_button = ttk.Button(
+            button_frame, text="Disapprove", command=self.disapprove_request
+        )
         self.disapprove_button.grid(row=0, column=1, padx=10)
 
     def get_selected_request(self):
@@ -72,7 +99,10 @@ class VacationRequestsWindow(tk.Toplevel):
             for item in selected_data
         )
 
-        confirm = messagebox.askyesno("Confirm Selection", f"Are you sure you want to proceed?\n\n{confirmation_message}")
+        confirm = messagebox.askyesno(
+            "Confirm Selection",
+            f"Are you sure you want to proceed?\n\n{confirmation_message}",
+        )
 
         return selected_indices if confirm else None
 
@@ -81,7 +111,9 @@ class VacationRequestsWindow(tk.Toplevel):
         selected_indices = self.get_selected_request()
 
         if selected_indices:
-            to_approve_requests_pks = [self.data[idx].get("Vacation ID") for idx in selected_indices]
+            to_approve_requests_pks = [
+                self.data[idx].get("Vacation ID") for idx in selected_indices
+            ]
 
             for pk in to_approve_requests_pks:
                 mie_trak_funcs.approve_vacation_request(pk)
@@ -98,11 +130,20 @@ class VacationRequestsWindow(tk.Toplevel):
     def refresh_data(self):
         """Fetches and reloads the vacation requests data."""
 
-        self.data = mie_trak_funcs.get_all_vacation_requests()  
-        self.tree.delete(*self.tree.get_children()) 
+        self.data = mie_trak_funcs.get_all_vacation_requests()
+        self.tree.delete(*self.tree.get_children())
         for row in self.data:
-            self.tree.insert("", "end", values=(
-                row["Vacation ID"], row["Employee"], row["From Date"], row["To Date"],
-                row["Start Time"], row["Hours"], row["Reason"], row["Approved"]
-            ))
-
+            self.tree.insert(
+                "",
+                "end",
+                values=(
+                    row["Vacation ID"],
+                    row["Employee"],
+                    row["From Date"],
+                    row["To Date"],
+                    row["Start Time"],
+                    row["Hours"],
+                    row["Reason"],
+                    row["Approved"],
+                ),
+            )

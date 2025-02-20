@@ -2,11 +2,17 @@ import tkinter as tk
 from tkinter import ttk
 from typing import Dict
 from scripts import mie_trak_funcs
-from pprint import pprint
 
 
 class AddView(tk.Toplevel):
-    def __init__(self, title: str, controller, call_back_update, department_pk: int | None = None, user_pk: int | None = None):
+    def __init__(
+        self,
+        title: str,
+        controller,
+        call_back_update,
+        department_pk: int | None = None,
+        user_pk: int | None = None,
+    ):
         super().__init__()
         self.call_back_update = call_back_update
         self.controller = controller
@@ -18,7 +24,9 @@ class AddView(tk.Toplevel):
         self.resizable(True, True)
 
         self.dashboards_dict = mie_trak_funcs.get_all_dashboards()
-        self.quickviews_dict = mie_trak_funcs.get_all_quickviews()  # Assuming a function for Quickviews
+        self.quickviews_dict = (
+            mie_trak_funcs.get_all_quickviews()
+        )  # Assuming a function for Quickviews
 
         department_dict = self.controller.cache_dict.get(department_pk, {})
 
@@ -63,10 +71,14 @@ class AddView(tk.Toplevel):
         right_frame = ttk.Frame(self, padding=10)
         right_frame.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
 
-        self.dashboard_listbox = tk.Listbox(left_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10)
+        self.dashboard_listbox = tk.Listbox(
+            left_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
+        )
         self.dashboard_listbox.pack(fill="both", expand=True)
 
-        self.quickview_listbox = tk.Listbox(right_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10)
+        self.quickview_listbox = tk.Listbox(
+            right_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
+        )
         self.quickview_listbox.pack(fill="both", expand=True)
 
         self.populate_list(self.dashboard_listbox, self.dashboards_dict)
@@ -77,7 +89,9 @@ class AddView(tk.Toplevel):
         button_frame.columnconfigure(0, weight=1)
         button_frame.columnconfigure(1, weight=1)
 
-        confirm_button = ttk.Button(button_frame, text="Confirm", command=self.confirm_selection)
+        confirm_button = ttk.Button(
+            button_frame, text="Confirm", command=self.confirm_selection
+        )
         confirm_button.grid(row=0, column=0, padx=5, sticky="ew")
 
         cancel_button = ttk.Button(button_frame, text="Cancel", command=self.destroy)
@@ -97,17 +111,25 @@ class AddView(tk.Toplevel):
         selected_dashboard_indices = self.dashboard_listbox.curselection()
         selected_quickview_indices = self.quickview_listbox.curselection()
 
-        selected_dashboards = [list(self.dashboards_dict.keys())[i] for i in selected_dashboard_indices]
-        selected_quickviews = [list(self.quickviews_dict.keys())[i] for i in selected_quickview_indices]
+        selected_dashboards = [
+            list(self.dashboards_dict.keys())[i] for i in selected_dashboard_indices
+        ]
+        selected_quickviews = [
+            list(self.quickviews_dict.keys())[i] for i in selected_quickview_indices
+        ]
 
         if self.department_pk:
             # Assign selected dashboards
             for dashboard_pk in selected_dashboards:
-                self.controller.add_dashboard_to_department(self.department_pk, dashboard_pk)
+                self.controller.add_dashboard_to_department(
+                    self.department_pk, dashboard_pk
+                )
 
             # # Assign selected quickviews
             for quickview_pk in selected_quickviews:
-                self.controller.add_quickview_to_department(self.department_pk, quickview_pk)
+                self.controller.add_quickview_to_department(
+                    self.department_pk, quickview_pk
+                )
 
         elif self.user_pk:
             print("executing user dashboard...")
@@ -117,7 +139,6 @@ class AddView(tk.Toplevel):
 
             for quickview_pk in selected_quickviews:
                 mie_trak_funcs.add_quickview_to_user(quickview_pk, self.user_pk)
-
 
         self.call_back_update(event=None)  # Update main UI
         self.destroy()

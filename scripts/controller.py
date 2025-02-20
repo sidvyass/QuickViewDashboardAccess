@@ -6,7 +6,9 @@ from pprint import pprint
 from scripts import mie_trak_funcs
 
 
-DEPARTMENT_DATA_FILE = r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json"
+DEPARTMENT_DATA_FILE = (
+    r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json"
+)
 
 
 class Controller:
@@ -30,20 +32,25 @@ class Controller:
             self.LOGGER.error(e)
             raise ValueError
 
-    # NOTE: this is long, might be able to make it async. 
+    # NOTE: this is long, might be able to make it async.
     def add_dashboard_to_department(self, departmentpk: int, dashboardpk: int):
-
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
-        for userpk in department_users:  # adding dashboard to all users in the department
+        for (
+            userpk
+        ) in department_users:  # adding dashboard to all users in the department
             mie_trak_funcs.add_dashboard_to_user(str(dashboardpk), userpk[0])
 
         dashboard_table = TableManger("Dashboard")
-        dashboard_description = dashboard_table.get("Description", DashboardPK=dashboardpk)
+        dashboard_description = dashboard_table.get(
+            "Description", DashboardPK=dashboardpk
+        )
 
         # add new dashboard to the value in cache
-        self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk] = dashboard_description[0][0] 
+        self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk] = (
+            dashboard_description[0][0]
+        )
 
         self.write_cache()
 
@@ -51,7 +58,9 @@ class Controller:
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
-        for userpk in department_users:  # adding dashboard to all users in the department
+        for (
+            userpk
+        ) in department_users:  # adding dashboard to all users in the department
             mie_trak_funcs.delete_dashboard_from_user(userpk[0], dashboardpk)
 
         del self.cache_dict[departmentpk]["accessed_dashboards"][dashboardpk]
@@ -62,13 +71,17 @@ class Controller:
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
-        for userpk in department_users:  # adding dashboard to all users in the department
+        for (
+            userpk
+        ) in department_users:  # adding dashboard to all users in the department
             mie_trak_funcs.add_quickview_to_user(quickviewpk, userpk[0])
 
         quickview_table = TableManger("QuickView")
         quickview_name = quickview_table.get("Description", QuickViewPK=quickviewpk)
 
-        self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk] = quickview_name
+        self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk] = (
+            quickview_name
+        )
 
         self.write_cache()
 
@@ -84,7 +97,7 @@ class Controller:
         self.write_cache()
 
 
-# NOTE: This is a script that was run initally to build a config file. 
+# NOTE: This is a script that was run initally to build a config file.
 # The config file is found in the data folder.
 
 cache = {}
@@ -98,14 +111,22 @@ def build_dashboard_access():
 
     user_table = TableManger("[User]")
     for departmentpk, name in department_results:
-        user_results = user_table.get("UserPK", "FirstName", "LastName", DepartmentFK=departmentpk, Enabled=1)
+        user_results = user_table.get(
+            "UserPK", "FirstName", "LastName", DepartmentFK=departmentpk, Enabled=1
+        )
         if user_results:
-            user_data = {userpk: [firstname, lastname] for userpk, firstname, lastname in user_results if user_results}
+            user_data = {
+                userpk: [firstname, lastname]
+                for userpk, firstname, lastname in user_results
+                if user_results
+            }
         else:
             user_data = None
-        cache[departmentpk] = {"name": name,
-                               "accessed_dashboards": dashboard_open_access,
-                               "users": user_data,}
+        cache[departmentpk] = {
+            "name": name,
+            "accessed_dashboards": dashboard_open_access,
+            "users": user_data,
+        }
     write_cache()
 
 
@@ -116,13 +137,21 @@ def get_dashboards_1_to_10() -> Dict[int, str]:
     if not results:
         raise ValueError("Mie Trak did not return anything")
 
-    return {pk: description for pk, description in results if description and description[0].isnumeric()}
+    return {
+        pk: description
+        for pk, description in results
+        if description and description[0].isnumeric()
+    }
 
 
 def write_cache():
-    with open(r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json", "w") as jsonfile:
+    with open(
+        r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json", "w"
+    ) as jsonfile:
         json.dump(cache, jsonfile)
 
     # TESTING:
-    with open(r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json", "r") as jsonfile:
+    with open(
+        r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json", "r"
+    ) as jsonfile:
         pprint(json.load(jsonfile))

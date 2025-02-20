@@ -63,11 +63,13 @@ class LoginWindow(tk.Toplevel):
             results = cursor.fetchall()
 
             if len(results) > 1:
-                messagebox.showwarning(title="Duplicates Found", message="The User table contains duplicate users with the same Code, please review")
+                messagebox.showwarning(
+                    title="Duplicates Found",
+                    message="The User table contains duplicate users with the same Code, please review",
+                )
 
             for _, mt_password in results:
                 if password.casefold() == mt_password.casefold():
                     return True
 
         return False
-
