@@ -28,7 +28,7 @@ class MainWindow(tk.Tk):
         self.withdraw()
 
         self.login_window = LoginWindow(change_login_status)
-        center_window(self.login_window, width=350, height=200)
+        center_window(self.login_window, width=350, height=275)
         self.login_window.focus()
         self.wait_window(self.login_window)
 
@@ -330,7 +330,7 @@ class MainWindow(tk.Tk):
 
             elif db_or_qv == "QuickViews":
                 for pk in dashboard_or_quickview_pks:
-                    self.controller.delete_quickview_from_user(department_pk, pk)
+                    self.controller.delete_quickview_from_department(department_pk, pk)
 
         else:
             # error

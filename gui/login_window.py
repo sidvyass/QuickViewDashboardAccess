@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from mt_api.connection import get_connection
-from pprint import pprint
 
 
 class LoginWindow(tk.Toplevel):
@@ -12,33 +11,49 @@ class LoginWindow(tk.Toplevel):
         self.login_success_callback = login_success_callback
 
         self.title("Login")
-        # self.geometry("350x200")
         self.resizable(False, False)
+        self.configure(bg="#f5f5f5")  # Light gray background for a modern UI
 
-        # Configure grid layout
-        self.columnconfigure(0, weight=1)  # Make single column expandable
+        # Configure main grid layout
+        self.columnconfigure(0, weight=1)  # Centering the frame
 
-        font_style = ("Arial", 12)
+        # Modern font styles
+        heading_font = ("Arial", 16, "bold")
+        label_font = ("Arial", 12)
+        entry_font = ("Arial", 12)
+
+        # Frame for better layout and padding
+        frame = ttk.Frame(self, padding=20)
+        frame.grid(row=0, column=0, sticky="nsew")
+
+        # Configure grid inside the frame
+        frame.columnconfigure(0, weight=1)  # Expands all elements in the column
+
+        # Login Heading
+        self.heading_label = ttk.Label(
+            frame, text="Login", font=heading_font, anchor="center"
+        )
+        self.heading_label.grid(row=0, column=0, pady=(5, 15), sticky="ew")
 
         # Username Label
-        self.username_label = ttk.Label(self, text="Username:", font=font_style)
-        self.username_label.grid(row=0, column=0, pady=(10, 2), padx=20, sticky="w")
+        self.username_label = ttk.Label(frame, text="Username:", font=label_font)
+        self.username_label.grid(row=1, column=0, sticky="w", pady=(5, 2))
 
         # Username Entry
-        self.username_entry = ttk.Entry(self, font=font_style)
-        self.username_entry.grid(row=1, column=0, pady=5, padx=20, sticky="ew")
+        self.username_entry = ttk.Entry(frame, font=entry_font)
+        self.username_entry.grid(row=2, column=0, sticky="ew", pady=5)
 
         # Password Label
-        self.password_label = ttk.Label(self, text="Password:", font=font_style)
-        self.password_label.grid(row=2, column=0, pady=(10, 2), padx=20, sticky="w")
+        self.password_label = ttk.Label(frame, text="Password:", font=label_font)
+        self.password_label.grid(row=3, column=0, sticky="w", pady=(5, 2))
 
         # Password Entry
-        self.password_entry = ttk.Entry(self, show="*", font=font_style)
-        self.password_entry.grid(row=3, column=0, pady=5, padx=20, sticky="ew")
+        self.password_entry = ttk.Entry(frame, show="*", font=entry_font)
+        self.password_entry.grid(row=4, column=0, sticky="ew", pady=5)
 
         # Login Button
-        self.login_button = ttk.Button(self, text="Login", command=self.authenticate)
-        self.login_button.grid(row=4, column=0, pady=15, padx=20, sticky="ew")
+        self.login_button = ttk.Button(frame, text="Login", command=self.authenticate)
+        self.login_button.grid(row=5, column=0, sticky="ew", pady=15)
 
     def authenticate(self):
         """Handles authentication logic."""
@@ -59,7 +74,6 @@ class LoginWindow(tk.Toplevel):
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(query, (username,))
-
             results = cursor.fetchall()
 
             if len(results) > 1:

@@ -1,6 +1,6 @@
 from mt_api.general_class import TableManger
 from mt_api.base_logger import getlogger
-from typing import Dict
+from typing import Dict, Tuple, List
 import json
 from pprint import pprint
 from scripts import mie_trak_funcs
@@ -79,18 +79,20 @@ class Controller:
         quickview_table = TableManger("QuickView")
         quickview_name = quickview_table.get("Description", QuickViewPK=quickviewpk)
 
+        self.cache_dict[departmentpk].setdefault("accessed_quickviews", {})
+
         self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk] = (
-            quickview_name
+            quickview_name[0][0]
         )
 
         self.write_cache()
 
-    def delete_quickview_from_user(self, departmentpk, quickviewpk: int) -> None:
+    def delete_quickview_from_department(self, departmentpk, quickviewpk: int) -> None:
         user_table = TableManger("[User]")
         department_users = user_table.get("UserPK", DepartmentFK=departmentpk)
 
         for userpk in department_users:
-            mie_trak_funcs.delete_quickview_from_user(userpk, quickviewpk)
+            mie_trak_funcs.delete_quickview_from_user(userpk[0], quickviewpk)
 
         del self.cache_dict[departmentpk]["accessed_quickviews"][quickviewpk]
 
