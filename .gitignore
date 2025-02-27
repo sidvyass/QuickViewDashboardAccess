@@ -1,5 +1,5 @@
 __pycache__/
-.ruffcache/
+.ruff_cache/
 data/
 logs/
 test_main.py

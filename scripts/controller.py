@@ -1,14 +1,19 @@
+import win32com.client
+import pythoncom
+import pywintypes
 from mt_api.general_class import TableManger
 from mt_api.base_logger import getlogger
 from typing import Dict, Tuple, List
 import json
 from pprint import pprint
 from scripts import mie_trak_funcs
+from mt_api.base_logger import getlogger
 
 
 DEPARTMENT_DATA_FILE = (
     r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json"
 )
+LOGGER = getlogger("Controller")
 
 
 class Controller:
@@ -156,4 +161,31 @@ def write_cache():
     with open(
         r"C:\PythonProjects\QuickViewDashboardAccess\data\department_data.json", "r"
     ) as jsonfile:
-        pprint(json.load(jsonfile))
+        LOGGER.debug(pprint(json.load(jsonfile)))
+
+
+def send_email(to: str, subject: str, body: str):
+    try:
+        pythoncom.CoInitialize()  # understand why.
+
+        try:
+            outlook = win32com.client.GetActiveObject("Outlook.Application")
+            LOGGER.info("Outlook application running...")
+        except pywintypes.com_error:
+            outlook = win32com.client.Dispatch(
+                "Outlook.Application"
+            )  # Start Outlook if not running
+
+        mail = outlook.CreateItem(0)  # 0 = MailItem
+        mail.Subject = subject
+        mail.To = to
+        mail.Body = body
+
+        try:
+            mail.Send()
+            LOGGER.info(f"Email Sent to - {to}")
+        except pywintypes.com_error as e:
+            LOGGER.critical(f"Failed to send email: {e}")
+
+    except Exception as e:
+        LOGGER.error(f"Unexpected error: {e}")

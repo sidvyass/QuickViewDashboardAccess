@@ -8,6 +8,8 @@ loguru = "*"
 pyodbc = "*"
 pyinstaller = "*"
 ruff = "*"
+pypiwin32 = "*"
+pywin32 = "*"
 
 [dev-packages]
 

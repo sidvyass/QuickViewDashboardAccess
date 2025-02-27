@@ -1,7 +1,31 @@
+from contextlib import closing
 from mt_api.general_class import TableManger
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Callable
 from mt_api.connection import get_connection
 from datetime import datetime
+from pprint import pprint
+from functools import wraps
+import pyodbc
+from mt_api.base_logger import getlogger
+import functools
+
+
+LOGGER = getlogger("MT Funcs")
+
+
+def with_db_conn(commit: bool = False):
+    def decorator(func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            LOGGER.debug("Running wrapper")
+            with get_connection() as conn:
+                with closing(conn.cursor()) as cursor:
+                    result = func(cursor, *args, **kwargs)
+                    return result
+
+        return wrapper
+
+    return decorator
 
 
 def get_all_quickviews():
@@ -166,38 +190,74 @@ def get_all_departments():
     return department_dict
 
 
-def delete_dashboard_from_user(userpk: int, dashboardpk: int) -> None:
+@with_db_conn(commit=True)
+def delete_dashboard_from_user(cursor, userpk: int, dashboardpk: int) -> None:
+    """
+    Revokes a user's access to a specific dashboard.
+
+    This function removes the association between a user and a dashboard in
+    the `DashboardUser` table, effectively revoking the user's access to it.
+
+    :param cursor: Database cursor passed by the decorator.
+    :type cursor: pyodbc.Cursor
+    :param userpk: Primary key of the user whose access is being revoked.
+    :type userpk: int
+    :param dashboardpk: Primary key of the dashboard to be removed from the user's access.
+    :type dashboardpk: int
+    :return: None
+    """
     query = "DELETE FROM DashboardUser WHERE UserFK = ? AND DashboardFK = ?;"
-
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, (userpk, dashboardpk))
+    cursor.execute(query, (userpk, dashboardpk))
 
 
-def delete_quickview_from_user(userpk: int, quickviewpk: int) -> None:
+@with_db_conn(commit=True)
+def delete_quickview_from_user(cursor, userpk: int, quickviewpk: int) -> None:
+    """
+    Revokes a user's access to a specific QuickView.
+
+    This function removes the association between a user and a QuickView in
+    the `QuickViewUser` table, preventing the user from accessing it.
+
+    :param cursor: Database cursor passed by the decorator.
+    :type cursor: pyodbc.Cursor
+    :param userpk: Primary key of the user whose QuickView access is being revoked.
+    :type userpk: int
+    :param quickviewpk: Primary key of the QuickView to be removed from the user's access.
+    :type quickviewpk: int
+    :return: None
+    """
     query = "DELETE FROM QuickViewUser WHERE UserFK = ? AND QuickViewFK = ?;"
-
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, (userpk, quickviewpk))
+    cursor.execute(query, (userpk, quickviewpk))
 
 
-def get_all_vacation_requests() -> List:
+@with_db_conn()
+def get_all_vacation_requests(cursor) -> List:
+    """
+    Fetch all pending vacation requests by joining the User table.
+
+    This function retrieves all vacation requests that are not yet approved,
+    including employee details such as first name and last name.
+
+    :param cursor: Database cursor passed by the decorator.
+    :type cursor: pyodbc.Cursor
+    :return: A formatted list of vacation request records.
+    :rtype: List
+    :raises ValueError: If no records are returned from the query.
+    """
     query = """
-            SELECT v.VacationRequestPK, u.firstname, u.lastname, v.FromDate, v.ToDate, v.StartTime, v.Hours, v.Reason, v.Approved
-            FROM VacationRequest v
-            JOIN [User] u ON v.EmployeeFK = u.UserPK 
-            WHERE v.Approved = 0
-            ORDER BY v.VacationRequestPK DESC;
-            """
+        SELECT v.VacationRequestPK, u.firstname, u.lastname, v.FromDate, v.ToDate, 
+               v.StartTime, v.Hours, v.Reason, v.Approved
+        FROM VacationRequest v
+        JOIN [User] u ON v.EmployeeFK = u.UserPK 
+        WHERE v.Approved = 0
+        ORDER BY v.VacationRequestPK DESC;
+    """
 
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query)
-
-        results = cursor.fetchall()
+    cursor.execute(query)
+    results = cursor.fetchall()
 
     if not results:
+        LOGGER.error(f"MT did not return anything for: \n{query}")
         raise ValueError("Mie Trak did not return anything. Check Query.")
 
     return _format_results(results)
@@ -241,7 +301,37 @@ def approve_vacation_request(request_pk: int):
         SET Approved = 1
         WHERE VacationRequestPK = ?
             """
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, (request_pk,))
+    except pyodbc.Error as e:
+        print(e)
+        raise pyodbc.DatabaseError(e)
+    except Exception as e:
+        raise (e)
 
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, (request_pk,))
+
+def get_user_email_from_vacation_pk(pk: int) -> str:
+    query = """
+        SELECT u.Email
+        FROM VacationRequest v
+        JOIN [User] u ON v.EmployeeFK = u.UserPK
+        WHERE v.VacationRequestPK = ?;
+        """
+
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, (pk,))
+            result = cursor.fetchone()
+            if not result:
+                LOGGER.error("Database did not return anything")
+                raise ValueError("Database did not return anything")
+
+            return result[0]
+    except pyodbc.Error as e:
+        LOGGER.error(e)
+        raise pyodbc.DatabaseError(e)
+    except Exception as e:
+        raise (e)

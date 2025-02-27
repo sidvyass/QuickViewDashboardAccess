@@ -1,7 +1,15 @@
 import tkinter as tk
+from tkinter import simpledialog
 from tkinter import ttk, messagebox
 from pprint import pprint
 from scripts import mie_trak_funcs
+from scripts.controller import send_email
+from scripts.request_history import RequestHistory
+from datetime import datetime
+from mt_api.base_logger import getlogger
+
+
+LOGGER = getlogger("VR Window")
 
 
 def center_window(window, width=1000, height=700):
@@ -49,23 +57,6 @@ class VacationRequestsWindow(tk.Toplevel):
             self.tree.heading(col, text=col)
             self.tree.column(col, anchor="center", width=100)
 
-        # Insert data into the table
-        for row in data:
-            self.tree.insert(
-                "",
-                "end",
-                values=(
-                    row["Vacation ID"],
-                    row["Employee"],
-                    row["From Date"],
-                    row["To Date"],
-                    row["Start Time"],
-                    row["Hours"],
-                    row["Reason"],
-                    row["Approved"],
-                ),
-            )
-
         self.tree.pack(padx=10, pady=10, fill="both", expand=True)
 
         # Buttons Frame
@@ -81,6 +72,19 @@ class VacationRequestsWindow(tk.Toplevel):
             button_frame, text="Disapprove", command=self.disapprove_request
         )
         self.disapprove_button.grid(row=0, column=1, padx=10)
+
+        self.history_button = ttk.Button(
+            button_frame, text="View Past Requests", command=self.open_history_popup
+        )
+        self.history_button.grid(row=0, column=2, padx=10)
+
+        self.history = RequestHistory()
+
+        self.refresh_data()
+
+    def open_history_popup(self):
+        """Opens the history popup window."""
+        HistoryPopup(self, self.history)
 
     def get_selected_request(self):
         """Retrieve selected row data from the table."""
@@ -111,27 +115,148 @@ class VacationRequestsWindow(tk.Toplevel):
         selected_indices = self.get_selected_request()
 
         if selected_indices:
-            to_approve_requests_pks = [
-                self.data[idx].get("Vacation ID") for idx in selected_indices
-            ]
+            to_approve_requests = [self.data[idx] for idx in selected_indices]
 
-            for pk in to_approve_requests_pks:
-                mie_trak_funcs.approve_vacation_request(pk)
+            for row in to_approve_requests:
+                # can we be sure that this exists?
+                mie_trak_funcs.approve_vacation_request(row.get("Vacation ID"))
+                row["Time Stamp"] = datetime.now().strftime("%Y-%m-%d %I:%M %p")
+                row["Status"] = "Approved"
+                self.history.approved_requests.append(row)
 
-        self.refresh_data()
+            self.history.write_cache()
+
+            self.refresh_data()
 
     def disapprove_request(self):
         """Disapprove selected vacation request."""
-        pass
-        # selected = self.get_selected_request()
-        # if selected:
-        #     messagebox.showinfo("Disapproved", f"Vacation Request {selected[0]} disapproved.")
+        selected_indices = self.get_selected_request()
+
+        if selected_indices:
+            to_disapprove_requests = [self.data[idx] for idx in selected_indices]
+
+            for row in to_disapprove_requests:
+                # block to get the user and send email
+                user_email = mie_trak_funcs.get_user_email_from_vacation_pk(
+                    row["Vacation ID"]
+                )
+                user_body = simpledialog.askstring(
+                    title="Disapprove Request", prompt="Add a note to send to the user"
+                )
+                if not user_body:
+                    user_body = "No Note attached"
+
+                send_email(to=user_email, subject="test", body=user_body)
+                # -----------------------
+
+                row["Time Stamp"] = datetime.now().strftime("%Y-%m-%d %I:%M %p")
+                row["Status"] = "Disapproved"
+                self.history.disapproved_requests.append(row)
+
+            self.history.write_cache()
+
+            self.refresh_data()
 
     def refresh_data(self):
         """Fetches and reloads the vacation requests data."""
 
         self.data = mie_trak_funcs.get_all_vacation_requests()
         self.tree.delete(*self.tree.get_children())
+
+        # NOTE: Our SQL query does not pull approved requests.
+        # When the user disapproves requests, the request needs to be removed from view
+        # the following code removes all the disapproved requests by checking the PK.
+
+        disapproved_vacation_pks = [
+            val.get("Vacation ID") for val in self.history.disapproved_requests
+        ]
+
+        new_data = []
+
+        for row in self.data:
+            if row["Vacation ID"] not in disapproved_vacation_pks:
+                self.tree.insert(
+                    "",
+                    "end",
+                    values=(
+                        row["Vacation ID"],
+                        row["Employee"],
+                        row["From Date"],
+                        row["To Date"],
+                        row["Start Time"],
+                        row["Hours"],
+                        row["Reason"],
+                        row["Approved"],
+                    ),
+                )
+                new_data.append(row)
+
+        # Since we are using this to get our selection, we update it everytime we refresh.
+        self.data = new_data  # NOTE: this is used in the select function.
+
+
+class HistoryPopup(tk.Toplevel):
+    def __init__(self, master, history: RequestHistory):
+        super().__init__(master)
+        self.title("Past Requests")
+        center_window(self, width=800, height=500)
+
+        self.heading_label = ttk.Label(
+            self, text="Past Requests", font=("Arial", 14, "bold")
+        )
+        self.heading_label.pack(pady=10)
+
+        self.filter_var = tk.StringVar()
+        self.filter_combobox = ttk.Combobox(
+            self,
+            textvariable=self.filter_var,
+            values=["All", "Approved", "Disapproved"],
+        )
+        self.filter_combobox.current(0)  # Default to "All"
+        self.filter_combobox.pack(pady=5)
+        self.filter_combobox.bind("<<ComboboxSelected>>", self.update_table)
+
+        columns = (
+            "Vacation ID",
+            "Employee",
+            "From Date",
+            "To Date",
+            "Status",
+            "Updated at",
+        )
+        self.tree = ttk.Treeview(self, columns=columns, show="headings", height=10)
+
+        for col in columns:
+            self.tree.heading(col, text=col)
+            self.tree.column(col, anchor="center", width=150)
+
+        self.tree.pack(padx=10, pady=10, fill="both", expand=True)
+
+        # Close Button
+        self.close_button = ttk.Button(self, text="Close", command=self.destroy)
+        self.close_button.pack(pady=10)
+
+        self.history = history
+
+        self.update_table()
+
+    def update_table(self, event=None):
+        """Updates the table based on the filter selection."""
+        selected_filter = self.filter_var.get()
+
+        if selected_filter == "Approved":
+            self.data = self.history.approved_requests
+
+        elif selected_filter == "Disapproved":
+            self.data = self.history.disapproved_requests
+
+        else:
+            self.data = (
+                self.history.approved_requests + self.history.disapproved_requests
+            )
+
+        self.tree.delete(*self.tree.get_children())
+
         for row in self.data:
             self.tree.insert(
                 "",
@@ -141,9 +266,7 @@ class VacationRequestsWindow(tk.Toplevel):
                     row["Employee"],
                     row["From Date"],
                     row["To Date"],
-                    row["Start Time"],
-                    row["Hours"],
-                    row["Reason"],
-                    row["Approved"],
+                    row["Status"],
+                    row["Time Stamp"],
                 ),
             )

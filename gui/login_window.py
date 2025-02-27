@@ -57,14 +57,19 @@ class LoginWindow(tk.Toplevel):
 
     def authenticate(self):
         """Handles authentication logic."""
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        # DEBUG:
+        self.login_success_callback()
+        self.destroy()
 
-        if self.verify_credentials(username, password):
-            self.login_success_callback()
-            self.destroy()  # Close login window
-        else:
-            messagebox.showerror("Login Failed", "Invalid username or password.")
+        # LIVE:
+        # username = self.username_entry.get()
+        # password = self.password_entry.get()
+        #
+        # if self.verify_credentials(username, password):
+        #     self.login_success_callback()
+        #     self.destroy()  # Close login window
+        # else:
+        #     messagebox.showerror("Login Failed", "Invalid username or password.")
 
     def verify_credentials(self, username, password) -> bool:
         """Replace with real authentication logic (e.g., database check)."""
