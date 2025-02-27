@@ -1,12 +1,11 @@
 import tkinter as tk
 from tkinter import simpledialog
 from tkinter import ttk, messagebox
-from pprint import pprint
+from datetime import datetime
 from scripts import mie_trak_funcs
 from scripts.controller import send_email
 from scripts.request_history import RequestHistory
-from datetime import datetime
-from mt_api.base_logger import getlogger
+from base_logger import getlogger
 
 
 LOGGER = getlogger("VR Window")

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from typing import Dict
+from gui.vacation_request import center_window
 from scripts import mie_trak_funcs
 
 
@@ -19,7 +20,7 @@ class AddView(tk.Toplevel):
         self.department_pk = department_pk
         self.user_pk = user_pk
         self.title(title)
-        self.geometry("500x350")  # Adjusted size for new UI
+        center_window(self, width=500, height=500)
         self.configure(bg="#f4f4f4")  # Light gray background
         self.resizable(True, True)
 

@@ -1,192 +1,286 @@
-from contextlib import closing
-from mt_api.general_class import TableManger
-from typing import Dict, List, Tuple, Any, Callable
-from mt_api.connection import get_connection
-from datetime import datetime
-from pprint import pprint
-from functools import wraps
 import pyodbc
-from mt_api.base_logger import getlogger
 import functools
+from datetime import datetime
+from contextlib import closing
+from typing import Dict, List, Callable
+from base_logger import getlogger
 
 
 LOGGER = getlogger("MT Funcs")
+_DSN_SANDBOX = (
+    "DRIVER={SQL Server};SERVER=ETZ-SQL;DATABASE=SANDBOX;Trusted_Connection=yes"
+)
+
+_DSN_LIVE = "DRIVER={SQL Server};SERVER=ETZ-SQL;DATABASE=ETEZAZIMIETrakLive;Trusted_Connection=yes"
 
 
 def with_db_conn(commit: bool = False):
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            LOGGER.debug("Running wrapper")
-            with get_connection() as conn:
-                with closing(conn.cursor()) as cursor:
-                    result = func(cursor, *args, **kwargs)
-                    return result
+            try:
+                with pyodbc.connect(_DSN_SANDBOX) as conn:
+                    with closing(conn.cursor()) as cursor:
+                        result = func(cursor, *args, **kwargs)
+
+                        if commit:
+                            conn.commit()
+
+                        return result
+            except pyodbc.Error as db_err:
+                LOGGER.error(f"Database Error in {func.__name__}: {db_err}")
+                raise
+            except Exception as e:
+                LOGGER.error(f"Unexpected Error in {func.__name__}: {e}")
+                raise
 
         return wrapper
 
     return decorator
 
 
-def get_all_quickviews():
-    query = "SELECT QuickviewPK, Description FROM QuickView"
-
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query)
-
-        results = cursor.fetchall()
-
-        return {
-            str(quickview_pk): description
-            for quickview_pk, description in results
-            if description
-        }
-
-
-def get_all_dashboards() -> Dict[str, str]:
+@with_db_conn()
+def get_all_quickviews(cursor) -> Dict[str, str]:
     """
-    Returns all dashboards from Mie Trak Dashboard Table.
+    Fetches all QuickViews.
+
+    Returns a dictionary mapping QuickView primary keys to their descriptions.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :return: Mapping of QuickViewPK to descriptions.
+    :rtype: Dict[str, str]
+    """
+    query = "SELECT QuickViewPK, Description FROM QuickView"
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    return {
+        str(quickview_pk): description
+        for quickview_pk, description in results
+        if description
+    }
+
+
+@with_db_conn()
+def get_all_dashboards(cursor) -> Dict[str, str]:
+    """
+    Fetches all dashboards.
+
+    Returns a dictionary mapping Dashboard primary keys to their descriptions.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :return: Mapping of DashboardPK to descriptions.
+    :rtype: Dict[str, str]
     """
     query = "SELECT DashboardPK, Description FROM Dashboard;"
+    cursor.execute(query)
+    results = cursor.fetchall()
 
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query)
-
-        results = cursor.fetchall()
-
-        return {
-            str(dashboard_pk): description
-            for dashboard_pk, description in results
-            if description
-        }
+    return {
+        str(dashboard_pk): description
+        for dashboard_pk, description in results
+        if description
+    }
 
 
-def get_user_quick_view(userpk) -> Dict[str, str]:
+@with_db_conn()
+def get_user_quick_view(cursor, userpk: int) -> Dict[str, str]:
     """
-    Returns all quickviews accessed by the User. Ref QuickViewUser Table in Mie Trak.
+    Fetches QuickViews assigned to a user.
 
-    :param userpk int: Primay Key from User Table.
-    :return: quickview_pk - description dict.
+    Returns a dictionary mapping QuickView primary keys to their descriptions.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param userpk: User's primary key.
+    :type userpk: int
+    :return: Mapping of QuickViewPK to descriptions.
+    :rtype: Dict[str, str]
     """
-
     query = """
         SELECT q.QuickViewPK, q.Description
         FROM QuickViewUser qu
         JOIN QuickView q ON qu.QuickViewFK = q.QuickViewPK
         WHERE qu.UserFK = ?;
-            """
-
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, (userpk,))
-
-        results = cursor.fetchall()
-
-        return {
-            str(quickview_pk): description
-            for quickview_pk, description in results
-            if description
-        }
-
-
-def get_user_dashboards(userpk: int) -> Dict[str, str]:
     """
-    Gets all dashboards the user has access to and returns a dict.
+    cursor.execute(query, (userpk,))
+    results = cursor.fetchall()
 
-    :param userpk int: primary key of the user.
-    :return: DashboardPK: Dashboard Description
+    return {
+        str(quickview_pk): description
+        for quickview_pk, description in results
+        if description
+    }
+
+
+@with_db_conn()
+def get_user_dashboards(cursor, userpk: int) -> Dict[str, str]:
     """
+    Fetches dashboards assigned to a user.
 
+    Returns a dictionary mapping Dashboard primary keys to their descriptions.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param userpk: User's primary key.
+    :type userpk: int
+    :return: Mapping of DashboardPK to descriptions.
+    :rtype: Dict[str, str]
+    """
     query = """
         SELECT d.DashboardPK, d.Description
         FROM DashboardUser du
         JOIN Dashboard d ON du.DashboardFK = d.DashboardPK
         WHERE du.UserFK = ?;
-            """
-
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(query, (userpk,))
-
-        results = cursor.fetchall()
-
-        return {
-            str(dashboard_pk): description
-            for dashboard_pk, description in results
-            if description
-        }
-
-
-def add_dashboard_to_user(dashboard_pk: str, user_fk: int):
     """
-    [TODO:description]
+    cursor.execute(query, (userpk,))
+    results = cursor.fetchall()
 
-    :param dashboard_pk: [TODO:description]
-    :param user_fk: [TODO:description]
+    return {
+        str(dashboard_pk): description
+        for dashboard_pk, description in results
+        if description
+    }
+
+
+@with_db_conn(commit=True)
+def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> int:
     """
+    Adds a dashboard-user relationship if it does not already exist.
 
-    dashboard_user_table = TableManger("DashboardUser")
+    Checks if an entry with the given `dashboard_pk` and `user_fk` exists in the
+    `DashboardUser` table. If it does, returns the existing primary key.
+    Otherwise, inserts a new record and returns the generated primary key.
 
-    pk = dashboard_user_table.get(
-        "DashboardUserPK", DashboardFK=dashboard_pk, UserFK=user_fk
-    )
-    if not pk:
-        info_dict = {"DashboardFK": dashboard_pk, "UserFK": user_fk}
-        pk = dashboard_user_table.insert(info_dict)
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param dashboard_pk: Primary key of the dashboard.
+    :type dashboard_pk: str
+    :param user_fk: Primary key of the user.
+    :type user_fk: int
+    :return: Primary key of the DashboardUser record.
+    :rtype: int
+    """
+    query_check = """
+        SELECT DashboardUserPK 
+        FROM DashboardUser 
+        WHERE DashboardFK = ? AND UserFK = ?;
+    """
+    cursor.execute(query_check, (dashboard_pk, user_fk))
+    result = cursor.fetchone()
 
-    return pk
+    if result:
+        return result[0]  # Return existing primary key if found
+
+    query_insert = """
+        INSERT INTO DashboardUser (DashboardFK, UserFK) 
+        VALUES (?, ?);
+    """
+    cursor.execute(query_insert, (dashboard_pk, user_fk))
+
+    cursor.execute("SELECT SCOPE_IDENTITY();")  # this does not work
+    new_pk = cursor.fetchone()[0]
+
+    return new_pk
 
 
-def add_quickview_to_user(quickview_pk, user_fk):
-    quickview_users_table = TableManger("QuickViewUser")
+@with_db_conn(commit=True)
+def add_quickview_to_user(cursor, quickview_pk: str, user_fk: int) -> int:
+    """
+    Adds a QuickView-user relationship if it does not already exist.
 
-    pk = quickview_users_table.get(
-        "QuickViewUserPK", UserFK=user_fk, QuickViewFK=quickview_pk
-    )
-    if not pk:
-        info_dict = {"QuickViewFK": quickview_pk, "UserFK": user_fk}
-        pk = quickview_users_table.insert(info_dict)
-    return pk
+    Checks if an entry with the given `quickview_pk` and `user_fk` exists in the
+    `QuickViewUser` table. If it exists, returns the existing primary key.
+    Otherwise, inserts a new record and returns the generated primary key.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param quickview_pk: Primary key of the QuickView.
+    :type quickview_pk: str
+    :param user_fk: Primary key of the user.
+    :type user_fk: int
+    :return: Primary key of the QuickViewUser record.
+    :rtype: int
+    """
+    query_check = """
+        SELECT QuickViewUserPK 
+        FROM QuickViewUser 
+        WHERE QuickViewFK = ? AND UserFK = ?;
+    """
+    cursor.execute(query_check, (quickview_pk, user_fk))
+    result = cursor.fetchone()
+
+    if result:
+        return result[0]
+
+    query_insert = """
+        INSERT INTO QuickViewUser (QuickViewFK, UserFK) 
+        VALUES (?, ?);
+    """
+    cursor.execute(query_insert, (quickview_pk, user_fk))
+
+    cursor.execute("SELECT SCOPE_IDENTITY();")  # Works in SQL Server
+    new_pk = cursor.fetchone()[0]
+
+    return new_pk
 
 
-def get_user_data(
-    enabled=False, not_active=False, departmentfk=None
-) -> Dict[int, List[str]]:
-    user_table = TableManger("[User]")
+@with_db_conn()
+def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:
+    """
+    Retrieves user data filtered by enabled status.
+
+    Returns a dictionary mapping user IDs to their first and last names.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param enabled: Whether to fetch only enabled users.
+    :type enabled: bool
+    :return: Mapping of UserPK to [FirstName, LastName].
+    :rtype: Dict[int, List[str]]
+    :raises ValueError: If no users are found.
+    """
+    query = "SELECT UserPK, FirstName, LastName FROM [User] WHERE Enabled=?"
 
     user_dict = {}
-    if enabled:
-        user = user_table.get("UserPK", "FirstName", "LastName", Enabled=1)
-    elif not_active:
-        user = user_table.get("UserPK", "FirstName", "LastName", Enabled=0)
-    elif departmentfk:
-        user = user_table.get(
-            "UserPK", "FirstName", "LastName", DepartmentFK=departmentfk, Enabled=1
-        )
-    else:
-        user = user_table.get("UserPK", "FirstName", "LastName")
+    cursor.execute(query, (1 if enabled else 0,))
+    users = cursor.fetchall()
 
-    if not user:
+    if not users:
         raise ValueError("Mie Trak did not return any values. Check last query.")
 
-    for x in user:
+    for x in users:
         if x:
             user_dict[x[0]] = [x[1], x[2]]
+
     return user_dict
 
 
-def get_all_departments():
-    """Returns all the Department data in the form of a dict with DepartmentPK as Key and Name as value"""
-    department_table = TableManger("Department")
+@with_db_conn()
+def get_all_departments(cursor) -> Dict[int, str]:
+    """
+    Fetches all departments.
+
+    Returns a dictionary mapping department IDs to department names.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :return: Mapping of DepartmentPK to department names.
+    :rtype: Dict[int, str]
+    """
+    query = "SELECT DepartmentPK, Name FROM Department"
+
+    cursor.execute(query)
+    departments = cursor.fetchall()
 
     department_dict = {}
-    departments = department_table.get("DepartmentPK", "Name")
     if departments:
         for x in departments:
             if x[1]:
                 department_dict[x[0]] = x[1]
+
     return department_dict
 
 
@@ -264,6 +358,17 @@ def get_all_vacation_requests(cursor) -> List:
 
 
 def _format_results(data):
+    """
+    Formats raw database query results into a structured list of dictionaries.
+
+    Each dictionary represents a vacation request with properly formatted dates,
+    times, and employee details.
+
+    :param data: List of tuples containing raw database results.
+    :type data: List[Tuple]
+    :return: A list of formatted vacation request records.
+    :rtype: List[Dict[str, Any]]
+    """
     formatted_data = []
     for row in data:
         (
@@ -295,43 +400,52 @@ def _format_results(data):
     return formatted_data
 
 
-def approve_vacation_request(request_pk: int):
+@with_db_conn(commit=True)
+def approve_vacation_request(cursor, request_pk: int) -> None:
+    """
+    Marks a vacation request as approved.
+
+    Updates the `Approved` field of the `VacationRequest` table for the given request.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param request_pk: Primary key of the vacation request to approve.
+    :type request_pk: int
+    :return: None
+    """
     query = """
         UPDATE VacationRequest
         SET Approved = 1
         WHERE VacationRequestPK = ?
-            """
-    try:
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (request_pk,))
-    except pyodbc.Error as e:
-        print(e)
-        raise pyodbc.DatabaseError(e)
-    except Exception as e:
-        raise (e)
+    """
+    cursor.execute(query, (request_pk,))
 
 
-def get_user_email_from_vacation_pk(pk: int) -> str:
+@with_db_conn()
+def get_user_email_from_vacation_pk(cursor, pk: int) -> str:
+    """
+    Retrieves the email of the user associated with a given vacation request.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param pk: Primary key of the vacation request.
+    :type pk: int
+    :return: Email address of the user.
+    :rtype: str
+    :raises ValueError: If no matching record is found.
+    """
     query = """
         SELECT u.Email
         FROM VacationRequest v
         JOIN [User] u ON v.EmployeeFK = u.UserPK
         WHERE v.VacationRequestPK = ?;
-        """
+    """
 
-    try:
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, (pk,))
-            result = cursor.fetchone()
-            if not result:
-                LOGGER.error("Database did not return anything")
-                raise ValueError("Database did not return anything")
+    cursor.execute(query, (pk,))
+    result = cursor.fetchone()
 
-            return result[0]
-    except pyodbc.Error as e:
-        LOGGER.error(e)
-        raise pyodbc.DatabaseError(e)
-    except Exception as e:
-        raise (e)
+    if not result:
+        LOGGER.error("Database did not return anything")
+        raise ValueError("Database did not return anything")
+
+    return result[0]

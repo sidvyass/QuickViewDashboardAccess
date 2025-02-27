@@ -7,9 +7,11 @@ from gui.add_popup import AddView
 from gui.login_window import LoginWindow
 from scripts import mie_trak_funcs
 from tkinter import messagebox
+from base_logger import getlogger
 
 
 LOGIN_STATUS = False
+LOGGER = getlogger("Main Window")
 
 
 def change_login_status():
@@ -152,7 +154,7 @@ class MainWindow(tk.Tk):
             # change the heading to user
             self.users_label.config(text="User")
 
-            self.user_data = mie_trak_funcs.get_user_data(enabled=True)
+            self.user_data = mie_trak_funcs.get_user_data()
             for _, user_info in self.user_data.items():
                 self.user_department_listbox.insert(
                     tk.END, f"{user_info[0]} {user_info[1]}"
@@ -222,9 +224,7 @@ class MainWindow(tk.Tk):
     def add_item(self):
         # LIVE:
         user_or_department_type = self.combo1.get()
-        department_or_user_selection_index = (
-            self.user_department_listbox.curselection()[0]
-        )
+        department_or_user_selection_index = self.user_department_listbox.curselection()
 
         if not user_or_department_type or not department_or_user_selection_index:
             messagebox.showerror(
@@ -232,6 +232,8 @@ class MainWindow(tk.Tk):
                 message="Please select User/Department first and then make a selection from the list before clicking add.",
             )
             return
+
+        department_or_user_selection_index = department_or_user_selection_index[0]
 
         if user_or_department_type == "User":
             user_pk = list(self.user_data.keys())[department_or_user_selection_index]
