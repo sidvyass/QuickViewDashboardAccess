@@ -2,7 +2,7 @@ import pyodbc
 import functools
 from datetime import datetime
 from contextlib import closing
-from typing import Dict, List, Callable
+from typing import Dict, List, Callable, Tuple
 from base_logger import getlogger
 
 
@@ -10,8 +10,9 @@ LOGGER = getlogger("MT Funcs")
 _DSN_SANDBOX = (
     "DRIVER={SQL Server};SERVER=ETZ-SQL;DATABASE=SANDBOX;Trusted_Connection=yes"
 )
-
 _DSN_LIVE = "DRIVER={SQL Server};SERVER=ETZ-SQL;DATABASE=ETEZAZIMIETrakLive;Trusted_Connection=yes"
+
+DSN = _DSN_SANDBOX
 
 
 def with_db_conn(commit: bool = False):
@@ -19,7 +20,7 @@ def with_db_conn(commit: bool = False):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
-                with pyodbc.connect(_DSN_SANDBOX) as conn:
+                with pyodbc.connect(DSN) as conn:
                     with closing(conn.cursor()) as cursor:
                         result = func(cursor, *args, **kwargs)
 
@@ -27,6 +28,9 @@ def with_db_conn(commit: bool = False):
                             conn.commit()
 
                         return result
+            except pyodbc.OperationalError as vpn_err:
+                LOGGER.error(f"VPN not connected. Could not connect.\n{vpn_err}")
+                raise
             except pyodbc.Error as db_err:
                 LOGGER.error(f"Database Error in {func.__name__}: {db_err}")
                 raise
@@ -146,7 +150,7 @@ def get_user_dashboards(cursor, userpk: int) -> Dict[str, str]:
 
 
 @with_db_conn(commit=True)
-def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> int:
+def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> None:
     """
     Adds a dashboard-user relationship if it does not already exist.
 
@@ -179,11 +183,6 @@ def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> int:
         VALUES (?, ?);
     """
     cursor.execute(query_insert, (dashboard_pk, user_fk))
-
-    cursor.execute("SELECT SCOPE_IDENTITY();")  # this does not work
-    new_pk = cursor.fetchone()[0]
-
-    return new_pk
 
 
 @with_db_conn(commit=True)
@@ -259,6 +258,26 @@ def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:
 
 
 @with_db_conn()
+def get_user_first_last(cursor, userpk: int) -> List[str]:
+    """
+    Retrieves the first and last name of a user given their primary key.
+
+    :param cursor: A database cursor used to execute the query.
+    :param userpk: The primary key of the user.
+    :return: A list containing the user's first name and last name.
+    :raises ValueError: If no user with the given primary key is found.
+    """
+    query = "SELECT FirstName, LastName FROM [User] WHERE UserPK = ?"
+    cursor.execute(query, (userpk,))
+    result = cursor.fetchone()
+
+    if not result:
+        raise ValueError("Database did not return any value")
+
+    return [result[0], result[1]]
+
+
+@with_db_conn()
 def get_all_departments(cursor) -> Dict[int, str]:
     """
     Fetches all departments.
@@ -282,6 +301,27 @@ def get_all_departments(cursor) -> Dict[int, str]:
                 department_dict[x[0]] = x[1]
 
     return department_dict
+
+
+@with_db_conn()
+def get_department_name(cursor, departmentpk: int) -> str:
+    """
+    Retrieves the name of a department given its primary key.
+
+    :param cursor: A database cursor used to execute the query.
+    :param departmentpk: The primary key of the department.
+    :return: The name of the department.
+    :raises ValueError: If no department with the given primary key is found.
+    """
+    query = "SELECT Name FROM Department WHERE DepartmentPK = ?"
+
+    cursor.execute(query, (departmentpk,))
+    result = cursor.fetchone()
+
+    if not result:
+        raise ValueError("Database did not return any value")
+
+    return result[0]
 
 
 @with_db_conn(commit=True)
@@ -449,3 +489,19 @@ def get_user_email_from_vacation_pk(cursor, pk: int) -> str:
         raise ValueError("Database did not return anything")
 
     return result[0]
+
+
+@with_db_conn()
+def login_user(cursor, username: str, password: str) -> bool:
+    query = "SELECT Code, Password FROM [User] WHERE Code = ?"
+    cursor.execute(query, (username,))
+    results = cursor.fetchall()
+
+    if not results:
+        raise ValueError("Database did not return anything")
+
+    for _, mt_password in results:
+        if password.casefold() == mt_password.casefold():
+            return True
+
+    return False
