@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from scripts import mie_trak_funcs
 from base_logger import getlogger
+from gui.utils import gui_error_handler
+from scripts import mie_trak_funcs
+
 
 LOGGER = getlogger("Login")
 
@@ -46,16 +48,28 @@ class LoginWindow(tk.Toplevel):
         self.login_button = ttk.Button(frame, text="Login", command=self.authenticate)
         self.login_button.grid(row=5, column=0, sticky="ew", pady=15)
 
+    @gui_error_handler
     def authenticate(self):
         """Handles authentication logic."""
-        self.login_success_callback()
-        self.destroy()
-        # username = self.username_entry.get()
-        # password = self.password_entry.get()
-        #
-        # if mie_trak_funcs.login_user(username, password):
-        #     self.login_success_callback()
-        #     LOGGER.info(f"User: {username} logged in.")
-        #     self.destroy()
-        # else:
-        #     messagebox.showerror("Login Failed", "Invalid username or password.")
+        # # DEBUG:
+        # self.login_success_callback()
+        # self.destroy()
+
+        # LIVE:
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        if not username or not password:
+            messagebox.showerror(
+                title="Invalid Username/Password",
+                message="Please enter a valid username and password.",
+            )
+            return
+
+        if mie_trak_funcs.login_user(username, password):
+            self.login_success_callback()
+            LOGGER.info(f"User: {username} logged in.")
+            self.destroy()
+
+        else:
+            messagebox.showerror("Login Failed", "Invalid username or password.")

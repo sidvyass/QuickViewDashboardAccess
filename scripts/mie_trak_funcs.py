@@ -2,7 +2,7 @@ import pyodbc
 import functools
 from datetime import datetime
 from contextlib import closing
-from typing import Dict, List, Callable, Tuple
+from typing import Dict, List, Callable
 from base_logger import getlogger
 
 
@@ -16,6 +16,19 @@ DSN = _DSN_SANDBOX
 
 
 def with_db_conn(commit: bool = False):
+    """
+    A decorator to manage database connections using pyodbc.
+
+    This decorator automatically handles connection management, commits transactions
+    if specified, and properly closes the cursor and connection. If an error occurs,
+    it logs the error and propagates the exception to be handled at a higher level.
+
+    :param commit: If True, commits the transaction after function execution.
+    :type commit: bool
+    :return: A wrapped function with database connection handling.
+    :rtype: Callable
+    """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -29,14 +42,19 @@ def with_db_conn(commit: bool = False):
 
                         return result
             except pyodbc.OperationalError as vpn_err:
-                LOGGER.error(f"VPN not connected. Could not connect.\n{vpn_err}")
-                raise
+                error_msg = (
+                    f"VPN not connected. Could not connect to the database.\n{vpn_err}"
+                )
+                LOGGER.error(error_msg)
+                raise RuntimeError(error_msg)
             except pyodbc.Error as db_err:
-                LOGGER.error(f"Database Error in {func.__name__}: {db_err}")
-                raise
+                error_msg = f"Database Error in {func.__name__}: {db_err}"
+                LOGGER.error(error_msg)
+                raise RuntimeError(error_msg)
             except Exception as e:
-                LOGGER.error(f"Unexpected Error in {func.__name__}: {e}")
-                raise
+                error_msg = f"Unexpected Error in {func.__name__}: {e}"
+                LOGGER.error(error_msg)
+                raise RuntimeError(error_msg)
 
         return wrapper
 

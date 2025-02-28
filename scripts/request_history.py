@@ -27,11 +27,3 @@ class RequestHistory:
             r"C:\PythonProjects\QuickViewDashboardAccess\data\past_requests.json", "w"
         ) as jsonfile:
             json.dump(data, jsonfile, indent=4)
-
-    # NOTE: Disapprove does not do anything inside Mie Trak.
-    # So we just update our cache to never accept duplicate keys.
-    def append_requests(self, value: Dict, approved=False):
-        l = self.approved_requests if approved else self.disapproved_requests
-
-        keys = [val.get("Vacation ID", "") for val in l]
-        id = value.get("Vacation ID", "")  # id to add

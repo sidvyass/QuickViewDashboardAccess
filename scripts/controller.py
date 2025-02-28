@@ -60,8 +60,6 @@ class Controller:
         """
         Adds a dashboard to all users in a department.
 
-        :param cursor: Database cursor.
-        :type cursor: pyodbc.Cursor
         :param departmentpk: Primary key of the department.
         :type departmentpk: int
         :param dashboardpk: Primary key of the dashboard.
@@ -89,8 +87,6 @@ class Controller:
         """
         Removes a dashboard from all users in a department.
 
-        :param cursor: Database cursor.
-        :type cursor: pyodbc.Cursor
         :param departmentpk: Primary key of the department.
         :type departmentpk: int
         :param dashboardpk: Primary key of the dashboard.
@@ -113,8 +109,6 @@ class Controller:
         """
         Adds a QuickView to all users in a department.
 
-        :param cursor: Database cursor.
-        :type cursor: pyodbc.Cursor
         :param departmentpk: Primary key of the department.
         :type departmentpk: int
         :param quickviewpk: Primary key of the QuickView.
@@ -141,7 +135,7 @@ class Controller:
             self.write_cache()
 
     def delete_quickview_from_department(
-        self, cursor, departmentpk: int, quickviewpk: int
+        self, departmentpk: int, quickviewpk: int
     ) -> None:
         """
         Removes a QuickView from all users in a department.
@@ -156,7 +150,7 @@ class Controller:
         department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
 
         for userpk in department_users:
-            mie_trak_funcs.delete_quickview_from_user(cursor, userpk, quickviewpk)
+            mie_trak_funcs.delete_quickview_from_user(userpk, quickviewpk)
 
         self.cache_dict[str(departmentpk)]["accessed_quickviews"].pop(
             str(quickviewpk), None
@@ -190,3 +184,14 @@ def send_email(to: str, subject: str, body: str):
 
     except Exception as e:
         LOGGER.error(f"Unexpected error: {e}")
+
+
+def center_window(window, width=1000, height=700):
+    """Centers a Tkinter window on the screen."""
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    x = (screen_width // 2) - (width // 2)
+    y = (screen_height // 2) - (height // 2)
+
+    window.geometry(f"{width}x{height}+{x}+{y}")

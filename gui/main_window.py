@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
 from typing import Dict
+from gui.utils import gui_error_handler
 from scripts.controller import Controller
-from gui.vacation_request import VacationRequestsWindow, center_window
+from gui.vacation_request import VacationRequestsWindow
 from gui.add_popup import AddView
 from gui.login_window import LoginWindow
+from gui.utils import center_window
 from scripts import mie_trak_funcs
 from tkinter import messagebox
 from base_logger import getlogger
@@ -20,138 +22,154 @@ def change_login_status():
 
 
 class MainWindow(tk.Tk):
+    """Main application window for a simple Tkinter GUI."""
+
     def __init__(self):
+        """
+        Initializes the main window of the application.
+
+        If the user is not logged in, a login window is displayed, and the main window remains hidden.
+        If login is successful, the main window is configured with various UI components.
+        """
         super().__init__()
         self.title("Simple Tkinter GUI")
         self.configure(bg="#f4f4f4")  # Light grey background
-        # self.geometry("600x500")  # Increased window size
         center_window(self)
 
-        self.withdraw()
+        self.withdraw()  # Hide the main window initially
 
+        # Display the login window
         self.login_window = LoginWindow(change_login_status)
         center_window(self.login_window, width=350, height=275)
         self.login_window.focus()
-        self.wait_window(self.login_window)
+        self.wait_window(self.login_window)  # Wait until the login window is closed
 
         if LOGIN_STATUS:
-            self.deiconify()
-
-            # Configure grid layout to be flexible
-            self.columnconfigure(0, weight=1)
-            self.columnconfigure(1, weight=1)
-            self.rowconfigure(1, weight=1)
-            self.rowconfigure(2, weight=0)
-
-            # Define styles
-            style = ttk.Style()
-            style.configure("TButton", padding=6, relief="flat", font=("Arial", 10))
-            style.configure("TLabel", background="#f4f4f4", font=("Arial", 12))
-            style.configure("TCombobox", padding=5)
-
-            # Main Frame
-            frame = tk.Frame(self, bg="#ffffff", padx=20, pady=20, relief="ridge", bd=2)
-            frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=15, pady=15)
-
-            # Heading
-            self.heading = tk.Label(
-                frame, text="Doc Control", font=("Arial", 16, "bold"), bg="#ffffff"
-            )
-            self.heading.pack(pady=10)
-
-            # Subframes for alignment
-            self.subframe1 = tk.Frame(self, bg="#f4f4f4")
-            self.subframe1.grid(row=1, column=0, padx=15, pady=5, sticky="nsew")
-            self.subframe1.columnconfigure(0, weight=1)
-            self.subframe1.rowconfigure(1, weight=1)
-
-            self.subframe2 = tk.Frame(self, bg="#f4f4f4")
-            self.subframe2.grid(row=1, column=1, padx=15, pady=5, sticky="nsew")
-            self.subframe2.columnconfigure(0, weight=1)
-            self.subframe2.rowconfigure(1, weight=1)
-
-            # Subheadings
-            self.users_label = ttk.Label(
-                self.subframe1, text="Users", font=("Arial", 12, "bold")
-            )
-            self.users_label.pack()
-
-            self.dashboards_label = ttk.Label(
-                self.subframe2, text="Accessed Dashboards", font=("Arial", 12, "bold")
-            )
-            self.dashboards_label.pack()
-
-            # Comboboxes
-            self.combo1 = ttk.Combobox(
-                self.subframe1, values=["User", "Department"], state="readonly"
-            )
-            self.combo1.pack(pady=5)
-            self.combo1.bind(
-                "<<ComboboxSelected>>", self.update_with_users_or_department
-            )
-
-            self.combo2 = ttk.Combobox(
-                self.subframe2, values=["Dashboards", "QuickViews"], state="readonly"
-            )
-            self.combo2.pack(pady=5)
-            self.combo2.bind(
-                "<<ComboboxSelected>>", self.show_accessed_dashboards_quickview
-            )
-            self.combo2.set("Dashboards")
-
-            # Listboxes
-            self.user_department_listbox = tk.Listbox(
-                self.subframe1, exportselection=False, relief="solid", bd=1
-            )
-            self.user_department_listbox.pack(pady=5, fill="both", expand=True)
-            self.user_department_listbox.bind(
-                "<<ListboxSelect>>", self.show_accessed_dashboards_quickview
-            )
-
-            self.listbox2 = tk.Listbox(
-                self.subframe2, relief="solid", bd=1, selectmode="multiple"
-            )
-            self.listbox2.pack(pady=5, fill="both", expand=True)
-
-            # Buttons
-            self.button_frame = tk.Frame(self, bg="#f4f4f4")
-            self.button_frame.grid(
-                row=2, column=0, columnspan=1, pady=10, sticky="nsew"
-            )
-
-            self.vacation_request_button = ttk.Button(
-                self.button_frame,
-                text="Vacation Requests",
-                command=self.open_vacation_request_tab,
-            )
-            self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
-
-            # NOTE: I switched the frame so that the user can understand what add/delete is doing.
-            self.vac_req_btn_frame = tk.Frame(self, bg="#f4f4f4")
-            self.vac_req_btn_frame.grid(
-                row=2, column=1, columnspan=1, pady=10, sticky="nsew"
-            )
-
-            self.add_button = ttk.Button(
-                self.vac_req_btn_frame, text="Add", command=self.add_item
-            )
-            self.add_button.grid(row=0, column=0, padx=10)
-
-            self.delete_button = ttk.Button(
-                self.vac_req_btn_frame, text="Delete", command=self.delete_item
-            )
-            self.delete_button.grid(row=0, column=1, padx=10)
-
-            self.controller = Controller()
+            self.deiconify()  # Show the main window if login was successful
+            self._configure_layout()
+            self._create_widgets()
+            self.controller = Controller()  # Controller for managing app logic
         else:
-            self.destroy()
+            self.destroy()  # Close the application if login fails
 
+    def _configure_layout(self):
+        """Configures the grid layout and styles for the main window."""
+        # Configure grid layout
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=0)
+
+        # Configure styles for widgets
+        style = ttk.Style()
+        style.configure("TButton", padding=6, relief="flat", font=("Arial", 10))
+        style.configure("TLabel", background="#f4f4f4", font=("Arial", 12))
+        style.configure("TCombobox", padding=5)
+
+    def _create_widgets(self):
+        """Creates and places all widgets in the main window."""
+
+        # Header frame
+        header_frame = tk.Frame(
+            self, bg="#ffffff", padx=20, pady=20, relief="ridge", bd=2
+        )
+        header_frame.grid(
+            row=0, column=0, columnspan=2, sticky="nsew", padx=15, pady=15
+        )
+
+        self.heading = tk.Label(
+            header_frame, text="Doc Control", font=("Arial", 16, "bold"), bg="#ffffff"
+        )
+        self.heading.pack(pady=10)
+
+        # User selection frame
+        self.subframe1 = tk.Frame(self, bg="#f4f4f4")
+        self.subframe1.grid(row=1, column=0, padx=15, pady=5, sticky="nsew")
+        self.subframe1.columnconfigure(0, weight=1)
+        self.subframe1.rowconfigure(1, weight=1)
+
+        # Dashboard access frame
+        self.subframe2 = tk.Frame(self, bg="#f4f4f4")
+        self.subframe2.grid(row=1, column=1, padx=15, pady=5, sticky="nsew")
+        self.subframe2.columnconfigure(0, weight=1)
+        self.subframe2.rowconfigure(1, weight=1)
+
+        # Labels
+        self.users_label = ttk.Label(
+            self.subframe1, text="Users", font=("Arial", 12, "bold")
+        )
+        self.users_label.pack()
+
+        self.dashboards_label = ttk.Label(
+            self.subframe2, text="Accessed Dashboards", font=("Arial", 12, "bold")
+        )
+        self.dashboards_label.pack()
+
+        # Dropdown selection for users or departments
+        self.combo1 = ttk.Combobox(
+            self.subframe1, values=["User", "Department"], state="readonly"
+        )
+        self.combo1.pack(pady=5)
+        self.combo1.bind("<<ComboboxSelected>>", self.update_with_users_or_department)
+
+        # Dropdown selection for dashboards or quick views
+        self.combo2 = ttk.Combobox(
+            self.subframe2, values=["Dashboards", "QuickViews"], state="readonly"
+        )
+        self.combo2.pack(pady=5)
+        self.combo2.bind(
+            "<<ComboboxSelected>>", self.show_accessed_dashboards_quickview
+        )
+        self.combo2.set("Dashboards")  # Default selection
+
+        # Listbox for users or departments
+        self.user_department_listbox = tk.Listbox(
+            self.subframe1, exportselection=False, relief="solid", bd=1
+        )
+        self.user_department_listbox.pack(pady=5, fill="both", expand=True)
+        self.user_department_listbox.bind(
+            "<<ListboxSelect>>", self.show_accessed_dashboards_quickview
+        )
+
+        # Listbox for dashboards or quick views
+        self.listbox2 = tk.Listbox(
+            self.subframe2, relief="solid", bd=1, selectmode="multiple"
+        )
+        self.listbox2.pack(pady=5, fill="both", expand=True)
+
+        # Button frame for vacation requests
+        self.button_frame = tk.Frame(self, bg="#f4f4f4")
+        self.button_frame.grid(row=2, column=0, columnspan=1, pady=10, sticky="nsew")
+
+        self.vacation_request_button = ttk.Button(
+            self.button_frame,
+            text="Vacation Requests",
+            command=self.open_vacation_request_tab,
+        )
+        self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
+
+        # Button frame for adding/deleting items
+        self.vac_req_btn_frame = tk.Frame(self, bg="#f4f4f4")
+        self.vac_req_btn_frame.grid(
+            row=2, column=1, columnspan=1, pady=10, sticky="nsew"
+        )
+
+        self.add_button = ttk.Button(
+            self.vac_req_btn_frame, text="Add", command=self.add_item
+        )
+        self.add_button.grid(row=0, column=0, padx=10)
+
+        self.delete_button = ttk.Button(
+            self.vac_req_btn_frame, text="Delete", command=self.delete_item
+        )
+        self.delete_button.grid(row=0, column=1, padx=10)
+
+    @gui_error_handler
     def update_with_users_or_department(self, event):
         self.user_department_listbox.delete(0, tk.END)
         selection = self.combo1.get()
 
         if selection == "User":
-            # change the heading to user
             self.users_label.config(text="User")
 
             self.user_data = mie_trak_funcs.get_user_data()
@@ -160,13 +178,13 @@ class MainWindow(tk.Tk):
                     tk.END, f"{user_info[0]} {user_info[1]}"
                 )
         elif selection == "Department":
-            # change the heading to department
             self.users_label.config(text="Department")
 
             self.department_data = mie_trak_funcs.get_all_departments()
             for _, name in self.department_data.items():
                 self.user_department_listbox.insert(tk.END, f"{name}")
 
+    @gui_error_handler
     def show_accessed_dashboards_quickview(self, event):
         self.listbox2.delete(0, tk.END)
 
@@ -181,7 +199,6 @@ class MainWindow(tk.Tk):
         db_or_qv: str = self.combo2.get()
         user_or_department = "User" if self.combo1.get() == "User" else "Department"
 
-        # update heading with selected type (Dashboards or Quickview) from comboboxo
         self.dashboards_label.config(text=db_or_qv)
 
         if user_or_department == "User":
@@ -222,7 +239,6 @@ class MainWindow(tk.Tk):
             self.listbox2.insert(tk.END, "N/A")
 
     def add_item(self):
-        # LIVE:
         user_or_department_type = self.combo1.get()
         department_or_user_selection_index = self.user_department_listbox.curselection()
 
@@ -270,10 +286,7 @@ class MainWindow(tk.Tk):
                 department_pk=department_pk,
             )
 
-        else:
-            # display error to the user
-            pass
-
+    @gui_error_handler
     def delete_item(self):
         user_or_department_type = self.combo1.get()
         department_or_user_selection_index = self.user_department_listbox.curselection()
@@ -301,7 +314,6 @@ class MainWindow(tk.Tk):
         ]
 
         if user_or_department_type == "User":
-            print("Deleting from user...")
             user_pk = list(self.user_data.keys())[department_or_user_selection_index[0]]
 
             if db_or_qv == "Dashboards":
@@ -317,8 +329,6 @@ class MainWindow(tk.Tk):
                     mie_trak_funcs.delete_quickview_from_user(user_pk, quickview_pk)
 
         elif user_or_department_type == "Department":
-            print("Deleting from department...")
-
             department_data_dict = (
                 self.controller.get_department_information_from_cache()
             )
@@ -334,13 +344,8 @@ class MainWindow(tk.Tk):
                 for pk in dashboard_or_quickview_pks:
                     self.controller.delete_quickview_from_department(department_pk, pk)
 
-        else:
-            # error
-            pass
-
-        self.show_accessed_dashboards_quickview(
-            None
-        )  # refresh by fetching data from Mie Trak again
+        # refresh data
+        self.show_accessed_dashboards_quickview(None)
 
     def open_vacation_request_tab(self):
         data = mie_trak_funcs.get_all_vacation_requests()
