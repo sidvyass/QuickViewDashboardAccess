@@ -90,6 +90,28 @@ def get_all_dashboards(cursor) -> Dict[str, str]:
 
 
 @with_db_conn()
+def get_entry_from_table(cursor, table_name: str, pk: int) -> Dict[str, str]:
+    """
+    Retrieves dashboard information as a dictionary.
+
+    :param cursor: A database cursor used to execute the query.
+    :param dashboardpk: The primary key of the dashboard.
+    :return: A dictionary containing dashboard information with column names as keys.
+    :raises ValueError: If no dashboard with the given primary key is found.
+    """
+    query = f"SELECT * FROM {table_name} WHERE {table_name}PK = ?"
+    cursor.execute(query, (pk,))
+    row = cursor.fetchone()
+
+    if not row:
+        raise ValueError(f"No entry found in {table_name}PK:  {pk}")
+
+    column_names = [desc[0] for desc in cursor.description]
+
+    return dict(zip(column_names, row))
+
+
+@with_db_conn()
 def get_user_quick_view(cursor, userpk: int) -> Dict[str, str]:
     """
     Fetches QuickViews assigned to a user.
@@ -255,6 +277,20 @@ def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:
             user_dict[x[0]] = [x[1], x[2]]
 
     return user_dict
+
+
+@with_db_conn()
+def get_users_in_department(cursor, departmentpk: int) -> Dict[int, tuple[str, str]]:
+    query_users = (
+        "SELECT UserPK, FirstName, LastName FROM [User] WHERE DepartmentFK = ?"
+    )
+    cursor.execute(query_users, (departmentpk,))
+    department_users = cursor.fetchall()
+
+    return {
+        userpk: (firstname, lastname)
+        for userpk, firstname, lastname in department_users
+    }
 
 
 @with_db_conn()

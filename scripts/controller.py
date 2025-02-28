@@ -1,13 +1,9 @@
 import win32com.client
 import pythoncom
 import pywintypes
-import functools
-import pyodbc
-from contextlib import closing
-from typing import Dict, Callable
+from typing import Dict
 import json
 from scripts import mie_trak_funcs
-from scripts.mie_trak_funcs import DSN
 from base_logger import getlogger
 
 
@@ -18,54 +14,49 @@ LOGGER = getlogger("Controller")
 
 
 class Controller:
+    """
+    Manages department-related data, including caching and dashboard/QuickView assignments.
+
+    This class provides functionality to read and write cached department information,
+    assign and remove dashboards and QuickViews for all users in a department, and
+    update the cache accordingly.
+    """
+
     def __init__(self) -> None:
+        """
+        Initializes the Controller and loads department information from the cache.
+        """
         self.cache_dict = self.get_department_information_from_cache()
 
-    @staticmethod
-    def with_db_conn(commit: bool = False):
-        def decorator(func: Callable) -> Callable:
-            @functools.wraps(func)
-            def wrapper(self, *args, **kwargs):
-                try:
-                    with pyodbc.connect(DSN) as conn:
-                        with closing(conn.cursor()) as cursor:
-                            result = func(self, cursor, *args, **kwargs)
-                            if commit:
-                                conn.commit()
-                            return result
-                except pyodbc.OperationalError as vpn_err:
-                    LOGGER.error(f"VPN not connected. Could not connect.\n{vpn_err}")
-                    raise
-                except pyodbc.Error as db_err:
-                    LOGGER.error(f"Database Error in {func.__name__}: {db_err}")
-                    raise
-                except Exception as e:
-                    LOGGER.error(f"Unexpected Error in {func.__name__}: {e}")
-                    raise
-
-            return wrapper
-
-        return decorator
-
     def get_department_information_from_cache(self) -> Dict:
+        """
+        Loads department information from a cached JSON file.
+
+        :return: A dictionary containing department information.
+        :raises ValueError: If the cache file cannot be read.
+        """
         try:
             with open(DEPARTMENT_DATA_FILE, "r") as jsonfile:
                 return json.load(jsonfile)
         except Exception as e:
-            LOGGER.error(e)
+            LOGGER.critical(e)
             raise ValueError
 
     def write_cache(self) -> None:
+        """
+        Writes the current cache data to a JSON file.
+
+        :raises ValueError: If the cache file cannot be written.
+        """
         try:
             with open(DEPARTMENT_DATA_FILE, "w") as jsonfile:
-                json.dump(self.cache_dict, jsonfile)
+                json.dump(self.cache_dict, jsonfile, indent=4)
                 LOGGER.info("Cache Updated")
         except Exception as e:
-            LOGGER.error(e)
+            LOGGER.critical(e)
             raise ValueError
 
-    @with_db_conn()
-    def add_dashboard_to_department(self, cursor, departmentpk: int, dashboardpk: int):
+    def add_dashboard_to_department(self, departmentpk: int, dashboardpk: int):
         """
         Adds a dashboard to all users in a department.
 
@@ -76,31 +67,25 @@ class Controller:
         :param dashboardpk: Primary key of the dashboard.
         :type dashboardpk: int
         """
-        query_users = "SELECT UserPK FROM [User] WHERE DepartmentFK = ?"
-        cursor.execute(query_users, (departmentpk,))
-        department_users = cursor.fetchall()
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
 
         for userpk in department_users:
-            mie_trak_funcs.add_dashboard_to_user(str(dashboardpk), userpk[0])
-            # LOGGER.debug(f"Added DashboardPK: {dashboardpk} To UserPK: {userpk}")
+            mie_trak_funcs.add_dashboard_to_user(str(dashboardpk), userpk)
 
-        query_dashboard = "SELECT Description FROM Dashboard WHERE DashboardPK = ?"
-        cursor.execute(query_dashboard, (dashboardpk,))
-        dashboard_description = cursor.fetchone()
+        dashboard_description = mie_trak_funcs.get_entry_from_table(
+            "Dashboard", dashboardpk
+        ).get("Description")
 
         if dashboard_description:
             self.cache_dict[str(departmentpk)]["accessed_dashboards"].setdefault(
-                dashboardpk, dashboard_description[0]
+                dashboardpk, dashboard_description
             )
             LOGGER.info(
                 f"Added Dashboard: {dashboardpk} to Department: {departmentpk}."
             )
             self.write_cache()
 
-    @with_db_conn()
-    def delete_dashboard_from_department(
-        self, cursor, departmentpk: int, dashboardpk: int
-    ):
+    def delete_dashboard_from_department(self, departmentpk: int, dashboardpk: int):
         """
         Removes a dashboard from all users in a department.
 
@@ -111,12 +96,10 @@ class Controller:
         :param dashboardpk: Primary key of the dashboard.
         :type dashboardpk: int
         """
-        query_users = "SELECT UserPK FROM [User] WHERE DepartmentFK = ?"
-        cursor.execute(query_users, (departmentpk,))
-        department_users = cursor.fetchall()
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
 
         for userpk in department_users:
-            mie_trak_funcs.delete_dashboard_from_user(cursor, userpk[0], dashboardpk)
+            mie_trak_funcs.delete_dashboard_from_user(userpk, dashboardpk)
 
         self.cache_dict[str(departmentpk)]["accessed_dashboards"].pop(
             str(dashboardpk), None
@@ -126,8 +109,7 @@ class Controller:
         )
         self.write_cache()
 
-    @with_db_conn()
-    def add_quickview_to_department(self, cursor, departmentpk: int, quickviewpk: int):
+    def add_quickview_to_department(self, departmentpk: int, quickviewpk: int):
         """
         Adds a QuickView to all users in a department.
 
@@ -138,29 +120,26 @@ class Controller:
         :param quickviewpk: Primary key of the QuickView.
         :type quickviewpk: int
         """
-        query_users = "SELECT UserPK FROM [User] WHERE DepartmentFK = ?"
-        cursor.execute(query_users, (departmentpk,))
-        department_users = cursor.fetchall()
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
 
         for userpk in department_users:
-            mie_trak_funcs.add_quickview_to_user(str(quickviewpk), userpk[0])
+            mie_trak_funcs.add_quickview_to_user(str(quickviewpk), userpk)
 
-        query_quickview = "SELECT Description FROM QuickView WHERE QuickViewPK = ?"
-        cursor.execute(query_quickview, (quickviewpk,))
-        quickview_name = cursor.fetchone()
+        quickview_name = mie_trak_funcs.get_entry_from_table(
+            "QuickView", quickviewpk
+        ).get("Description")
 
         if quickview_name:
             self.cache_dict[str(departmentpk)].setdefault("accessed_quickviews", {})
 
-            self.cache_dict[str(departmentpk)]["accessed_quickviews"][
-                str(quickviewpk)
-            ] = quickview_name[0]
+            self.cache_dict[str(departmentpk)]["accessed_quickviews"].setdefault(
+                quickviewpk, quickview_name
+            )
             LOGGER.info(
                 f"Added Quickview: {quickviewpk} to Department: {departmentpk}."
             )
             self.write_cache()
 
-    @with_db_conn()
     def delete_quickview_from_department(
         self, cursor, departmentpk: int, quickviewpk: int
     ) -> None:
@@ -174,12 +153,10 @@ class Controller:
         :param quickviewpk: Primary key of the QuickView.
         :type quickviewpk: int
         """
-        query_users = "SELECT UserPK FROM [User] WHERE DepartmentFK = ?"
-        cursor.execute(query_users, (departmentpk,))
-        department_users = cursor.fetchall()
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
 
         for userpk in department_users:
-            mie_trak_funcs.delete_quickview_from_user(cursor, userpk[0], quickviewpk)
+            mie_trak_funcs.delete_quickview_from_user(cursor, userpk, quickviewpk)
 
         self.cache_dict[str(departmentpk)]["accessed_quickviews"].pop(
             str(quickviewpk), None
