@@ -1,11 +1,33 @@
 import tkinter as tk
 from tkinter import ttk
 from typing import Dict
+from gui.utils import gui_error_handler
 from gui.vacation_request import center_window
 from scripts import mie_trak_funcs
 
 
 class AddView(tk.Toplevel):
+    """
+    Initializes the window for managing dashboards and quickviews.
+
+    This constructor sets up the interface for assigning dashboards and quickviews to
+    either a department or a user. It:
+
+    - Initializes attributes related to the controller, callback function, and entity identifiers.
+    - Configures the window appearance and dimensions.
+    - Retrieves all available dashboards and quickviews from the system.
+    - Removes dashboards and quickviews that have already been assigned to the selected
+      department or user to prevent duplicate assignments.
+    - Calls `build_widgets()` to construct the UI elements.
+
+    Parameters:
+        title (str): The title of the window.
+        controller: The application controller handling business logic.
+        call_back_update: A callback function to update data after modifications.
+        department_pk (int | None, optional): The primary key of the selected department.
+        user_pk (int | None, optional): The primary key of the selected user.
+    """
+
     def __init__(
         self,
         title: str,
@@ -13,48 +35,73 @@ class AddView(tk.Toplevel):
         call_back_update,
         department_pk: int | None = None,
         user_pk: int | None = None,
-    ):
+    ) -> None:
         super().__init__()
         self.call_back_update = call_back_update
         self.controller = controller
         self.department_pk = department_pk
         self.user_pk = user_pk
+
+        self._setup_window(title)
+        self._initialize_data()
+        self._remove_assigned_items()
+        self.build_widgets()
+
+    def _setup_window(self, title: str) -> None:
+        """
+        Configures the window settings, including size, title, and background.
+        """
         self.title(title)
         center_window(self, width=500, height=500)
         self.configure(bg="#f4f4f4")  # Light gray background
         self.resizable(True, True)
 
+    @gui_error_handler
+    def _initialize_data(self) -> None:
+        """
+        Fetches all dashboards and quickviews from the system.
+        """
         self.dashboards_dict = mie_trak_funcs.get_all_dashboards()
-        self.quickviews_dict = (
-            mie_trak_funcs.get_all_quickviews()
-        )  # Assuming a function for Quickviews
+        self.quickviews_dict = mie_trak_funcs.get_all_quickviews()
 
-        department_dict = self.controller.cache_dict.get(department_pk, {})
-
-        # deleting the dashboards and quickviews that are already assigned
-        if department_pk:
-            accessed_dashboards_pk_dict = department_dict.get("accessed_dashboards", {})
-            for dashboard_pk in accessed_dashboards_pk_dict.keys():
-                del self.dashboards_dict[dashboard_pk]
-
-            accessed_quickviews_pk_dict = department_dict.get("accessed_quickviews", {})
-            for quickview_pk in accessed_quickviews_pk_dict.keys():
-                del self.quickviews_dict[quickview_pk]
-
-        elif user_pk:
-            user_dashboards = mie_trak_funcs.get_user_dashboards(user_pk)  # redundant.
-            for dashboard_pk in user_dashboards.keys():
-                del self.dashboards_dict[dashboard_pk]
-
-            user_quickviews = mie_trak_funcs.get_user_quick_view(user_pk)
-            for quickview_pk in user_quickviews.keys():
-                del self.quickviews_dict[quickview_pk]
-
+    def _remove_assigned_items(self) -> None:
+        """
+        Removes dashboards and quickviews that are already assigned to the selected user or department.
+        """
+        if self.department_pk:
+            self._remove_department_assigned_items()
+        elif self.user_pk:
+            self._remove_user_assigned_items()
         else:
-            # throw error
-            pass
+            raise ValueError("Either department_pk or user_pk must be provided.")
 
-        self.build_widgets()
+    def _remove_department_assigned_items(self) -> None:
+        """
+        Removes dashboards and quickviews already assigned to the selected department.
+        """
+        department_data = self.controller.cache_dict.get(self.department_pk, {})
+        accessed_dashboards = department_data.get("accessed_dashboards", {})
+        accessed_quickviews = department_data.get("accessed_quickviews", {})
+
+        for dashboard_pk in accessed_dashboards.keys():
+            self.dashboards_dict.pop(dashboard_pk, None)
+
+        for quickview_pk in accessed_quickviews.keys():
+            self.quickviews_dict.pop(quickview_pk, None)
+
+    @gui_error_handler
+    def _remove_user_assigned_items(self) -> None:
+        """
+        Removes dashboards and quickviews already assigned to the selected user.
+        """
+        user_dashboards = mie_trak_funcs.get_user_dashboards(self.user_pk)
+        user_quickviews = mie_trak_funcs.get_user_quick_view(self.user_pk)
+
+        for dashboard_pk in user_dashboards.keys():
+            self.dashboards_dict.pop(dashboard_pk, None)
+
+        for quickview_pk in user_quickviews.keys():
+            self.quickviews_dict.pop(quickview_pk, None)
 
     def build_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
@@ -99,14 +146,25 @@ class AddView(tk.Toplevel):
         cancel_button.grid(row=0, column=1, padx=5, sticky="ew")
 
     def populate_list(self, listbox: tk.Listbox, data_dict: Dict[str, str]) -> None:
-        """Populate a given listbox with items."""
+        """
+        Populate a given listbox with items.
+        """
         listbox.delete(0, tk.END)
         for _, description in data_dict.items():
             listbox.insert(tk.END, description)
 
+    @gui_error_handler
     def confirm_selection(self) -> None:
         """
-        [TODO:description]
+        Confirms the selection of dashboards and quickviews, assigning them to the selected user or department.
+
+        This function:
+        - Retrieves the selected dashboards and quickviews from the respective listboxes.
+        - Assigns the selected dashboards and quickviews to either a department or a user based on the provided `department_pk` or `user_pk`.
+        - Calls the appropriate functions to update the database or application state.
+        - Triggers a UI update via `call_back_update` and closes the window.
+
+        If neither `department_pk` nor `user_pk` is provided, the function does nothing.
         """
 
         selected_dashboard_indices = self.dashboard_listbox.curselection()

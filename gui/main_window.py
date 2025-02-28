@@ -1,24 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from typing import Dict
 from gui.utils import gui_error_handler
-from scripts.controller import Controller
 from gui.vacation_request import VacationRequestsWindow
 from gui.add_popup import AddView
 from gui.login_window import LoginWindow
 from gui.utils import center_window
+from scripts.controller import Controller
 from scripts import mie_trak_funcs
-from tkinter import messagebox
 from base_logger import getlogger
 
 
-LOGIN_STATUS = False
 LOGGER = getlogger("Main Window")
-
-
-def change_login_status():
-    global LOGIN_STATUS
-    LOGIN_STATUS = True
 
 
 class MainWindow(tk.Tk):
@@ -36,21 +30,25 @@ class MainWindow(tk.Tk):
         self.configure(bg="#f4f4f4")  # Light grey background
         center_window(self)
 
-        self.withdraw()  # Hide the main window initially
+        self.withdraw()
 
         # Display the login window
-        self.login_window = LoginWindow(change_login_status)
+        self.login_status = False
+        self.login_window = LoginWindow(self.login_callback)
         center_window(self.login_window, width=350, height=275)
         self.login_window.focus()
         self.wait_window(self.login_window)  # Wait until the login window is closed
 
-        if LOGIN_STATUS:
+        if self.login_status:
             self.deiconify()  # Show the main window if login was successful
             self._configure_layout()
             self._create_widgets()
-            self.controller = Controller()  # Controller for managing app logic
+            self.controller = Controller()
         else:
             self.destroy()  # Close the application if login fails
+
+    def login_callback(self):
+        self.login_status = True
 
     def _configure_layout(self):
         """Configures the grid layout and styles for the main window."""
@@ -166,6 +164,14 @@ class MainWindow(tk.Tk):
 
     @gui_error_handler
     def update_with_users_or_department(self, event):
+        """
+        Updates the listbox with users or departments based on the selected option.
+
+        If "User" is selected, it populates the list with user names retrieved from `mie_trak_funcs.get_user_data()`.
+        If "Department" is selected, it populates the list with department names retrieved from `mie_trak_funcs.get_all_departments()`.
+
+        :param event: Event triggered when a selection is made in the user/department dropdown.
+        """
         self.user_department_listbox.delete(0, tk.END)
         selection = self.combo1.get()
 
@@ -186,6 +192,15 @@ class MainWindow(tk.Tk):
 
     @gui_error_handler
     def show_accessed_dashboards_quickview(self, event):
+        """
+        Displays the dashboards or quick views accessed by the selected user or department.
+
+        If a user is selected, retrieves dashboards or quick views associated with the user.
+        If a department is selected, retrieves dashboards or quick views associated with the department from cache (department data.json).
+        Updates `self.listbox2` with the retrieved data.
+
+        :param event: Event triggered when a selection is made in the user/department dropdown or listbox.
+        """
         self.listbox2.delete(0, tk.END)
 
         selection = self.user_department_listbox.curselection()
@@ -239,6 +254,14 @@ class MainWindow(tk.Tk):
             self.listbox2.insert(tk.END, "N/A")
 
     def add_item(self):
+        """
+        Opens a window to add a new dashboard or quick view for a selected user or department.
+
+        Retrieves the selected user or department and passes the relevant data to the `AddView` class,
+        allowing the user to add dashboards or quick views.
+
+        Displays an error message if no user or department is selected before clicking the add button.
+        """
         user_or_department_type = self.combo1.get()
         department_or_user_selection_index = self.user_department_listbox.curselection()
 
@@ -288,6 +311,21 @@ class MainWindow(tk.Tk):
 
     @gui_error_handler
     def delete_item(self):
+        """
+        Deletes the selected dashboard(s) or quickview(s) for a user or department.
+
+        This function first validates user input, ensuring that a user/department type and
+        a selection from the list are provided. It then checks whether dashboards or quickviews
+        have been selected for deletion.
+
+        Depending on the user selection:
+        - If the selected type is "User", it removes the selected dashboards or quickviews
+          from the specified user.
+        - If the selected type is "Department", it removes the selected dashboards or
+          quickviews from the specified department and removes the key from cache.
+
+        Finally, it refreshes the displayed data to reflect the changes.
+        """
         user_or_department_type = self.combo1.get()
         department_or_user_selection_index = self.user_department_listbox.curselection()
 
@@ -348,6 +386,13 @@ class MainWindow(tk.Tk):
         self.show_accessed_dashboards_quickview(None)
 
     def open_vacation_request_tab(self):
+        """
+        Opens the vacation request management tab.
+
+        This function retrieves all vacation requests, then opens a new window displaying them.
+        It temporarily hides the main window, brings the vacation request window into focus,
+        and waits for it to close before restoring the main window.
+        """
         data = mie_trak_funcs.get_all_vacation_requests()
         self.withdraw()
         self.vacation_request_window = VacationRequestsWindow(self, data)
