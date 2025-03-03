@@ -515,6 +515,32 @@ def approve_vacation_request(cursor, request_pk: int) -> None:
     cursor.execute(query, (request_pk,))
 
 
+@with_db_conn(commit=True)
+def update_vacation_request_reason(cursor, vacation_request_pk: int, reason: str):
+    """
+    Adds a note to the vacation request.
+
+    Appends the `Reason` field of the `VacationRequest` table with the reason string.
+    Usually done when we want to keep track of what was disapproved in mie trak.
+
+    NOTE: Reason should have a timestamp. For reasoning formatting see VacationRequestPK = 3;
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :param vacation_request_pk: Primary key of the vacation request to update.
+    :type vacation_request_pk: int
+    :param reason: The note to update the vacation request with.
+    :type reason: str
+    :raises RuntimeError: If parameters are None.
+    """
+    query = """
+    UPDATE VacationRequest
+    SET Reason = reason + CHAR(13) + CHAR(14) + CHAR(13) + CHAR(14) + ?
+    WHERE VacationRequestPK = ?
+    """
+    cursor.execute(query, (reason, vacation_request_pk))
+
+
 @with_db_conn()
 def get_user_email_from_vacation_pk(cursor, pk: int) -> str:
     """

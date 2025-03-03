@@ -202,6 +202,12 @@ class VacationRequestsWindow(tk.Toplevel):
 
                 row["Time Stamp"] = datetime.now().strftime("%Y-%m-%d %I:%M %p")
                 row["Status"] = "Disapproved"
+
+                row["Note"] = f"{row['Time Stamp']}\n{user_body}"
+
+                mie_trak_funcs.update_vacation_request_reason(
+                    row.get("Vacation ID"), row.get("Note")
+                )
                 self.history.disapproved_requests.append(row)
 
             self.history.write_cache()
@@ -255,7 +261,7 @@ class HistoryPopup(tk.Toplevel):
         """
         super().__init__(master)
         self.title("Past Requests")
-        center_window(self, width=910, height=500)
+        center_window(self, width=1000, height=500)
 
         self.history = history
         self.filter_var = tk.StringVar()
@@ -288,6 +294,7 @@ class HistoryPopup(tk.Toplevel):
             "To Date",
             "Status",
             "Updated at",
+            "Note",
         )
         self.tree = ttk.Treeview(self, columns=columns, show="headings", height=10)
 
@@ -321,12 +328,13 @@ class HistoryPopup(tk.Toplevel):
             self.tree.insert(
                 "",
                 "end",
-                values=(
-                    row["Vacation ID"],
-                    row["Employee"],
-                    row["From Date"],
-                    row["To Date"],
-                    row["Status"],
-                    row["Time Stamp"],
+                values=(  # to add default values maybe
+                    row.get("Vacation ID", None),
+                    row.get("Employee", None),
+                    row.get("From Date", None),
+                    row.get("To Date", None),
+                    row.get("Status", None),
+                    row.get("Time Stamp", None),
+                    row.get("Note", None),
                 ),
             )
