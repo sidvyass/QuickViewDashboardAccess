@@ -82,6 +82,35 @@ class VacationRequestsWindow(tk.Toplevel):
         )
         self.history_button.grid(row=0, column=2, padx=10)
 
+        self.tree.bind("<Double-1>", self.on_double_click)
+        self.reason_window_open = False
+
+    def on_double_click(self, event):
+        """
+        Opens a tkinter messagebox with the reason.
+
+        TODO: have a tk.toplevel here so that we can refocus if the window is already open.
+
+        """
+        if self.reason_window_open:
+            return
+
+        selection = self.tree.selection()[0]
+
+        all_items = self.tree.get_children()
+        selected_item_index = all_items.index(selection)
+
+        item = self.data[selected_item_index]
+
+        self.reason_window_open = True
+
+        messagebox.showinfo(
+            title=f"{item['Employee']}: Leave Request Reason",
+            message=item["Reason"],
+        )
+
+        self.reason_window_open = False
+
     def open_history_popup(self):
         """
         Open the history popup displaying past vacation requests.
@@ -226,7 +255,7 @@ class HistoryPopup(tk.Toplevel):
         """
         super().__init__(master)
         self.title("Past Requests")
-        center_window(self, width=800, height=500)
+        center_window(self, width=910, height=500)
 
         self.history = history
         self.filter_var = tk.StringVar()
