@@ -4,6 +4,10 @@ from typing import Dict
 from gui.utils import gui_error_handler
 from gui.vacation_request import center_window
 from scripts import mie_trak_funcs
+from base_logger import getlogger
+
+
+LOGGER = getlogger("Add View")
 
 
 class AddView(tk.Toplevel):
@@ -52,7 +56,7 @@ class AddView(tk.Toplevel):
         Configures the window settings, including size, title, and background.
         """
         self.title(title)
-        center_window(self, width=500, height=500)
+        center_window(self, width=1000, height=500)
         self.configure(bg="#f4f4f4")  # Light gray background
         self.resizable(True, True)
 
@@ -63,6 +67,7 @@ class AddView(tk.Toplevel):
         """
         self.dashboards_dict = mie_trak_funcs.get_all_dashboards()
         self.quickviews_dict = mie_trak_funcs.get_all_quickviews()
+        self.document_groups_dict = mie_trak_funcs.get_all_document_groups()
 
     def _remove_assigned_items(self) -> None:
         """
@@ -96,6 +101,7 @@ class AddView(tk.Toplevel):
         """
         user_dashboards = mie_trak_funcs.get_user_dashboards(self.user_pk)
         user_quickviews = mie_trak_funcs.get_user_quick_view(self.user_pk)
+        user_document_groups = mie_trak_funcs.get_user_document_groups(self.user_pk)
 
         for dashboard_pk in user_dashboards.keys():
             self.dashboards_dict.pop(dashboard_pk, None)
@@ -103,9 +109,13 @@ class AddView(tk.Toplevel):
         for quickview_pk in user_quickviews.keys():
             self.quickviews_dict.pop(quickview_pk, None)
 
+        for doc_group_pk in user_document_groups.keys():
+            self.document_groups_dict.pop(doc_group_pk, None)
+
     def build_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
+        self.columnconfigure(2, weight=1)  # Add a third column for document groups
         self.rowconfigure(1, weight=1)
 
         dashboard_label = ttk.Label(self, text="Dashboards", font=("Arial", 12, "bold"))
@@ -114,10 +124,19 @@ class AddView(tk.Toplevel):
         quickview_label = ttk.Label(self, text="Quickviews", font=("Arial", 12, "bold"))
         quickview_label.grid(row=0, column=1, pady=(10, 5), padx=10, sticky="w")
 
+        document_group_label = ttk.Label(
+            self, text="Document Groups", font=("Arial", 12, "bold")
+        )
+        document_group_label.grid(row=0, column=2, pady=(10, 5), padx=10, sticky="w")
+
         left_frame = ttk.Frame(self, padding=10)
         left_frame.grid(row=1, column=0, sticky="nsew", padx=10, pady=5)
+
+        middle_frame = ttk.Frame(self, padding=10)
+        middle_frame.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
+
         right_frame = ttk.Frame(self, padding=10)
-        right_frame.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
+        right_frame.grid(row=1, column=2, sticky="nsew", padx=10, pady=5)
 
         self.dashboard_listbox = tk.Listbox(
             left_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
@@ -125,15 +144,23 @@ class AddView(tk.Toplevel):
         self.dashboard_listbox.pack(fill="both", expand=True)
 
         self.quickview_listbox = tk.Listbox(
-            right_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
+            middle_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
         )
         self.quickview_listbox.pack(fill="both", expand=True)
 
+        self.document_group_listbox = tk.Listbox(
+            right_frame, selectmode=tk.MULTIPLE, exportselection=False, height=10
+        )
+        self.document_group_listbox.pack(fill="both", expand=True)
+
         self.populate_list(self.dashboard_listbox, self.dashboards_dict)
         self.populate_list(self.quickview_listbox, self.quickviews_dict)
+        self.populate_list(self.document_group_listbox, self.document_groups_dict)
 
         button_frame = ttk.Frame(self)
-        button_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="sew")
+        button_frame.grid(
+            row=2, column=0, columnspan=3, pady=10, sticky="sew"
+        )  # Adjust columnspan
         button_frame.columnconfigure(0, weight=1)
         button_frame.columnconfigure(1, weight=1)
 
@@ -169,6 +196,7 @@ class AddView(tk.Toplevel):
 
         selected_dashboard_indices = self.dashboard_listbox.curselection()
         selected_quickview_indices = self.quickview_listbox.curselection()
+        selected_document_group_indices = self.document_group_listbox.curselection()
 
         selected_dashboards = [
             list(self.dashboards_dict.keys())[i] for i in selected_dashboard_indices
@@ -176,28 +204,31 @@ class AddView(tk.Toplevel):
         selected_quickviews = [
             list(self.quickviews_dict.keys())[i] for i in selected_quickview_indices
         ]
+        selected_document_groups = [
+            list(self.document_groups_dict.keys())[i]
+            for i in selected_document_group_indices
+        ]
 
         if self.department_pk:
-            # Assign selected dashboards
             for dashboard_pk in selected_dashboards:
                 self.controller.add_dashboard_to_department(
                     self.department_pk, dashboard_pk
                 )
 
-            # # Assign selected quickviews
             for quickview_pk in selected_quickviews:
                 self.controller.add_quickview_to_department(
                     self.department_pk, quickview_pk
                 )
 
         elif self.user_pk:
-            print("executing user dashboard...")
-
             for dashboard_pk in selected_dashboards:
                 mie_trak_funcs.add_dashboard_to_user(dashboard_pk, self.user_pk)
 
             for quickview_pk in selected_quickviews:
                 mie_trak_funcs.add_quickview_to_user(quickview_pk, self.user_pk)
+
+            for doc_group_pk in selected_document_groups:
+                mie_trak_funcs.add_document_group_to_user(doc_group_pk, self.user_pk)
 
         self.call_back_update(event=None)  # Update main UI
         self.destroy()

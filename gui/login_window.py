@@ -52,24 +52,24 @@ class LoginWindow(tk.Toplevel):
     def authenticate(self):
         """Handles authentication logic."""
         # # DEBUG:
-        # self.login_success_callback()
-        # self.destroy()
+        self.login_success_callback()
+        self.destroy()
 
         # LIVE:
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-
-        if not username or not password:
-            messagebox.showerror(
-                title="Invalid Username/Password",
-                message="Please enter a valid username and password.",
-            )
-            return
-
-        if mie_trak_funcs.login_user(username, password):
-            self.login_success_callback()
-            LOGGER.info(f"User: {username} logged in.")
-            self.destroy()
-
-        else:
-            messagebox.showerror("Login Failed", "Invalid username or password.")
+        # username = self.username_entry.get()
+        # password = self.password_entry.get()
+        #
+        # if not username or not password:
+        #     messagebox.showerror(
+        #         title="Invalid Username/Password",
+        #         message="Please enter a valid username and password.",
+        #     )
+        #     return
+        #
+        # if mie_trak_funcs.login_user(username, password):
+        #     self.login_success_callback()
+        #     LOGGER.info(f"User: {username} logged in.")
+        #     self.destroy()
+        #
+        # else:
+        #     messagebox.showerror("Login Failed", "Invalid username or password.")

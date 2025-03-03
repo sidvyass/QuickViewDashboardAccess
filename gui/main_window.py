@@ -52,13 +52,11 @@ class MainWindow(tk.Tk):
 
     def _configure_layout(self):
         """Configures the grid layout and styles for the main window."""
-        # Configure grid layout
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.rowconfigure(1, weight=1)
         self.rowconfigure(2, weight=0)
 
-        # Configure styles for widgets
         style = ttk.Style()
         style.configure("TButton", padding=6, relief="flat", font=("Arial", 10))
         style.configure("TLabel", background="#f4f4f4", font=("Arial", 12))
@@ -112,7 +110,9 @@ class MainWindow(tk.Tk):
 
         # Dropdown selection for dashboards or quick views
         self.combo2 = ttk.Combobox(
-            self.subframe2, values=["Dashboards", "QuickViews"], state="readonly"
+            self.subframe2,
+            values=["Dashboards", "QuickViews", "DocumentGroups"],
+            state="readonly",
         )
         self.combo2.pack(pady=5)
         self.combo2.bind(
@@ -218,11 +218,18 @@ class MainWindow(tk.Tk):
 
         if user_or_department == "User":
             userpk = list(self.user_data.keys())[selection[0]]
-            self.data_to_display = (
-                mie_trak_funcs.get_user_dashboards(userpk)
-                if db_or_qv == "Dashboards"
-                else mie_trak_funcs.get_user_quick_view(userpk)
-            )
+
+            if db_or_qv == "Dashboards":
+                self.data_to_display = mie_trak_funcs.get_user_dashboards(userpk)
+
+            elif db_or_qv == "QuickViews":
+                self.data_to_display = mie_trak_funcs.get_user_quick_view(userpk)
+
+            elif db_or_qv == "DocumentGroups":
+                self.data_to_display = mie_trak_funcs.get_user_document_groups(userpk)
+
+            else:
+                self.data_to_display = {}
 
         elif user_or_department == "Department":
             department_data: Dict = (
@@ -230,11 +237,8 @@ class MainWindow(tk.Tk):
             )
             selected_department_pk = list(department_data.keys())[selection[0]]
 
-            accessed_key = (
-                "accessed_dashboards"
-                if db_or_qv == "Dashboards"
-                else "accessed_quickviews"
-            )
+            accessed_key = f"accessed_{db_or_qv.casefold()}"
+
             self.data_to_display = department_data.get(selected_department_pk, {}).get(
                 accessed_key, {}
             )
@@ -346,7 +350,7 @@ class MainWindow(tk.Tk):
             )
             return
 
-        dashboard_or_quickview_pks = [
+        selection_pks = [  # could be dashboards, quickview or doc groups pks
             list(self.data_to_display.keys())[idx]
             for idx in selected_dashboards_or_qv_indices
         ]
@@ -355,16 +359,18 @@ class MainWindow(tk.Tk):
             user_pk = list(self.user_data.keys())[department_or_user_selection_index[0]]
 
             if db_or_qv == "Dashboards":
-                for dashboard_pk in dashboard_or_quickview_pks:
+                for dashboard_pk in selection_pks:
                     mie_trak_funcs.delete_dashboard_from_user(user_pk, dashboard_pk)
 
             elif db_or_qv == "QuickViews":
-                quickview_pks = [
-                    list(self.data_to_display.keys())[idx]
-                    for idx in selected_dashboards_or_qv_indices
-                ]
-                for quickview_pk in quickview_pks:
+                for quickview_pk in selection_pks:
                     mie_trak_funcs.delete_quickview_from_user(user_pk, quickview_pk)
+
+            elif db_or_qv == "DocumentGroups":
+                for document_group_pk in selection_pks:
+                    mie_trak_funcs.delete_document_group_from_user(
+                        user_pk, document_group_pk
+                    )
 
         elif user_or_department_type == "Department":
             department_data_dict = (
@@ -375,11 +381,11 @@ class MainWindow(tk.Tk):
             ]  # user selected
 
             if db_or_qv == "Dashboards":
-                for pk in dashboard_or_quickview_pks:
+                for pk in selection_pks:
                     self.controller.delete_dashboard_from_department(department_pk, pk)
 
             elif db_or_qv == "QuickViews":
-                for pk in dashboard_or_quickview_pks:
+                for pk in selection_pks:
                     self.controller.delete_quickview_from_department(department_pk, pk)
 
         # refresh data

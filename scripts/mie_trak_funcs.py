@@ -108,25 +108,31 @@ def get_all_dashboards(cursor) -> Dict[str, str]:
 
 
 @with_db_conn()
-def get_entry_from_table(cursor, table_name: str, pk: int) -> Dict[str, str]:
+def get_all_document_groups(cursor) -> Dict[str, str]:
+    query = "SELECT DocumentGroupPK, Code FROM DocumentGroup"
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    return {str(documet_group_pk): code for documet_group_pk, code in results if code}
+
+
+@with_db_conn()
+def get_document_groups(cursor) -> Dict[str, str]:
     """
-    Retrieves dashboard information as a dictionary.
+    Fetches all document groups.
 
-    :param cursor: A database cursor used to execute the query.
-    :param dashboardpk: The primary key of the dashboard.
-    :return: A dictionary containing dashboard information with column names as keys.
-    :raises ValueError: If no dashboard with the given primary key is found.
+    Returns a dictionary mapping DocumentGroup primary keys to their Code.
+
+    :param cursor: Database cursor.
+    :type cursor: pyodbc.Cursor
+    :return: Mapping of DocumentGroupPK to Code.
+    :rtype: Dict[str, str]
     """
-    query = f"SELECT * FROM {table_name} WHERE {table_name}PK = ?"
-    cursor.execute(query, (pk,))
-    row = cursor.fetchone()
+    query = "SELECT DocumentGroupPK, Code FROM DocumentGroup"
+    cursor.execute(query)
+    results = cursor.fetchall()
 
-    if not row:
-        raise ValueError(f"No entry found in {table_name}PK:  {pk}")
-
-    column_names = [desc[0] for desc in cursor.description]
-
-    return dict(zip(column_names, row))
+    return {str(doc_group_pk): code for doc_group_pk, code in results if code}
 
 
 @with_db_conn()
@@ -189,6 +195,20 @@ def get_user_dashboards(cursor, userpk: int) -> Dict[str, str]:
     }
 
 
+@with_db_conn()
+def get_user_document_groups(cursor, userpk: int) -> Dict[str, str]:
+    query = """
+        SELECT d.DocumentGroupPK, d.Code
+        FROM DocumentGroupUsers du
+        JOIN DocumentGroup d ON du.DocumentGroupFK = d.DocumentGroupPK
+        WHERE du.UserFK = ?;
+    """
+    cursor.execute(query, (userpk,))
+    results = cursor.fetchall()
+
+    return {str(doc_group_pk): code for doc_group_pk, code in results if code}
+
+
 @with_db_conn(commit=True)
 def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> None:
     """
@@ -226,7 +246,7 @@ def add_dashboard_to_user(cursor, dashboard_pk: str, user_fk: int) -> None:
 
 
 @with_db_conn(commit=True)
-def add_quickview_to_user(cursor, quickview_pk: str, user_fk: int) -> int:
+def add_quickview_to_user(cursor, quickview_pk: str, user_fk: int) -> None:
     """
     Adds a QuickView-user relationship if it does not already exist.
 
@@ -251,6 +271,7 @@ def add_quickview_to_user(cursor, quickview_pk: str, user_fk: int) -> int:
     cursor.execute(query_check, (quickview_pk, user_fk))
     result = cursor.fetchone()
 
+    # TODO: inform the user that this is already added.
     if result:
         return result[0]
 
@@ -260,12 +281,84 @@ def add_quickview_to_user(cursor, quickview_pk: str, user_fk: int) -> int:
     """
     cursor.execute(query_insert, (quickview_pk, user_fk))
 
-    cursor.execute("SELECT SCOPE_IDENTITY();")  # Works in SQL Server
-    new_pk = cursor.fetchone()[0]
 
-    return new_pk
+@with_db_conn(commit=True)
+def add_document_group_to_user(cursor, doc_group_pk: str, user_pk: int) -> None:
+    query_check = """
+        SELECT DocumentGroupUsersPK 
+        FROM DocumentGroupUsers 
+        WHERE DocumentGroupFK = ? AND UserFK = ?;
+    """
+    cursor.execute(query_check, (doc_group_pk, user_pk))
+    result = cursor.fetchone()
+
+    # TODO: inform the user that this is already added.
+    if result:
+        return result[0]
+
+    query_insert = """
+        INSERT INTO DocumentGroupUsers (DocumentGroupFK, UserFK)
+        VALUES (?, ?);
+    """
+    cursor.execute(query_insert, (doc_group_pk, user_pk))
 
 
+@with_db_conn(commit=True)
+def delete_dashboard_from_user(cursor, userpk: int, dashboardpk: int) -> None:
+    """
+    Revokes a user's access to a specific dashboard.
+
+    This function removes the association between a user and a dashboard in
+    the `DashboardUser` table, effectively revoking the user's access to it.
+
+    :param cursor: Database cursor passed by the decorator.
+    :type cursor: pyodbc.Cursor
+    :param userpk: Primary key of the user whose access is being revoked.
+    :type userpk: int
+    :param dashboardpk: Primary key of the dashboard to be removed from the user's access.
+    :type dashboardpk: int
+    :return: None
+    """
+    query = "DELETE FROM DashboardUser WHERE UserFK = ? AND DashboardFK = ?;"
+    cursor.execute(query, (userpk, dashboardpk))
+
+
+@with_db_conn(commit=True)
+def delete_quickview_from_user(cursor, userpk: int, quickviewpk: int) -> None:
+    """
+    Revokes a user's access to a specific QuickView.
+
+    This function removes the association between a user and a QuickView in
+    the `QuickViewUser` table, preventing the user from accessing it.
+
+    :param cursor: Database cursor passed by the decorator.
+    :type cursor: pyodbc.Cursor
+    :param userpk: Primary key of the user whose QuickView access is being revoked.
+    :type userpk: int
+    :param quickviewpk: Primary key of the QuickView to be removed from the user's access.
+    :type quickviewpk: int
+    :return: None
+    """
+    query = "DELETE FROM QuickViewUser WHERE UserFK = ? AND QuickViewFK = ?;"
+    cursor.execute(query, (userpk, quickviewpk))
+
+
+@with_db_conn(commit=True)
+def delete_document_group_from_user(
+    cursor, userpk: int, document_group_pk: int
+) -> None:
+    """
+    [TODO:description]
+
+    :param cursor [TODO:type]: [TODO:description]
+    :param userpk: [TODO:description]
+    :param document_group_pk: [TODO:description]
+    """
+    query = "DELETE FROM DocumentGroupUsers WHERE UserFK = ? AND DocumentGroupFK = ?"
+    cursor.execute(query, (userpk, document_group_pk))
+
+
+# USER
 @with_db_conn()
 def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:
     """
@@ -298,20 +391,6 @@ def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:
 
 
 @with_db_conn()
-def get_users_in_department(cursor, departmentpk: int) -> Dict[int, tuple[str, str]]:
-    query_users = (
-        "SELECT UserPK, FirstName, LastName FROM [User] WHERE DepartmentFK = ?"
-    )
-    cursor.execute(query_users, (departmentpk,))
-    department_users = cursor.fetchall()
-
-    return {
-        userpk: (firstname, lastname)
-        for userpk, firstname, lastname in department_users
-    }
-
-
-@with_db_conn()
 def get_user_first_last(cursor, userpk: int) -> List[str]:
     """
     Retrieves the first and last name of a user given their primary key.
@@ -331,6 +410,23 @@ def get_user_first_last(cursor, userpk: int) -> List[str]:
     return [result[0], result[1]]
 
 
+@with_db_conn()
+def login_user(cursor, username: str, password: str) -> bool:
+    query = "SELECT Code, Password FROM [User] WHERE Code = ?"
+    cursor.execute(query, (username,))
+    results = cursor.fetchall()
+
+    if not results:
+        raise ValueError("Database did not return anything")
+
+    for _, mt_password in results:
+        if password.casefold() == mt_password.casefold():
+            return True
+
+    return False
+
+
+# DEPARTMENT
 @with_db_conn()
 def get_all_departments(cursor) -> Dict[int, str]:
     """
@@ -378,44 +474,21 @@ def get_department_name(cursor, departmentpk: int) -> str:
     return result[0]
 
 
-@with_db_conn(commit=True)
-def delete_dashboard_from_user(cursor, userpk: int, dashboardpk: int) -> None:
-    """
-    Revokes a user's access to a specific dashboard.
+@with_db_conn()
+def get_users_in_department(cursor, departmentpk: int) -> Dict[int, tuple[str, str]]:
+    query_users = (
+        "SELECT UserPK, FirstName, LastName FROM [User] WHERE DepartmentFK = ?"
+    )
+    cursor.execute(query_users, (departmentpk,))
+    department_users = cursor.fetchall()
 
-    This function removes the association between a user and a dashboard in
-    the `DashboardUser` table, effectively revoking the user's access to it.
-
-    :param cursor: Database cursor passed by the decorator.
-    :type cursor: pyodbc.Cursor
-    :param userpk: Primary key of the user whose access is being revoked.
-    :type userpk: int
-    :param dashboardpk: Primary key of the dashboard to be removed from the user's access.
-    :type dashboardpk: int
-    :return: None
-    """
-    query = "DELETE FROM DashboardUser WHERE UserFK = ? AND DashboardFK = ?;"
-    cursor.execute(query, (userpk, dashboardpk))
+    return {
+        userpk: (firstname, lastname)
+        for userpk, firstname, lastname in department_users
+    }
 
 
-@with_db_conn(commit=True)
-def delete_quickview_from_user(cursor, userpk: int, quickviewpk: int) -> None:
-    """
-    Revokes a user's access to a specific QuickView.
-
-    This function removes the association between a user and a QuickView in
-    the `QuickViewUser` table, preventing the user from accessing it.
-
-    :param cursor: Database cursor passed by the decorator.
-    :type cursor: pyodbc.Cursor
-    :param userpk: Primary key of the user whose QuickView access is being revoked.
-    :type userpk: int
-    :param quickviewpk: Primary key of the QuickView to be removed from the user's access.
-    :type quickviewpk: int
-    :return: None
-    """
-    query = "DELETE FROM QuickViewUser WHERE UserFK = ? AND QuickViewFK = ?;"
-    cursor.execute(query, (userpk, quickviewpk))
+# VACATION REQUESTS
 
 
 @with_db_conn()
@@ -572,16 +645,22 @@ def get_user_email_from_vacation_pk(cursor, pk: int) -> str:
 
 
 @with_db_conn()
-def login_user(cursor, username: str, password: str) -> bool:
-    query = "SELECT Code, Password FROM [User] WHERE Code = ?"
-    cursor.execute(query, (username,))
-    results = cursor.fetchall()
+def get_entry_from_table(cursor, table_name: str, pk: int) -> Dict[str, str]:
+    """
+    Retrieves dashboard information as a dictionary.
 
-    if not results:
-        raise ValueError("Database did not return anything")
+    :param cursor: A database cursor used to execute the query.
+    :param dashboardpk: The primary key of the dashboard.
+    :return: A dictionary containing dashboard information with column names as keys.
+    :raises ValueError: If no dashboard with the given primary key is found.
+    """
+    query = f"SELECT * FROM {table_name} WHERE {table_name}PK = ?"
+    cursor.execute(query, (pk,))
+    row = cursor.fetchone()
 
-    for _, mt_password in results:
-        if password.casefold() == mt_password.casefold():
-            return True
+    if not row:
+        raise ValueError(f"No entry found in {table_name}PK:  {pk}")
 
-    return False
+    column_names = [desc[0] for desc in cursor.description]
+
+    return dict(zip(column_names, row))
