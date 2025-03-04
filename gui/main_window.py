@@ -7,6 +7,7 @@ from gui.vacation_request import VacationRequestsWindow
 from gui.add_popup import AddView
 from gui.login_window import LoginWindow
 from gui.utils import center_window
+from gui.create_doc_group import CreateDocGroup
 from scripts.controller import Controller
 from scripts import mie_trak_funcs
 from base_logger import getlogger
@@ -115,9 +116,7 @@ class MainWindow(tk.Tk):
             state="readonly",
         )
         self.combo2.pack(pady=5)
-        self.combo2.bind(
-            "<<ComboboxSelected>>", self.show_accessed_dashboards_quickview
-        )
+        self.combo2.bind("<<ComboboxSelected>>", self.display_accessed_items)
         self.combo2.set("Dashboards")  # Default selection
 
         # Listbox for users or departments
@@ -126,7 +125,7 @@ class MainWindow(tk.Tk):
         )
         self.user_department_listbox.pack(pady=5, fill="both", expand=True)
         self.user_department_listbox.bind(
-            "<<ListboxSelect>>", self.show_accessed_dashboards_quickview
+            "<<ListboxSelect>>", self.display_accessed_items
         )
 
         # Listbox for dashboards or quick views
@@ -137,30 +136,40 @@ class MainWindow(tk.Tk):
 
         # Button frame for vacation requests
         self.button_frame = tk.Frame(self, bg="#f4f4f4")
-        self.button_frame.grid(row=2, column=0, columnspan=1, pady=10, sticky="nsew")
+        self.button_frame.grid(row=2, column=0, padx=15, pady=5, sticky="nsew")
+        self.button_frame.columnconfigure(0, weight=1)
+        self.button_frame.columnconfigure(1, weight=1)
+        self.button_frame.grid_propagate(False)  # FIX:
 
         self.vacation_request_button = ttk.Button(
             self.button_frame,
             text="Vacation Requests",
             command=self.open_vacation_request_tab,
         )
-        self.vacation_request_button.grid(row=0, column=0, padx=20, sticky="E")
+        self.vacation_request_button.grid(row=0, column=0, padx=10, sticky="EW")
+        #
+        self.create_doc_group_button = ttk.Button(
+            self.button_frame,
+            text="Create Doc Group",
+            command=self.open_create_doc_group_view,
+        )
+        self.create_doc_group_button.grid(row=0, column=1, padx=10, sticky="EW")
 
         # Button frame for adding/deleting items
         self.vac_req_btn_frame = tk.Frame(self, bg="#f4f4f4")
-        self.vac_req_btn_frame.grid(
-            row=2, column=1, columnspan=1, pady=10, sticky="nsew"
-        )
+        self.vac_req_btn_frame.grid(row=2, column=1, padx=15, pady=5, sticky="nsew")
+        self.vac_req_btn_frame.columnconfigure(0, weight=1)
+        self.vac_req_btn_frame.columnconfigure(1, weight=1)
 
         self.add_button = ttk.Button(
             self.vac_req_btn_frame, text="Add", command=self.add_item
         )
-        self.add_button.grid(row=0, column=0, padx=10)
+        self.add_button.grid(row=0, column=0, padx=10, sticky="EW")
 
         self.delete_button = ttk.Button(
             self.vac_req_btn_frame, text="Delete", command=self.delete_item
         )
-        self.delete_button.grid(row=0, column=1, padx=10)
+        self.delete_button.grid(row=0, column=1, padx=10, sticky="EW")
 
     @gui_error_handler
     def update_with_users_or_department(self, event):
@@ -191,7 +200,7 @@ class MainWindow(tk.Tk):
                 self.user_department_listbox.insert(tk.END, f"{name}")
 
     @gui_error_handler
-    def show_accessed_dashboards_quickview(self, event):
+    def display_accessed_items(self, event):
         """
         Displays the dashboards or quick views accessed by the selected user or department.
 
@@ -283,7 +292,7 @@ class MainWindow(tk.Tk):
             AddView(
                 "User",
                 self.controller,
-                self.show_accessed_dashboards_quickview,
+                self.display_accessed_items,
                 user_pk=user_pk,
             )
 
@@ -309,7 +318,7 @@ class MainWindow(tk.Tk):
             AddView(
                 department_name,
                 self.controller,
-                self.show_accessed_dashboards_quickview,
+                self.display_accessed_items,
                 department_pk=department_pk,
             )
 
@@ -388,8 +397,12 @@ class MainWindow(tk.Tk):
                 for pk in selection_pks:
                     self.controller.delete_quickview_from_department(department_pk, pk)
 
+            elif db_or_qv == "DocumentGroups":
+                for pk in selection_pks:
+                    self.controller.delete_doc_group_from_department(department_pk, pk)
+
         # refresh data
-        self.show_accessed_dashboards_quickview(None)
+        self.display_accessed_items(None)
 
     def open_vacation_request_tab(self):
         """
@@ -405,3 +418,6 @@ class MainWindow(tk.Tk):
         self.vacation_request_window.focus()
         self.wait_window(self.vacation_request_window)
         self.deiconify()
+
+    def open_create_doc_group_view(self):
+        CreateDocGroup(self.display_accessed_items)

@@ -358,6 +358,19 @@ def delete_document_group_from_user(
     cursor.execute(query, (userpk, document_group_pk))
 
 
+@with_db_conn(commit=True)
+def create_document_group(cursor, code: str, name: str):
+    query = """
+    INSERT INTO DocumentGroup (Code, Name)
+    OUTPUT INSERTED.DocumentGroupPK
+    VALUES (?, ?);
+    """
+    cursor.execute(query, (code, name))
+    inserted_pk = cursor.fetchone()[0]
+    LOGGER.info(f"Created document group:\nPK: {inserted_pk} CODE: {code} NAME: {name}")
+    return inserted_pk
+
+
 # USER
 @with_db_conn()
 def get_user_data(cursor, enabled: bool = True) -> Dict[int, List[str]]:

@@ -160,6 +160,49 @@ class Controller:
         )
         self.write_cache()
 
+    def add_doc_group_to_department(self, departmentpk: int, doc_group_pk: int):
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
+
+        for userpk in department_users:
+            mie_trak_funcs.add_document_group_to_user(doc_group_pk, userpk)
+
+        doc_group_code = mie_trak_funcs.get_entry_from_table(
+            "DocumentGroup", doc_group_pk
+        ).get("Code")
+
+        if doc_group_code:
+            self.cache_dict[str(departmentpk)].setdefault("accessed_documentgroups", {})
+
+            self.cache_dict[str(departmentpk)]["accessed_documentgroups"].setdefault(
+                doc_group_pk, doc_group_code
+            )
+
+            LOGGER.info(
+                f"Added Quickview: PK: {doc_group_pk} CODE: {doc_group_code} to Department: {departmentpk}."
+            )
+
+            self.write_cache()
+
+    def delete_doc_group_from_department(self, departmentpk: int, doc_group_pk: int):
+        department_users = mie_trak_funcs.get_users_in_department(departmentpk).keys()
+
+        for userpk in department_users:
+            mie_trak_funcs.delete_document_group_from_user(userpk, doc_group_pk)
+
+        doc_group_code = self.cache_dict[str(departmentpk)][
+            "accessed_documentgroups"
+        ].get(doc_group_pk, None)
+
+        self.cache_dict[str(departmentpk)]["accessed_documentgroups"].pop(
+            str(doc_group_pk), None
+        )
+
+        LOGGER.info(
+            f"Deleted DocumentGroup PK: {doc_group_pk} CODE: {doc_group_code} from department: {departmentpk}."
+        )
+
+        self.write_cache()
+
 
 def send_email(to: str, subject: str, body: str):
     try:
@@ -184,14 +227,3 @@ def send_email(to: str, subject: str, body: str):
 
     except Exception as e:
         LOGGER.error(f"Unexpected error: {e}")
-
-
-def center_window(window, width=1000, height=700):
-    """Centers a Tkinter window on the screen."""
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
-
-    x = (screen_width // 2) - (width // 2)
-    y = (screen_height // 2) - (height // 2)
-
-    window.geometry(f"{width}x{height}+{x}+{y}")

@@ -220,6 +220,11 @@ class AddView(tk.Toplevel):
                     self.department_pk, quickview_pk
                 )
 
+            for doc_group_pk in selected_document_groups:
+                self.controller.add_doc_group_to_department(
+                    self.department_pk, doc_group_pk
+                )
+
         elif self.user_pk:
             for dashboard_pk in selected_dashboards:
                 mie_trak_funcs.add_dashboard_to_user(dashboard_pk, self.user_pk)
